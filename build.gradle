@@ -1,0 +1,16 @@
+plugins {
+	id "java"
+	id "application"
+}
+
+version = '0.1.0'
+mainClassName = 'poo.Main'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation fileTree(dir: 'src/main/resources/libs', include: '*.*')
+}
+
