@@ -2,7 +2,7 @@ package poo;
 
 public abstract class ObjetoMovible {
 
-    public void update(double delta);
-    public double getX();
-    public double getY();
+    public abstract void update(double delta);
+    public abstract double getX();
+    public abstract double getY();
 }

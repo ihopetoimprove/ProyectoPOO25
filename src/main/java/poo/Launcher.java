@@ -8,14 +8,24 @@ import com.entropyinteractive.*;
 
 public class Launcher extends JPanel implements ActionListener {
 
+    private List listaJuegos;
     JGame juego;
     Thread t;
     public Launcher(){
+        //setTitle("Launcher");
+
+        setLayout(new BorderLayout());
+        listaJuegos = new List();
+        listaJuegos.add("Pong");
+        listaJuegos.add("Lemmings");
+        add(listaJuegos, BorderLayout.WEST);
 
     }
 
     public void actionPerformed(ActionEvent e){
-
+        if(e.getActionCommand().equals("Pong")){
+            //juego = new Pong();
+        }
     }
 
     public static void main(String arg[]) {
