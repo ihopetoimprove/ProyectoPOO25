@@ -1,6 +1,6 @@
 package poo;
 
-public interface ObjetoMovible {
+public abstract class ObjetoMovible {
 
     public void update(double delta);
     public double getX();
