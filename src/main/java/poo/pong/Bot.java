@@ -1,4 +1,4 @@
-package poo;
+package poo.pong;
 
 public class Bot {
     private short dificultad;
