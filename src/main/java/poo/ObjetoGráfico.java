@@ -9,6 +9,7 @@ public abstract class ObjetoGráfico {
         this.y = y;
     }
 
+    public abstract boolean detectarColision();
     //puede ser de utilidad
     public abstract void dibujar();
 
