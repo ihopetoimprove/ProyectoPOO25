@@ -2,38 +2,52 @@ package poo;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionListener;
-import javax.swing.*;
-import com.entropyinteractive.*;
 
-public class Launcher extends JPanel implements ActionListener {
+public class Launcher extends Frame {
 
-    JGame juego;
-    Thread t;
-    public Launcher(){
+    private List listaJuegos;
+    private Button botonIniciar;
+    private Button botonConfig;
+    private TextArea areaTexto;
 
-    }
+    public Launcher() {
+        setTitle("Launcher");
+        setLayout(new BorderLayout());
+        setSize(400, 400);
+        setLocationRelativeTo(null);
 
-    public void actionPerformed(ActionEvent e){
+        // Crear la lista de juegos en el WEST
+        listaJuegos = new List();
+        listaJuegos.add("Pong");
+        listaJuegos.add("Lemmings");
+        add(listaJuegos, BorderLayout.WEST);
 
-    }
+        // Crear los botones en el SOUTH
+        Panel panelBotones = new Panel(new FlowLayout(FlowLayout.CENTER));
+        botonIniciar = new Button("Iniciar Juego");
+        botonConfig = new Button("Configuración");
+        panelBotones.add(botonIniciar);
+        panelBotones.add(botonConfig);
+        add(panelBotones, BorderLayout.SOUTH);
 
-    public static void main(String arg[]) {
-        JFrame frame = new JFrame("Launcher");
+        // Crear el área de texto en el CENTER
+        areaTexto = new TextArea("Era muy dificil poner una imagen");
+        add(areaTexto, BorderLayout.CENTER);
 
-        frame.add(new Launcher());
-        WindowListener l = new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+        // Manejar el cierre de la ventana
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                dispose();
                 System.exit(0);
-            };
-        };
+            }
+        });
+    }
 
-        frame.addWindowListener(l);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+    public static void main(String[] args) {
+        //EventQueue.invokeLater(() -> {
+            Launcher ejemplo = new Launcher();
+            ejemplo.setVisible(true);
     }
 }
-
 
 
