@@ -1,10 +1,12 @@
 package poo;
-
-public abstract class ObjetoGráfico {
+import java.awt.image.*;
+import javax.imageio.*;
+public abstract class ObjetoGrafico {
+    protected BufferedImage imagen = null;
     private int x;
     private int y;
 
-    public ObjetoGráfico(int x, int y){
+    public ObjetoGrafico(int x, int y){
         this.x = x;
         this.y = y;
     }
