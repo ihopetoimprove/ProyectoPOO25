@@ -44,10 +44,9 @@ public class Launcher extends Frame {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
+        //EventQueue.invokeLater(() -> {
             Launcher ejemplo = new Launcher();
             ejemplo.setVisible(true);
-        });
     }
 }
 
