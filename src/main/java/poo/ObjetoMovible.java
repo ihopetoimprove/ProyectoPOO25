@@ -1,6 +1,6 @@
 package poo;
 
-public abstract class ObjetoMovible extends ObjetoGráfico {
+public abstract class ObjetoMovible extends ObjetoGrafico {
 
     private int velocidadX;
     private int velocidadY;

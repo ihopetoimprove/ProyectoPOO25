@@ -1,4 +1,6 @@
-package poo;
+package poo.pong;
+
+import poo.ObjetoMovible;
 
 public class Paleta extends ObjetoMovible {
 
