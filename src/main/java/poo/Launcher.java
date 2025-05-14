@@ -12,6 +12,7 @@ public class Launcher extends Frame {
     private Button botonConfig;
     private TextArea areaTexto;
 
+
     public Launcher() {
         setTitle("Launcher");
         setLayout(new BorderLayout());
