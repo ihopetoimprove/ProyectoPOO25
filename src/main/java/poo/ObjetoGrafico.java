@@ -1,10 +1,10 @@
 package poo;
 
-public abstract class ObjetoGráfico {
+public abstract class ObjetoGrafico {
     private int x;
     private int y;
 
-    public ObjetoGráfico(int x, int y){
+    public ObjetoGrafico(int x, int y){
         this.x = x;
         this.y = y;
     }
@@ -12,6 +12,7 @@ public abstract class ObjetoGráfico {
     public abstract boolean detectarColision();
     //puede ser de utilidad
     public abstract void dibujar();
+
 
     // sets y gets...
     public int getX(){
