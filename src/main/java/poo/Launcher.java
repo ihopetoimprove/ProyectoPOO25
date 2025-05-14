@@ -13,7 +13,7 @@ public class Launcher extends Frame {
     public Launcher() {
         setTitle("Launcher");
         setLayout(new BorderLayout());
-        setSize(400, 300);
+        setSize(400, 400);
         setLocationRelativeTo(null);
 
         // Crear la lista de juegos en el WEST
