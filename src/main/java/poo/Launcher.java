@@ -45,8 +45,11 @@ public class Launcher extends Frame {
 
     public static void main(String[] args) {
         //EventQueue.invokeLater(() -> {
-            Launcher ejemplo = new Launcher();
-            ejemplo.setVisible(true);
+            //Launcher ejemplo = new Launcher();
+            //ejemplo.setVisible(true);
+            Pong ejemplo = new Pong("Pong", 600, 500);
+            //ejemplo.setVisible(true);
+
     }
 }
 
