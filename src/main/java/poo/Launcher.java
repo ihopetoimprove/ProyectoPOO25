@@ -1,5 +1,7 @@
 package poo;
 
+import poo.pong.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
