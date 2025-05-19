@@ -5,8 +5,6 @@ import javax.imageio.*;
 public abstract class ObjetoGrafico {
     protected BufferedImage imagen = null;
 
-public abstract class ObjetoGrafico {
-
     private int x;
     private int y;
 
