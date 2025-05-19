@@ -6,7 +6,6 @@ public abstract class ObjetoMovible extends ObjetoGrafico {
 
     protected int velocidadX;
     protected int velocidadY;
-    protected boolean isColision;
     protected Point2D.Double posicion  = new Point2D.Double();
 
     public ObjetoMovible(int x, int y) {
@@ -14,11 +13,6 @@ public abstract class ObjetoMovible extends ObjetoGrafico {
     }
 
     public abstract void mover();
-    public abstract void detectarColision();
-
-    public void actualizar() {
-        //mover(); // Llama al método abstracto mover para actualizar la posición
-    }
 
     // Métodos getter y setter para la velocidad
     public int getVelocidadX() {

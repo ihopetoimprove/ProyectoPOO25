@@ -38,6 +38,7 @@ public class Pong extends JGame {
     public void gameUpdate(double v) {
         Keyboard keyboard = this.getKeyboard();
         procesarTeclado();
+        detectarColision();
         pelota.mover();
     }
 
@@ -83,7 +84,25 @@ public class Pong extends JGame {
     }
 
     public void detectarColision() {
+        if (pelota.getY() <= getHeight()) {
+            pelota.invertirVelocidadY();
+        }
 
+        if (pelota.getY() >= 0) {
+            pelota.invertirVelocidadY();
+        }
+
+        if (pelota.getX() <= paletaIzq.getX() + paletaIzq.getAncho() &&
+                pelota.getX() + pelota.getRadio() * 2 >= paletaIzq.getX() &&
+                pelota.getY() <= paletaIzq.getY() + paletaIzq.getLargo() &&
+                pelota.getY() + pelota.getRadio() * 2 >= paletaIzq.getY()) {
+            pelota.invertirVelocidadX();
+        }
+        if (pelota.getX() <= paletaDer.getX() + paletaDer.getAncho() &&
+                pelota.getX() + pelota.getRadio() * 2 >= paletaDer.getX() &&
+                pelota.getY() <= paletaDer.getY() + paletaDer.getLargo() &&
+                pelota.getY() + pelota.getRadio() * 2 >= paletaDer.getY()) {
+            pelota.invertirVelocidadX();
+        }
     }
-
 }

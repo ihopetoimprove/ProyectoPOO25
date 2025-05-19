@@ -3,7 +3,6 @@ package poo;
 import com.entropyinteractive.JGame;
 import poo.pong.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -55,7 +54,7 @@ public class Launcher extends Frame implements ActionListener {
         if(e.getSource() == botonIniciar){
             String juegoSeleccionado = listaJuegos.getSelectedItem();
             if(juegoSeleccionado == "Pong"){
-                juego = new Pong("Pong", 800, 400);
+                juego = new Pong("Pong", 800, 600);
 
                 t = new Thread() {
                     public void run() {
@@ -73,7 +72,6 @@ public class Launcher extends Frame implements ActionListener {
 
 
     public static void main(String[] args) {
-        //EventQueue.invokeLater(() -> {
         Launcher ejemplo = new Launcher();
         ejemplo.setVisible(true);
         //Pong ejemplo = new Pong("Pong", 600, 500);

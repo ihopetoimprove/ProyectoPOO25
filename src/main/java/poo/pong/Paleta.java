@@ -27,16 +27,16 @@ public class Paleta extends ObjetoMovible {
         g.fillRect(x,y,ancho, largo);
     }
 
-    public void setPosicion(double x, double y){
-        posicion.setLocation(x,y);
-    }
-
     @Override
     public void mover() {
-
     }
 
-    @Override
-    public void detectarColision() {
+    public int getAncho(){
+        return ancho;
     }
+
+    public int getLargo(){
+        return largo;
+    }
+
 }

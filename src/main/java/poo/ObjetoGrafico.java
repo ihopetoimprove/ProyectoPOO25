@@ -16,11 +16,8 @@ public abstract class ObjetoGrafico {
         this.y = y;
     }
 
-    public abstract void detectarColision();
     //puede ser de utilidad
     public abstract void dibujar(Graphics2D g);
-
-
 
     // sets y gets...
     public int getX(){
