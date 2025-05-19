@@ -8,6 +8,8 @@ public abstract class ObjetoGrafico {
 
     protected int x;
     protected int y;
+    protected int largo;
+    protected int ancho;
 
     public ObjetoGrafico(int x, int y){
         this.x = x;
