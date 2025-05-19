@@ -3,16 +3,16 @@ package poo;
 import com.entropyinteractive.JGame;
 import poo.pong.*;
 
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class Launcher extends Frame implements ActionListener {
 
-    private List listaJuegos;
-    private Button botonIniciar;
-    private Button botonConfig;
-    private TextArea areaTexto;
+    private final List listaJuegos;
+    private final Button botonIniciar;
+    private final Button botonConfig;
+    private final TextArea areaTexto;
     JGame juego;
     Thread t;
 
@@ -31,10 +31,11 @@ public class Launcher extends Frame implements ActionListener {
         // Crear los botones en el SOUTH
         Panel panelBotones = new Panel(new FlowLayout(FlowLayout.CENTER));
         botonIniciar = new Button("Iniciar Juego");
-        botonConfig = new Button("Configuración");
+        botonConfig = new Button("Configuracion");
         panelBotones.add(botonIniciar);
         panelBotones.add(botonConfig);
         botonIniciar.addActionListener(this);
+        botonConfig.addActionListener(this);
         add(panelBotones, BorderLayout.SOUTH);
 
         // Crear el área de texto en el CENTER
@@ -68,6 +69,9 @@ public class Launcher extends Frame implements ActionListener {
             }else if(juegoSeleccionado == "Lemmings") {
                 areaTexto.append("Apretaste Lemmings!");
             }
+        }
+        if(e.getSource()==botonConfig){
+            new Config();
         }
     }
 
