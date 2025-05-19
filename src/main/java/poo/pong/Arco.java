@@ -12,8 +12,7 @@ public class Arco extends ObjetoGrafico {
     public void dibujar(Graphics2D g) {
 
     }
-    public boolean detectarColision(){
-        return false;
+    public void detectarColision(){
     }
     public int detectarGol(){
         return 0;

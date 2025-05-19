@@ -14,7 +14,7 @@ public abstract class ObjetoMovible extends ObjetoGrafico {
     }
 
     public abstract void mover();
-    public abstract boolean detectarColision();
+    public abstract void detectarColision();
 
     public void actualizar() {
         //mover(); // Llama al método abstracto mover para actualizar la posición
