@@ -1,3 +1,4 @@
+package poo;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -6,49 +7,45 @@ import java.util.ArrayList;
 
 
 
-public class Videojuego extends Frame implements ActionListener, KeyListener{
-
-    private List<Button> botonesHabilidad = new ArrayList<>();
+public class Config extends Frame implements ActionListener, KeyListener{
+    private static final String DEFAULT_MUSIC = "Tema original";
+    JCheckBox checkSound;
+    private final List<Button> botonesHabilidad = new ArrayList<>();
     // Con sonido lo hice de otra forma pa ver namas
-    Button botonMusica,musicaFondo,p,bAcelerar,bAutoDestruccion,bIniciar,bAceptar,bReset,bSkin, efectSonidos;
+    Button musicaFondo,p,bAcelerar,bAutoDestruccion,bIniciar,bAceptar,bReset;
     Button habilidadBoton;
-    private boolean opcionesVisibles = false;
     Panel panelOpcionesMusica;
+    Panel panelOpcionesSonido;
+
     private Button habilidadSeleccionadaParaCambio = null;
-    private boolean esperandoNuevaTeclaefectSonido = false;
     private boolean esperandoNuevaTeclaMusicaFondo;
     private boolean esperandoNuevaTeclaPausa;
     private boolean esperandoNuevaTeclaAutoDestruccion;
     private boolean esperandoNuevaTeclaIniciar;
     private boolean esperandoNuevaTeclaAcelerar;
 
-    public static void main (String[] args) {// No leva NAAADAAA EL MAAINN
-        new Videojuego();
-    }
-    public Videojuego(){
+    public static void main (String[] args) {new Config();}
+    public Config(){
         WindowListener l= new WindowAdapter() {
             public void windowClosing(WindowEvent event){
-                System.exit(0);
-            };
+                dispose();
+            }
         };
 
         addKeyListener(this);
         addWindowListener(l);
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
-        Panel Sonido = new Panel(new FlowLayout(FlowLayout.CENTER));
-        Sonido.add(new Label("Silenciar Juego:"));
-        efectSonidos =new Button("Q");
-        Sonido.add(efectSonidos);
-        efectSonidos.addActionListener(this);
-        add(Sonido);
 
-        Panel pMusicaFondo = new Panel(new FlowLayout(FlowLayout.CENTER));
-        pMusicaFondo.add(new Label("Silenciar Musica:"));
-        musicaFondo=new Button("W");
-        musicaFondo.addActionListener(this);
-        pMusicaFondo.add(musicaFondo);
-        add(pMusicaFondo);
+        panelOpcionesMusica= new Panel(new FlowLayout(FlowLayout.CENTER));
+        checkSound = new JCheckBox("Musica", true);
+        panelOpcionesMusica.add(checkSound);
+        add(panelOpcionesMusica);
+
+        panelOpcionesSonido= new Panel(new FlowLayout(FlowLayout.CENTER));
+        checkSound = new JCheckBox("Efectos de Sonido", true);
+        panelOpcionesSonido.add(checkSound);
+        add(panelOpcionesSonido);
 
         Panel Pausa = new Panel(new FlowLayout(FlowLayout.CENTER));
         Pausa.add(new Label("Pausar juego:"));
@@ -56,18 +53,6 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
         Pausa.add(p);
         p.addActionListener(this);
         add(Pausa);
-        /*
-        for (int i = 1; i <= 8; i++) {
-            // Crea un Panel para cada habilidad para que esté en fila
-            Panel panelHabilidad = new Panel(new FlowLayout(FlowLayout.CENTER));
-            // Crea una etiqueta para el número de la habilidad
-            panelHabilidad.add(new Label("Habilidad " + i + ": "));
-            //panelHabilidad.add(new Button (""+i).addActionListener(this)); tira error no sé pq
-            Button habilidad= new Button(""+ i);
-            habilidad.addActionListener(this);
-            panelHabilidad.add(habilidad);
-            add(panelHabilidad);
-        }*/
         for (int i = 1; i <= 8; i++) {
             Panel panelHabilidad = new Panel(new FlowLayout(FlowLayout.CENTER));
             panelHabilidad.add(new Label("Habilidad " + i + ": "));
@@ -99,28 +84,29 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
         bIniciar.addActionListener(this);
         add(iniciar);
 
-        Panel pistaMusical = new Panel(new FlowLayout(FlowLayout.CENTER));
-        pistaMusical.add(new Label("Música:"));
-        botonMusica = new Button("Música");
-        botonMusica.addActionListener(this);
-        pistaMusical.add(botonMusica);
-        add(pistaMusical);
-        //Agrego panel nuevo para seleccionar la pista
-        panelOpcionesMusica= new Panel(new FlowLayout(FlowLayout.LEFT));
-        panelOpcionesMusica.add(new Label("Seleccionar Pista:"));
-        // Añadir diferentes opciones de música
-        panelOpcionesMusica.add(new Button("Pista 1"));
-        panelOpcionesMusica.add(new Button("Pista 2"));
-        panelOpcionesMusica.add(new Button("Pista Épica"));
-        panelOpcionesMusica.add(new Button("Música Relajante"));
-        panelOpcionesMusica.add(new Button("Otra Pista"));
-        panelOpcionesMusica.setVisible(false); // Inicialmente oculto
-        add(panelOpcionesMusica);
+        //ComboBox musica
+        Panel SelMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panelMusica = new JPanel();
+        panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel labelMusica = new JLabel("Pista musical: ");
+        String[] musicTracks = {DEFAULT_MUSIC, "Pista 1", "Pista 2"};
+        JComboBox<String> musicComboBox = new JComboBox<>(musicTracks);
+        panelMusica.add(labelMusica);
+        panelMusica.add(musicComboBox);
+        SelMusica.add(panelMusica);
+        add(SelMusica);
 
-        Panel skin = new Panel(new FlowLayout(FlowLayout.CENTER));
-        skin.add(new Label("Seleccionar skin:"));
-        skin.add(new Button("que peréza"));
-        add(skin);
+        //ComboBox skin
+        Panel SelSkin = new Panel(new FlowLayout(FlowLayout.CENTER));
+        JPanel skinPanel = new JPanel();
+        skinPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel skinLabel = new JLabel("Skin del PJ: ");
+        String[] skins = {"Skin 1", "Skin 2", "Skin 3"};
+        JComboBox<String> skinComboBox = new JComboBox<>(skins);
+        skinPanel.add(skinLabel);
+        skinPanel.add(skinComboBox);
+        SelSkin.add(skinPanel);
+        add(SelSkin);
 
         Panel acepReset = new Panel(new FlowLayout(FlowLayout.CENTER));
         bAceptar=new Button("Aceptar");
@@ -141,27 +127,6 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e){
         String command = e.getActionCommand();// String usado para las habilidades y para probar con efecto de sonidos
 
-        if (e.getSource() == botonMusica) {
-            opcionesVisibles = !opcionesVisibles;
-            panelOpcionesMusica.setVisible(opcionesVisibles);
-            pack(); // Reajustar el tamaño de la ventana
-        }
-
-        /* if (command.equals("Q")) *////Esta forma me hace buscar que el boton presionado tenga la etiqueta 'q', una vez cambiada ni puedo volver a cambiarla si no tiene la etiqueta 'q'
-        if(command.equals(efectSonidos.getLabel())){
-            System.out.println("Esperando nueva tecla ");
-            esperandoNuevaTeclaefectSonido = true;
-            efectSonidos.setLabel("?");
-            requestFocus(); // Solicitar el foco después de hacer clic, no sé, me lo dijo gemini :o
-            pack();
-        }
-        if (e.getSource() == musicaFondo) {
-            System.out.println("Esperando nueva tecla de musica de fondo");
-            esperandoNuevaTeclaMusicaFondo = true;
-            musicaFondo.setLabel("?");
-            requestFocus();
-            pack();
-        }
         if (e.getSource() == p) {
             System.out.println("Esperando nueva tecla de Pausa");
             esperandoNuevaTeclaPausa = true;
@@ -187,15 +152,11 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
             requestFocus();
             pack();        }
         if (e.getSource() == bAceptar) {
-            System.exit(0);
+            dispose();
             pack();
         }
         if (e.getSource() == bReset) {
             setbReset();
-            pack();
-        }
-        if (e.getSource() == bSkin) {
-            System.out.println("Skin");
             pack();
         }
 
@@ -216,15 +177,11 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
 
 
     public void setbReset() {
-        efectSonidos.setLabel("Q");
-        musicaFondo.setLabel("W");
         p.setLabel("Espacio");
         bAcelerar.setLabel("e");
         bAutoDestruccion.setLabel("a");
         bIniciar.setLabel("Enter");
         bReset.setLabel("Resetear");
-//        bSkin.setLabel("Skin"); No tiene actionListener y tira error asi pe
-
         for (int i = 0; i < botonesHabilidad.size(); i++) {
             Button boton = botonesHabilidad.get(i);
             boton.setLabel("" + (i + 1)); // Establecer la etiqueta al número de la habilidad
@@ -237,12 +194,6 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
             String nuevaTecla = KeyEvent.getKeyText(e.getKeyCode());// nuevaTecla tiene la nueva tecla
             habilidadSeleccionadaParaCambio.setLabel(nuevaTecla); // Cambiar la etiqueta del botón
             habilidadSeleccionadaParaCambio = null; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaefectSonido) {
-            String nuevaTecla = KeyEvent.getKeyText(e.getKeyCode());// nuevaTecla tiene la nueva tecla
-            efectSonidos.setLabel(nuevaTecla);
-             // Cambiar la etiqueta del botón
-            esperandoNuevaTeclaefectSonido = false; // Resetear la selección
         }
         if (esperandoNuevaTeclaMusicaFondo) {
             String nuevaTecla = KeyEvent.getKeyText(e.getKeyCode());// nuevaTecla tiene la nueva tecla
@@ -272,10 +223,10 @@ public class Videojuego extends Frame implements ActionListener, KeyListener{
     }
 
     public void keyReleased(KeyEvent e) {
-        // No es necesario para este ejemplo
+        // Innecesario por ahora
     }
 
     public void keyTyped(KeyEvent e) {
-        // No es necesario para este ejemplo
+        // Innecesario por ahora
     }
 }
