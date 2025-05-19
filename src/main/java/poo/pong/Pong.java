@@ -6,25 +6,31 @@ import com.entropyinteractive.Log;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class Pong extends JGame {
 
     Paleta paletaIzq = new Paleta();
+    Paleta paletaDer = new Paleta();
+    Pelota pelota = new Pelota();
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
     }
-        Button Jugadores=new Button("Jugadores");
-        BufferedImage imagen = null;
+        Button Jugadores = new Button("Jugadores");
+        BufferedImage fondo = null;
 
     @Override
     public void gameStartup() {
 
         try{
-            imagen= ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
+            fondo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
 //            ovni.setImagen(ImageIO.read(getClass().getResource("imagenes/ufo.png")));
 //            ovni.setPosicion(getWidth() / 2,getHeight() / 2 );
+            paletaIzq.setPosicion(10,140);
+            paletaDer.setPosicion(760,140);
+            pelota.setPosicion( getWidth() / 2, getHeight() / 2);
         }
         catch(Exception e){
             System.out.println("La excepcion " + e + " ha ocurrido.");
@@ -34,13 +40,34 @@ public class Pong extends JGame {
     @Override
     public void gameUpdate(double v) {
         Keyboard keyboard = this.getKeyboard();
+        int velocidadPaleta = 100;
+        // Procesar teclas de direccion
+
+        if (keyboard.isKeyPressed(KeyEvent.VK_UP)) {
+            paletaDer.setY((int) (paletaDer.getY() - velocidadPaleta + v));
+        }
+
+        if (keyboard.isKeyPressed(KeyEvent.VK_DOWN)) {
+            paletaDer.setY((int) (paletaDer.getY() + velocidadPaleta + v));
+        }
+
+        if (keyboard.isKeyPressed(KeyEvent.VK_LEFT)) {
+            paletaIzq.setX((int) (paletaIzq.getX() - velocidadPaleta + v));
+        }
+
+        if (keyboard.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            paletaIzq.setX((int) (paletaIzq.getX() + velocidadPaleta + v));
+        }
+        //paletaIzq.update(v);
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
 
-        g.drawImage(imagen,0,0,null);
+        g.drawImage(fondo,0,0,null);
         paletaIzq.dibujar(g);
+        paletaDer.dibujar(g);
+        //g.drawImage(paletaIzq, 10, 20, null);
         /*      Ejemplos de cosas para poner en la pantalla
         g.setColor(Color.black);
         g.setFont(new Font("Pixel Emulator", Font.PLAIN, 16));
@@ -64,7 +91,4 @@ public class Pong extends JGame {
         return false;
     }
 
-    public void dibujar() {
-
-    }
 }
