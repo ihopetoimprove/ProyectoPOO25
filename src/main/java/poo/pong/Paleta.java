@@ -12,7 +12,7 @@ public class Paleta extends ObjetoMovible {
     private Point2D.Double posicion  = new Point2D.Double();
 
     public Paleta() {
-        super(200, 100);
+        super(300, 100);
 
     }
 
