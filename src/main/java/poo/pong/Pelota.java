@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class Pelota extends ObjetoMovible {
     private int radio = 10;
+    int velocidadX = 10;
+    int velocidadY = 10;
 
     public Pelota(int x, int y) {
         super(x,y);
@@ -15,13 +17,8 @@ public class Pelota extends ObjetoMovible {
 
     @Override
     public void mover() {
-        setX(x+10);
-        setY(y+10);
-    }
-
-    @Override
-    public boolean detectarColision() {
-        return false;
+        setX(x+velocidadX);
+        setY(y+velocidadY);
     }
 
     @Override
@@ -32,4 +29,10 @@ public class Pelota extends ObjetoMovible {
     public void setPosicion(double x, double y){
         posicion.setLocation(x,y);
     }
+
+    @Override
+    public void detectarColision() {
+    }
 }
+
+

@@ -37,28 +37,7 @@ public class Pong extends JGame {
     @Override
     public void gameUpdate(double v) {
         Keyboard keyboard = this.getKeyboard();
-        int velocidadPaleta = 500; // Ajusta la velocidad según necesites
-
-        // Mover la paleta derecha hacia arriba si la tecla está presionada y no está en el borde superior
-        if (keyboard.isKeyPressed(KeyEvent.VK_UP) && paletaDer.getY() > 0) {
-            paletaDer.setY((int) (paletaDer.getY() - velocidadPaleta * v));
-        }
-
-        // Mover la paleta derecha hacia abajo si la tecla está presionada y no está en el borde inferior
-        if (keyboard.isKeyPressed(KeyEvent.VK_DOWN) && paletaDer.getY() < getHeight() - 100) {
-            paletaDer.setY((int) (paletaDer.getY() + velocidadPaleta * v));
-        }
-
-        // Mover la paleta izquierda hacia arriba si la tecla está presionada y no está en el borde superior
-        if (keyboard.isKeyPressed(KeyEvent.VK_W) && paletaIzq.getY() > 0) {
-            paletaIzq.setY((int) (paletaIzq.getY() - velocidadPaleta * v));
-        }
-
-        // Mover la paleta izquierda hacia abajo si la tecla está presionada y no está en el borde inferior
-        if (keyboard.isKeyPressed(KeyEvent.VK_S) && paletaIzq.getY() < getHeight() - 100) {
-            paletaIzq.setY((int) (paletaIzq.getY() + velocidadPaleta * v));
-        }
-
+        procesarTeclado();
         pelota.mover();
     }
 
@@ -69,17 +48,9 @@ public class Pong extends JGame {
         paletaIzq.dibujar(g);
         paletaDer.dibujar(g);
         pelota.dibujar(g);
-        /*      Ejemplos de cosas para poner en la pantalla
-        g.setColor(Color.black);
-        g.setFont(new Font("Pixel Emulator", Font.PLAIN, 16));
-        g.drawString("Tecla ESC = Fin del Juego ",502,62);
-        g.setColor(Color.white);
-
-        g.drawString("Tecla ESC = Fin del Juego ",500,60);
-        g.setColor(Color.red);
-
-        g.setFont(new Font("SNES", Font.PLAIN, 60));
-        g.drawString("SNES Emulator  ",200,220);*/
+        //      Ejemplos de cosas para poner en la pantalla
+        //g.setColor(Color.black);
+        //g.setFont(new Font("Pixel Emulator", Font.PLAIN, 16));
     }
 
     @Override
@@ -87,9 +58,32 @@ public class Pong extends JGame {
         Log.info(getClass().getSimpleName(), "Shutting down game");
     }
 
+    public void procesarTeclado(){
+        Keyboard keyboard = this.getKeyboard();
 
-    public boolean detectarColision() {
-        return false;
+        // Mover la paleta derecha hacia arriba si la tecla está presionada y no está en el borde superior
+        if (keyboard.isKeyPressed(KeyEvent.VK_UP) && paletaDer.getY() > 0) {
+            paletaDer.setY((int) (paletaDer.getY() - paletaDer.getVelocidadY() ));
+        }
+
+        // Mover la paleta derecha hacia abajo si la tecla está presionada y no está en el borde inferior
+        if (keyboard.isKeyPressed(KeyEvent.VK_DOWN) && paletaDer.getY() < getHeight() - 100) {
+            paletaDer.setY((int) (paletaDer.getY() + paletaDer.getVelocidadY() ));
+        }
+
+        // Mover la paleta izquierda hacia arriba si la tecla está presionada y no está en el borde superior
+        if (keyboard.isKeyPressed(KeyEvent.VK_W) && paletaIzq.getY() > 0) {
+            paletaIzq.setY((int) (paletaIzq.getY() - paletaIzq.getVelocidadY() ));
+        }
+
+        // Mover la paleta izquierda hacia abajo si la tecla está presionada y no está en el borde inferior
+        if (keyboard.isKeyPressed(KeyEvent.VK_S) && paletaIzq.getY() < getHeight() - 100) {
+            paletaIzq.setY((int) (paletaIzq.getY() + paletaIzq.getVelocidadY() ));
+        }
+    }
+
+    public void detectarColision() {
+
     }
 
 }
