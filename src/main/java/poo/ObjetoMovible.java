@@ -2,12 +2,12 @@ package poo;
 
 public abstract class ObjetoMovible extends ObjetoGrafico {
 
-    private int velocidadX;
-    private int velocidadY;
-    private boolean isColision;
+    protected int velocidadX;
+    protected int velocidadY;
+    protected boolean isColision;
 
     public ObjetoMovible(int x, int y) {
-        super(x, y);
+        super(x,y);
     }
 
     public abstract void mover();

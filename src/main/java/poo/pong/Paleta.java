@@ -2,15 +2,23 @@ package poo.pong;
 
 import poo.ObjetoMovible;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+
 public class Paleta extends ObjetoMovible {
 
-    public Paleta(int x, int y) {
-        super(x, y);
+    //Quizás esto deba tenerlo ObjetoMovible, hay que ver
+    private Point2D.Double posicion  = new Point2D.Double();
+
+    public Paleta() {
+        super(300, 100);
+
     }
 
     @Override
-    public void dibujar() {
-
+    public void dibujar(Graphics2D g) {
+        g.drawImage(imagen,(int)posicion.getX(),(int)posicion.getY(),null);
     }
 
     @Override

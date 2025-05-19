@@ -1,7 +1,7 @@
 package poo.pong;
 
-
 import com.entropyinteractive.JGame;
+import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
 
 import javax.imageio.ImageIO;
@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class Pong extends JGame {
 
+    Paleta paletaIzq = new Paleta();
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -22,7 +23,6 @@ public class Pong extends JGame {
 
         try{
             imagen= ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
-            System.out.println("Llegué hasta acá!");
 //            ovni.setImagen(ImageIO.read(getClass().getResource("imagenes/ufo.png")));
 //            ovni.setPosicion(getWidth() / 2,getHeight() / 2 );
         }
@@ -33,14 +33,14 @@ public class Pong extends JGame {
 
     @Override
     public void gameUpdate(double v) {
-
+        Keyboard keyboard = this.getKeyboard();
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
 
         g.drawImage(imagen,0,0,null);
-
+        paletaIzq.dibujar(g);
         /*      Ejemplos de cosas para poner en la pantalla
         g.setColor(Color.black);
         g.setFont(new Font("Pixel Emulator", Font.PLAIN, 16));
