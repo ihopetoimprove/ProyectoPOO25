@@ -10,21 +10,18 @@ import java.io.IOException;
 
 public class Paleta extends ObjetoMovible {
 
-    public Paleta() {
-        //esto no lo entiendo, habría que preguntarlo
-        super(400, 300);
-        try {
-            imagen = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/paleta.png")); // Reemplaza con la ruta correcta
-        } catch (IOException e) {
-            System.err.println("Error al cargar la imagen de la paleta: " + e);
-            imagen = null;
-        }
-    }
+    public Paleta(int x, int y) {
+        super(x, y);
+        largo = 100;
+        ancho = 25;
 
+    }
 
     @Override
     public void dibujar(Graphics2D g) {
-        g.drawImage(imagen,(int)posicion.getX(),(int)posicion.getY(),null);
+        g.setColor(Color.WHITE);
+        g.fillRect(x,y,ancho, largo);
+        //g.drawImage(imagen,(int)posicion.getX(),(int)posicion.getY(),null);
     }
 
     public void setPosicion(double x, double y){
