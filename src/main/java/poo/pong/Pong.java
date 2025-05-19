@@ -2,6 +2,7 @@ package poo.pong;
 
 
 import com.entropyinteractive.JGame;
+import com.entropyinteractive.Log;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,12 +21,13 @@ public class Pong extends JGame {
     public void gameStartup() {
 
         try{
-            imagen= ImageIO.read(getClass().getResource("imagenes/fondo.jpg"));
+            imagen= ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
+            System.out.println("Llegué hasta acá!");
 //            ovni.setImagen(ImageIO.read(getClass().getResource("imagenes/ufo.png")));
 //            ovni.setPosicion(getWidth() / 2,getHeight() / 2 );
         }
         catch(Exception e){
-
+            System.out.println("La excepcion " + e + " ha ocurrido.");
         }
     }
 
@@ -36,12 +38,25 @@ public class Pong extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
+
         g.drawImage(imagen,0,0,null);
+
+        /*      Ejemplos de cosas para poner en la pantalla
+        g.setColor(Color.black);
+        g.setFont(new Font("Pixel Emulator", Font.PLAIN, 16));
+        g.drawString("Tecla ESC = Fin del Juego ",502,62);
+        g.setColor(Color.white);
+
+        g.drawString("Tecla ESC = Fin del Juego ",500,60);
+        g.setColor(Color.red);
+
+        g.setFont(new Font("SNES", Font.PLAIN, 60));
+        g.drawString("SNES Emulator  ",200,220);*/
     }
 
     @Override
     public void gameShutdown() {
-
+        Log.info(getClass().getSimpleName(), "Shutting down game");
     }
 
 
