@@ -1,12 +1,13 @@
 package poo;
 
+import java.awt.*;
 import java.awt.image.*;
 import javax.imageio.*;
 public abstract class ObjetoGrafico {
     protected BufferedImage imagen = null;
 
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
 
     public ObjetoGrafico(int x, int y){
         this.x = x;
@@ -15,7 +16,7 @@ public abstract class ObjetoGrafico {
 
     public abstract boolean detectarColision();
     //puede ser de utilidad
-    public abstract void dibujar();
+    public abstract void dibujar(Graphics2D g);
 
 
 
