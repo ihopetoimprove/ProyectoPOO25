@@ -14,8 +14,8 @@ public abstract class ObjetoGrafico {
         this.x = x;
         this.y = y;
     }
+    //puede ser de utilidad
     public abstract void dibujar(Graphics2D g);
-
 
     // sets y gets...
     public int getX(){

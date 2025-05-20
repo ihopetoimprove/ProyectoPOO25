@@ -2,8 +2,6 @@ package poo;
 
 import com.entropyinteractive.JGame;
 import poo.pong.*;
-
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -77,7 +75,6 @@ public class Launcher extends Frame implements ActionListener {
 
 
     public static void main(String[] args) {
-        //EventQueue.invokeLater(() -> {
         Launcher ejemplo = new Launcher();
         ejemplo.setVisible(true);
         //Pong ejemplo = new Pong("Pong", 600, 500);

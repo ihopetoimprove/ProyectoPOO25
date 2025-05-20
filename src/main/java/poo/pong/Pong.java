@@ -49,7 +49,8 @@ public class Pong extends JGame {
         pelota.dibujar(g);
         marcador.dibujar(g);
     }
-
+  
+  
     @Override
     public void gameShutdown() {
         Log.info(getClass().getSimpleName(), "Shutting down game");
