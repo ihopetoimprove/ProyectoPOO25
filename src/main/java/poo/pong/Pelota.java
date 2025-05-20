@@ -5,10 +5,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 
 public class Pelota extends ObjetoMovible {
+
     private final int radio = 10;
     int velocidadX = 5;
     int velocidadY = 5;
     private final Random random = new Random();
+
 
     public Pelota(int x, int y) {
         super(x,y);
@@ -19,6 +21,7 @@ public class Pelota extends ObjetoMovible {
         setX(x+velocidadX);
         setY(y+velocidadY);
     }
+
 
     public void reiniciarPelota(){
         setX(400);
