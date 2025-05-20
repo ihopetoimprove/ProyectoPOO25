@@ -2,6 +2,7 @@ package poo.pong;
 
 import poo.ObjetoMovible;
 
+import java.util.Random;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -10,6 +11,7 @@ public class Pelota extends ObjetoMovible {
     private int radio = 10;
     int velocidadX = 5;
     int velocidadY = 5;
+    private Random random = new Random();
 
     public Pelota(int x, int y) {
         super(x,y);
@@ -19,6 +21,13 @@ public class Pelota extends ObjetoMovible {
     public void mover() {
         setX(x+velocidadX);
         setY(y+velocidadY);
+    }
+
+    public void reiniciarPelota(){
+        setX(400);
+        setY(250);
+        velocidadX = velocidadX * (random.nextBoolean() ? 1 : -1);
+        velocidadY = velocidadY * (random.nextBoolean() ? 1 : -1);
     }
 
     public void invertirVelocidadY(){

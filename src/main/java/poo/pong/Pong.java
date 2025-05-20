@@ -13,7 +13,8 @@ public class Pong extends JGame {
 
     Paleta paletaIzq = new Paleta(10,140);
     Paleta paletaDer = new Paleta(780,140);
-    Pelota pelota = new Pelota(400, 200);
+    Pelota pelota = new Pelota(400, 250);
+    Marcador marcador = new Marcador();
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -49,6 +50,7 @@ public class Pong extends JGame {
         paletaIzq.dibujar(g);
         paletaDer.dibujar(g);
         pelota.dibujar(g);
+        marcador.dibujar(g);
         //      Ejemplos de cosas para poner en la pantalla
         //g.setColor(Color.black);
         //g.setFont(new Font("Pixel Emulator", Font.PLAIN, 16));
@@ -104,5 +106,16 @@ public class Pong extends JGame {
                 pelota.getY() + pelota.getRadio() * 2 >= paletaDer.getY()) {
             pelota.invertirVelocidadX();
         }
+        anotarGol();
     }
+    public void anotarGol(){
+        if (pelota.getX() < 0) {
+            marcador.sumarGolJugador2(); // Sumar gol al Jugador 2
+            pelota.reiniciarPelota();
+        } else if (pelota.getX() > 800) {
+            marcador.sumarGolJugador1(); // Sumar gol al Jugador 1
+            pelota.reiniciarPelota();
+        }
+    }
+
 }
