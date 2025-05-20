@@ -1,6 +1,7 @@
 package poo;
 
 import com.entropyinteractive.JGame;
+import poo.Lemmings.JuegoLemmings;
 import poo.pong.*;
 import javax.swing.*;
 import java.awt.*;
@@ -59,18 +60,24 @@ public class Launcher extends Frame implements ActionListener {
         if (e.getSource() == botonIniciar) {
             String juegoSeleccionado = listaJuegos.getSelectedItem();
             if (juegoSeleccionado == "Pong") {
-                juego = new Pong("Pong", 800, 600);
 
+                juego = new Pong("Pong", 800, 600);
                 t = new Thread() {
                     public void run() {
                         juego.run(1.0 / 60.0);
                     }
                 };
-
                 t.start();
-                areaTexto.append("Apretaste pong!");
+
             } else if (juegoSeleccionado == "Lemmings") {
-                areaTexto.append("Apretaste Lemmings!");
+
+                juego = new JuegoLemmings("Lemmings", 800, 600);
+                t = new Thread() {
+                    public void run() {
+                        juego.run(1.0 / 60.0);
+                    }
+                };
+                t.start();
             }
         }
 

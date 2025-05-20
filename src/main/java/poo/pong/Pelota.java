@@ -21,7 +21,6 @@ public class Pelota extends ObjetoMovible {
         setY(y+velocidadY);
     }
 
-
     public void reiniciarPelota(){
         setX(400);
         setY(250);
