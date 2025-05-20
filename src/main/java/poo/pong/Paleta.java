@@ -1,14 +1,8 @@
 package poo.pong;
 
-import com.entropyinteractive.Keyboard;
 import poo.ObjetoMovible;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Paleta extends ObjetoMovible {
 
@@ -27,16 +21,16 @@ public class Paleta extends ObjetoMovible {
         g.fillRect(x,y,ancho, largo);
     }
 
-    public void setPosicion(double x, double y){
-        posicion.setLocation(x,y);
-    }
-
     @Override
     public void mover() {
-
     }
 
-    @Override
-    public void detectarColision() {
+    public int getAncho(){
+        return ancho;
     }
+
+    public int getLargo(){
+        return largo;
+    }
+
 }

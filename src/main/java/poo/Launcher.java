@@ -56,7 +56,7 @@ public class Launcher extends Frame implements ActionListener {
         if(e.getSource() == botonIniciar){
             String juegoSeleccionado = listaJuegos.getSelectedItem();
             if(juegoSeleccionado == "Pong"){
-                juego = new Pong("Pong", 800, 400);
+                juego = new Pong("Pong", 800, 600);
 
                 t = new Thread() {
                     public void run() {

@@ -1,5 +1,7 @@
 package poo.pong;
 
+import java.awt.*;
+
 public class Marcador {
     private short puntosP1;
     private short puntosP2;
@@ -9,12 +11,18 @@ public class Marcador {
         puntosP2 = 0;
     }
 
-    public void sumarGol(short jugador){
-        if (jugador == 1) {
-            puntosP1++;
-        }else if(jugador == 2){
-                puntosP2++;
-        }else {System.out.println("Jugador inválido, debe ser 1 o 2.");}
+    public void sumarGolJugador1(){
+        puntosP1++;
+    }
+
+    public void sumarGolJugador2(){
+        puntosP2++;
+    }
+
+    public void dibujar(Graphics2D g){
+        g.setFont(new Font("Arial", Font.PLAIN, 60));
+        g.drawString(String.valueOf(puntosP1), 330, 100);
+        g.drawString(String.valueOf(puntosP2), 430, 100);
     }
 
     public void reiniciarMarcador(){
