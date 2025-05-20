@@ -1,12 +1,9 @@
 package poo;
 
-import java.awt.geom.Point2D;
-
 public abstract class ObjetoMovible extends ObjetoGrafico {
 
     protected int velocidadX;
     protected int velocidadY;
-    protected Point2D.Double posicion  = new Point2D.Double();
   
     public ObjetoMovible(int x, int y) {
         super(x,y);

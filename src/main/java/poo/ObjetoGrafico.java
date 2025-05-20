@@ -3,8 +3,8 @@ package poo;
 import java.awt.*;
 import java.awt.image.*;
 public abstract class ObjetoGrafico {
-    protected BufferedImage imagen = null;
 
+    protected BufferedImage imagen = null;
     protected int x;
     protected int y;
     protected int largo;

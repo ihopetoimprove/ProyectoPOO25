@@ -2,6 +2,7 @@ package poo;
 
 import com.entropyinteractive.JGame;
 import poo.pong.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -10,6 +11,7 @@ public class Launcher extends Frame implements ActionListener {
     private final List listaJuegos;
     private final Button botonIniciar;
     private final Button botonConfig;
+    private final Button botonAgregarJuego;
     private final TextArea areaTexto;
     JGame juego;
     Thread t;
@@ -30,10 +32,13 @@ public class Launcher extends Frame implements ActionListener {
         Panel panelBotones = new Panel(new FlowLayout(FlowLayout.CENTER));
         botonIniciar = new Button("Iniciar Juego");
         botonConfig = new Button("Configuracion");
+        botonAgregarJuego = new Button("Agregar juego");
         panelBotones.add(botonIniciar);
         panelBotones.add(botonConfig);
+        panelBotones.add(botonAgregarJuego);
         botonIniciar.addActionListener(this);
         botonConfig.addActionListener(this);
+        botonAgregarJuego.addActionListener(this);
         add(panelBotones, BorderLayout.SOUTH);
 
         // Crear el área de texto en el CENTER
@@ -51,9 +56,9 @@ public class Launcher extends Frame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == botonIniciar){
+        if (e.getSource() == botonIniciar) {
             String juegoSeleccionado = listaJuegos.getSelectedItem();
-            if(juegoSeleccionado == "Pong"){
+            if (juegoSeleccionado == "Pong") {
                 juego = new Pong("Pong", 800, 600);
 
                 t = new Thread() {
@@ -64,21 +69,20 @@ public class Launcher extends Frame implements ActionListener {
 
                 t.start();
                 areaTexto.append("Apretaste pong!");
-            }else if(juegoSeleccionado == "Lemmings") {
+            } else if (juegoSeleccionado == "Lemmings") {
                 areaTexto.append("Apretaste Lemmings!");
             }
         }
-        if(e.getSource()==botonConfig){
-            new Config();
-        }
-    }
 
+        if (e.getSource() == botonAgregarJuego)
+            JOptionPane.showMessageDialog(null, "Estamos trabajando en eso...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        if (e.getSource() == botonConfig)
+                new Config();
+    }
 
     public static void main(String[] args) {
         Launcher ejemplo = new Launcher();
         ejemplo.setVisible(true);
-        //Pong ejemplo = new Pong("Pong", 600, 500);
-        //ejemplo.setVisible(true);
 
     }
 }

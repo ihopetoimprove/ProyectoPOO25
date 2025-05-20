@@ -1,7 +1,6 @@
 package poo.pong;
 import poo.ObjetoMovible;
 import java.util.Random;
-import javax.imageio.ImageIO;
 import java.awt.*;
 
 public class Pelota extends ObjetoMovible {
