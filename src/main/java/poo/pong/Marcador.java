@@ -25,6 +25,14 @@ public class Marcador {
         g.drawString(String.valueOf(puntosP2), 430, 100);
     }
 
+    public short getPuntosP1(){
+        return puntosP1;
+    }
+
+    public short getPuntosP2(){
+        return puntosP2;
+    }
+
     public void reiniciarMarcador(){
         this.puntosP1 = 0;
         this.puntosP2 = 0;
