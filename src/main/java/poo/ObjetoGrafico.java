@@ -2,7 +2,6 @@ package poo;
 
 import java.awt.*;
 import java.awt.image.*;
-import javax.imageio.*;
 public abstract class ObjetoGrafico {
     protected BufferedImage imagen = null;
 
@@ -15,7 +14,6 @@ public abstract class ObjetoGrafico {
         this.x = x;
         this.y = y;
     }
-
     //puede ser de utilidad
     public abstract void dibujar(Graphics2D g);
 

@@ -2,7 +2,6 @@ package poo;
 
 import com.entropyinteractive.JGame;
 import poo.pong.*;
-
 import java.awt.*;
 import java.awt.event.*;
 
