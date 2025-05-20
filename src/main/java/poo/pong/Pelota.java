@@ -1,17 +1,14 @@
 package poo.pong;
-
 import poo.ObjetoMovible;
-
 import java.util.Random;
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
 
 public class Pelota extends ObjetoMovible {
-    private int radio = 10;
+    private final int radio = 10;
     int velocidadX = 5;
     int velocidadY = 5;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public Pelota(int x, int y) {
         super(x,y);
@@ -44,7 +41,7 @@ public class Pelota extends ObjetoMovible {
 
     @Override
     public void dibujar(Graphics2D g) {
-        g.fillOval((int) getX(), (int) getY(), 2 * radio, 2 * radio);
+        g.fillOval( getX(), getY(), 2 * radio, 2 * radio);
     }
 
 }

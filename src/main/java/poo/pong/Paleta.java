@@ -1,14 +1,8 @@
 package poo.pong;
 
-import com.entropyinteractive.Keyboard;
 import poo.ObjetoMovible;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Paleta extends ObjetoMovible {
 
