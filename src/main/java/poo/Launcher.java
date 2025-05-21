@@ -3,9 +3,13 @@ package poo;
 import com.entropyinteractive.JGame;
 import poo.Lemmings.JuegoLemmings;
 import poo.pong.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Launcher extends Frame implements ActionListener {
 
@@ -13,14 +17,14 @@ public class Launcher extends Frame implements ActionListener {
     private final Button botonIniciar;
     private final Button botonConfig;
     private final Button botonAgregarJuego;
-    private final TextArea areaTexto;
+    private JLabel imagenLauncher;
     JGame juego;
     Thread t;
 
     public Launcher() {
         setTitle("Launcher");
         setLayout(new BorderLayout());
-        setSize(800, 400);
+        setSize(640, 480);
         setLocationRelativeTo(null);
 
         // Crear la lista de juegos en el WEST
@@ -43,8 +47,7 @@ public class Launcher extends Frame implements ActionListener {
         add(panelBotones, BorderLayout.SOUTH);
 
         // Crear el área de texto en el CENTER
-        areaTexto = new TextArea("Era muy dificil poner una imagen");
-        add(areaTexto, BorderLayout.CENTER);
+        //add(areaTexto, BorderLayout.CENTER);
 
         // Manejar el cierre de la ventana
         addWindowListener(new WindowAdapter() {
@@ -57,8 +60,22 @@ public class Launcher extends Frame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String juegoSeleccionado = listaJuegos.getSelectedItem();
+        //intento de cargar imagen en el lanzador
+        /*if(juegoSeleccionado == "Pong"){
+            try {
+                BufferedImage imagenFondo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
+                ImageIcon icon = new ImageIcon(imagenFondo);
+                imagenLauncher.setIcon(icon);
+                add(imagenLauncher, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+                System.out.println("llegué2");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }*/
         if (e.getSource() == botonIniciar) {
-            String juegoSeleccionado = listaJuegos.getSelectedItem();
             if (juegoSeleccionado == "Pong") {
 
                 juego = new Pong("Pong", 800, 600);
