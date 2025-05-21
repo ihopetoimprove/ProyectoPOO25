@@ -1,10 +1,14 @@
 package poo.Lemmings;
 
 import com.entropyinteractive.JGame;
+import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
+import com.entropyinteractive.Mouse;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class JuegoLemmings extends JGame{
 
@@ -26,6 +30,13 @@ public class JuegoLemmings extends JGame{
 
     @Override
     public void gameUpdate(double v){
+        Keyboard keyboard = this.getKeyboard();
+        Mouse mouse = this.getMouse();
+
+        if(estadoJuego == EstadoJuego.JUGANDO){
+            //logica de jugando
+        }
+
 
     }
 
@@ -44,12 +55,12 @@ public class JuegoLemmings extends JGame{
         Log.info(getClass().getSimpleName(), "Shutting down game");
     }
 
-    public void estadoInicio(Graphics2D g) {
+    public void estadoInicio(Graphics2D g){
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Iniciar nivel", 100, 400);
-        g.drawString("Iniciar nivel", 350, 400);
-        g.drawString("Iniciar nivel", 600, 400);
+        g.drawString("Iniciar nivel 1", 100, 400);
+        g.drawString("Iniciar nivel 2", 350, 400);
+        g.drawString("Iniciar nivel 3", 600, 400);
     }
 
 }
