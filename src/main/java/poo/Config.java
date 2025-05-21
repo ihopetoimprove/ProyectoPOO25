@@ -19,14 +19,16 @@ public class Config extends Frame implements ActionListener, KeyListener{
     private boolean esperandoNuevaTeclaPausa;
     private boolean esperandoNuevaTeclaAutoDestruccion;
     private boolean esperandoNuevaTeclaAcelerar;
+    private boolean esperandoNuevaTeclaSubirJ1,esperandoNuevaTeclaSubirJ2;
+    private boolean esperandoNuevaTeclaBajarJ1,esperandoNuevaTeclaBajarJ2;
     private static final String CONFIG_FILE = "config.properties";
     private final Map<String, Integer> teclas = new HashMap<>();
     private final Map<String, Button> botonesAccion = new HashMap<>();
-    private final String[] acciones = {"pausa","acelerar","autodestruccion",};
+    private final String[] acciones = {"pausa","acelerar","autodestruccion", "subir(J1)","bajar(J1)","subir(J2)","bajar(J2)"};
     JComboBox<String> musicComboBox;
     JComboBox<String> skinComboBox;
 
-    public static void main (String[] args) {new Config();}
+//    public static void main (String[] args) {new Config();}
 
     public Config(){
         WindowListener l= new WindowAdapter() {
@@ -126,6 +128,30 @@ public class Config extends Frame implements ActionListener, KeyListener{
             requestFocus();
             pack();
         }
+        if (e.getSource() == botonesAccion.get("subir(J1)")) {
+            esperandoNuevaTeclaSubirJ1 = true;
+            botonesAccion.get("subir(J1)").setLabel("?");
+            requestFocus();
+            pack();
+        }
+        if (e.getSource() == botonesAccion.get("bajar(J1)")) {
+            esperandoNuevaTeclaBajarJ1 = true;
+            botonesAccion.get("bajar(J1)").setLabel("?");
+            requestFocus();
+            pack();
+        }
+        if (e.getSource() == botonesAccion.get("subir(J2)")) {
+            esperandoNuevaTeclaSubirJ2 = true;
+            botonesAccion.get("subir(J2)").setLabel("?");
+            requestFocus();
+            pack();
+        }
+        if (e.getSource() == botonesAccion.get("bajar(J2)")) {
+            esperandoNuevaTeclaBajarJ2 = true;
+            botonesAccion.get("bajar(J2)").setLabel("?");
+            requestFocus();
+            pack();
+        }
         if (e.getSource() == bGuardar) {
             guardarConfiguracion();
             pack();
@@ -138,12 +164,16 @@ public class Config extends Frame implements ActionListener, KeyListener{
 
 
     private int getDefaultKey(String accion) {
-        return switch (accion.toLowerCase()) {
-            case "pausa" -> KeyEvent.VK_SPACE;
-            case "autodestruccion" -> KeyEvent.VK_D;
-            case "acelerar" -> KeyEvent.VK_A;
-            default -> KeyEvent.VK_UNDEFINED;
-        };
+        switch (accion.toLowerCase()) {
+            case "pausa": return KeyEvent.VK_SPACE;
+            case "autodestruccion": return KeyEvent.VK_D;
+            case "acelerar": return KeyEvent.VK_A;
+            case "subir(j1)": return KeyEvent.VK_W;
+            case "bajar(j1)": return KeyEvent.VK_S;
+            case "subir(j2)": return KeyEvent.VK_UP;
+            case "bajar(j2)": return KeyEvent.VK_DOWN;
+            default: return KeyEvent.VK_UNDEFINED;
+        }
     }
 
     public void mResetTeclas() {
@@ -178,6 +208,30 @@ public class Config extends Frame implements ActionListener, KeyListener{
             botonesAccion.get("pausa").setLabel(getKeyText(nuevaTecla));
 //            guardarConfiguracion(); // Guardar inmediatamente
             esperandoNuevaTeclaPausa = false; // Resetear la selección
+        }
+        if (esperandoNuevaTeclaSubirJ1) {
+            nuevaTecla = e.getKeyCode();
+            teclas.put("subir(J1)", nuevaTecla);
+            botonesAccion.get("subir(J1)").setLabel(getKeyText(nuevaTecla));
+            esperandoNuevaTeclaSubirJ1 = false; // Resetear la selección
+        }
+        if (esperandoNuevaTeclaBajarJ1) {
+            nuevaTecla = e.getKeyCode();
+            teclas.put("bajar(J1)", nuevaTecla);
+            botonesAccion.get("bajar(J1)").setLabel(getKeyText(nuevaTecla));
+            esperandoNuevaTeclaBajarJ1 = false; // Resetear la selección
+        }
+        if (esperandoNuevaTeclaSubirJ2) {
+            nuevaTecla = e.getKeyCode();
+            teclas.put("subir(J2)", nuevaTecla);
+            botonesAccion.get("subir(J2)").setLabel(getKeyText(nuevaTecla));
+            esperandoNuevaTeclaSubirJ2 = false; // Resetear la selección
+        }
+        if (esperandoNuevaTeclaBajarJ2) {
+            nuevaTecla = e.getKeyCode();
+            teclas.put("bajar(J2)", nuevaTecla);
+            botonesAccion.get("bajar(J2)").setLabel(getKeyText(nuevaTecla));
+            esperandoNuevaTeclaBajarJ2 = false; // Resetear la selección
         }
     }
 
@@ -252,4 +306,19 @@ public class Config extends Frame implements ActionListener, KeyListener{
             ex.printStackTrace();
         }
     }
+
+
+    public int getTSubirJ1(){
+        return teclas.get("subir(J1)");
+    }
+    public int getTBajarJ1(){
+        return teclas.get("bajar(J1)");
+    }
+    public int getTSubirJ2(){
+        return teclas.get("subir(J2)");
+    }
+    public int getTBajarJ2(){
+        return teclas.get("bajar(J2)");
+    }
+
 }

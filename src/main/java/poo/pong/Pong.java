@@ -3,6 +3,7 @@ package poo.pong;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
+import poo.Config;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.image.BufferedImage;
 
 public class Pong extends JGame {
 
+    Config cPong= new Config();
     BufferedImage fondo = null;
     Paleta paletaIzq = new Paleta(10,140);
     Paleta paletaDer = new Paleta(780,140);
@@ -21,6 +23,7 @@ public class Pong extends JGame {
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
+        cPong.setVisible(false);
     }
 
     @Override
@@ -67,19 +70,19 @@ public class Pong extends JGame {
         Keyboard keyboard = this.getKeyboard();
 
         // Mover la paleta derecha hacia arriba si la tecla está presionada y no está en el borde superior
-        if (keyboard.isKeyPressed(KeyEvent.VK_UP) && paletaDer.getY() > 0)
+        if (keyboard.isKeyPressed(cPong.getTSubirJ2()) && paletaDer.getY() > 0)
             paletaDer.setY((paletaDer.getY() - paletaDer.getVelocidadY() ));
 
         // Mover la paleta derecha hacia abajo si la tecla está presionada y no está en el borde inferior
-        if (keyboard.isKeyPressed(KeyEvent.VK_DOWN) && paletaDer.getY() < getHeight() - 100)
+        if (keyboard.isKeyPressed(cPong.getTBajarJ2()) && paletaDer.getY() < getHeight() - 100)
             paletaDer.setY((paletaDer.getY() + paletaDer.getVelocidadY() ));
 
         // Mover la paleta izquierda hacia arriba si la tecla está presionada y no está en el borde superior
-        if (keyboard.isKeyPressed(KeyEvent.VK_W) && paletaIzq.getY() > 0)
+        if (keyboard.isKeyPressed(cPong.getTSubirJ1()) && paletaIzq.getY() > 0)
             paletaIzq.setY( (paletaIzq.getY() - paletaIzq.getVelocidadY() ));
 
         // Mover la paleta izquierda hacia abajo si la tecla está presionada y no está en el borde inferior
-        if (keyboard.isKeyPressed(KeyEvent.VK_S) && paletaIzq.getY() < getHeight() - 100)
+        if (keyboard.isKeyPressed(cPong.getTBajarJ1()) && paletaIzq.getY() < getHeight() - 100)
             paletaIzq.setY( (paletaIzq.getY() + paletaIzq.getVelocidadY() ));
 
     }
