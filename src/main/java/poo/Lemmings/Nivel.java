@@ -12,9 +12,14 @@ public class Nivel extends ObjetoGrafico {
     private int salidaX, salidaY;
     private BufferedImage imagenTerrenoSolido;
     private BufferedImage imagenTerrenoDestructible;
+    private int totalLemmings;
+    private int lemmingsASalvar;
+    private int tiempoLimite;
 
     public Nivel(int x, int y){
         super(x, y);
+        //cargar imagenes terreno
+        //cargar nivel desde archivo
     }
 
     @Override
