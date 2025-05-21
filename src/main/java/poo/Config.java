@@ -8,73 +8,36 @@ import java.util.Map;
 import java.util.Properties;
 import static java.awt.event.KeyEvent.getKeyText;
 
-public class Config extends Frame implements ActionListener, KeyListener{
+public class Config extends Frame implements ActionListener, KeyListener {
     private static final String DEFAULT_MUSIC = "Tema original";
     JCheckBox checkSound;
     JCheckBox checkMusic;
-    Button  bGuardar,bReset;
+    Button bGuardar, bReset;
     Panel panelOpcionesMusica;
     Panel panelOpcionesSonido;
-
-    private boolean esperandoNuevaTeclaPausa;
-    private boolean esperandoNuevaTeclaAutoDestruccion;
-    private boolean esperandoNuevaTeclaAcelerar;
-    private boolean esperandoNuevaTeclaSubirJ1,esperandoNuevaTeclaSubirJ2;
-    private boolean esperandoNuevaTeclaBajarJ1,esperandoNuevaTeclaBajarJ2;
+    private String accionConfigurando = null;
     private static final String CONFIG_FILE = "config.properties";
     private final Map<String, Integer> teclas = new HashMap<>();
     private final Map<String, Button> botonesAccion = new HashMap<>();
-    private final String[] acciones = {"pausa","acelerar","autodestruccion", "subir(J1)","bajar(J1)","subir(J2)","bajar(J2)"};
+    private final String[] acciones = {"pausa", "acelerar", "autodestruccion", "subir(J1)", "bajar(J1)", "subir(J2)", "bajar(J2)"};
     JComboBox<String> musicComboBox;
     JComboBox<String> skinComboBox;
 
-//    public static void main (String[] args) {new Config();}
-
-    public Config(){
-        WindowListener l= new WindowAdapter() {
-            public void windowClosing(WindowEvent event){
+    public Config() {
+        WindowListener l = new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
                 dispose();
             }
         };
         addKeyListener(this);
         addWindowListener(l);
-        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-
-        panelOpcionesMusica= new Panel(new FlowLayout(FlowLayout.CENTER));
-        checkMusic = new JCheckBox("Musica: ", true);
-        panelOpcionesMusica.add(checkMusic);
-        add(panelOpcionesMusica);
-
-        panelOpcionesSonido= new Panel(new FlowLayout(FlowLayout.CENTER));
-        checkSound = new JCheckBox("Efectos de Sonido :", true);
-        panelOpcionesSonido.add(checkSound);
-        add(panelOpcionesSonido);
-
-
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        checkSound();
+        checkMusic();
         //ComboBox musica
-        Panel SelMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
-        JPanel panelMusica = new JPanel();
-        panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel labelMusica = new JLabel("Pista musical: ");
-        String[] musicTracks = {DEFAULT_MUSIC, "Pista 1", "Pista 2"};
-        musicComboBox = new JComboBox<>(musicTracks);
-        panelMusica.add(labelMusica);
-        panelMusica.add(musicComboBox);
-        SelMusica.add(panelMusica);
-        add(SelMusica);
-
+        BoxMusica();
         //ComboBox skin
-        Panel SelSkin = new Panel(new FlowLayout(FlowLayout.CENTER));
-        JPanel skinPanel = new JPanel();
-        skinPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel skinLabel = new JLabel("Skin del PJ: ");
-        String[] skins = {"Skin 1", "Skin 2", "Skin 3"};
-        skinComboBox = new JComboBox<>(skins);
-        skinPanel.add(skinLabel);
-        skinPanel.add(skinComboBox);
-        SelSkin.add(skinPanel);
-        add(SelSkin);
-
+        BoxSkin();
         cargarConfiguracion(); // Intentar cargar la configuración, si se cambia de lugar algunas weas dejan de andar,
         // por ejemplo, no se guardan los cambios de lo de abajo
 
@@ -86,16 +49,16 @@ public class Config extends Frame implements ActionListener, KeyListener{
 
             botonesAccion.put(accion, boton);
             panel.add(boton);
-            boton.addActionListener(this); // addActionListener(e -> iniciarCambioTecla(accion, boton)) es otra forma
+            boton.addActionListener(e -> iniciarConfiguracion(accion, boton)); // addActionListener(e -> iniciarCambioTecla(accion, boton)) es otra forma
             add(panel);
         }
         Panel acepReset = new Panel(new FlowLayout(FlowLayout.CENTER));
-        bGuardar =new Button("Aceptar");
+        bGuardar = new Button("Aceptar");
         acepReset.add(bGuardar);
-        bGuardar.addActionListener(this);
-        bReset=new Button("Resetear");
+        bGuardar.addActionListener(e -> guardarConfiguracion());
+        bReset = new Button("Resetear");
         acepReset.add(bReset);
-        bReset.addActionListener(this);
+        bReset.addActionListener(e -> mResetTeclas());
         add(acepReset);
 
         pack();
@@ -105,63 +68,65 @@ public class Config extends Frame implements ActionListener, KeyListener{
         setLocation(x, y);
         setVisible(true);
     }
-
-    public void actionPerformed(ActionEvent e){
-
-        if (e.getSource() == botonesAccion.get("pausa")) {
-            esperandoNuevaTeclaPausa = true;
-            botonesAccion.get("pausa").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == botonesAccion.get("acelerar")) {
-            System.out.println("Esperando nueva tecla para acelerar");
-            esperandoNuevaTeclaAcelerar = true;
-            botonesAccion.get("acelerar").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == botonesAccion.get("autodestruccion")) {
-            System.out.println("Esperando nueva tecla de Autodestrucción MASIVAAA!!!!");
-            esperandoNuevaTeclaAutoDestruccion = true;
-            botonesAccion.get("autodestruccion").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == botonesAccion.get("subir(J1)")) {
-            esperandoNuevaTeclaSubirJ1 = true;
-            botonesAccion.get("subir(J1)").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == botonesAccion.get("bajar(J1)")) {
-            esperandoNuevaTeclaBajarJ1 = true;
-            botonesAccion.get("bajar(J1)").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == botonesAccion.get("subir(J2)")) {
-            esperandoNuevaTeclaSubirJ2 = true;
-            botonesAccion.get("subir(J2)").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == botonesAccion.get("bajar(J2)")) {
-            esperandoNuevaTeclaBajarJ2 = true;
-            botonesAccion.get("bajar(J2)").setLabel("?");
-            requestFocus();
-            pack();
-        }
-        if (e.getSource() == bGuardar) {
-            guardarConfiguracion();
-            pack();
-        }
-        if (e.getSource() == bReset) {
-            mResetTeclas();
-            pack();
-        }
+    private void BoxMusica(){
+        Panel SelMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panelMusica = new JPanel();
+        panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel labelMusica = new JLabel("Pista musical: ");
+        String[] musicTracks = {DEFAULT_MUSIC, "Pista 1", "Pista 2"};
+        musicComboBox =new JComboBox<>(musicTracks);
+        panelMusica.add(labelMusica);
+        panelMusica.add(musicComboBox);
+        SelMusica.add(panelMusica);
+        add(SelMusica);
     }
-
+    private void BoxSkin(){
+        Panel SelSkin = new Panel(new FlowLayout(FlowLayout.CENTER));
+        JPanel skinPanel = new JPanel();
+        skinPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel skinLabel = new JLabel("Skin del PJ: ");
+        String[] skins = {"Skin 1", "Skin 2", "Skin 3"};
+        skinComboBox = new JComboBox<>(skins);
+        skinPanel.add(skinLabel);
+        skinPanel.add(skinComboBox);
+        SelSkin.add(skinPanel);
+        add(SelSkin);
+    }
+    private void checkSound(){
+        panelOpcionesSonido = new Panel(new FlowLayout(FlowLayout.CENTER));
+        checkSound = new JCheckBox("Efectos de Sonido :", true);
+        panelOpcionesSonido.add(checkSound);
+        add(panelOpcionesSonido);
+    }
+    private void checkMusic(){
+        panelOpcionesMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
+        checkMusic = new JCheckBox("Musica: ", true);
+        panelOpcionesMusica.add(checkMusic);
+        add(panelOpcionesMusica);
+    }
+    private void iniciarConfiguracion(String accion, Button botonAsociado) {
+        this.accionConfigurando = accion;
+        botonAsociado.setLabel("?");
+        botonAsociado.setEnabled(false); // Deshabilitar el botón mientras esperamos la tecla
+        setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (accionConfigurando != null) {
+                    int nuevoCodigoTecla = e.getKeyCode();
+                    setTecla(accionConfigurando, nuevoCodigoTecla);
+                    botonAsociado.setLabel(KeyEvent.getKeyText(nuevoCodigoTecla));
+                    botonAsociado.setEnabled(true);
+                    accionConfigurando = null; // Resetear el estado
+                    removeKeyListener(this); // Quitar el KeyListener temporal
+                }
+            }
+        });
+    }
+    public void setTecla(String accion, int codigoTecla) {
+        teclas.put(accion, codigoTecla);
+    }
 
     private int getDefaultKey(String accion) {
         switch (accion.toLowerCase()) {
@@ -187,54 +152,8 @@ public class Config extends Frame implements ActionListener, KeyListener{
         checkSound.setSelected(true);
     }
 
-
-    public void keyPressed(KeyEvent e) {
-        int nuevaTecla;
-        if (esperandoNuevaTeclaAcelerar) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("acelerar", nuevaTecla);
-            botonesAccion.get("acelerar").setLabel(getKeyText(nuevaTecla));
-            esperandoNuevaTeclaAcelerar = false; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaAutoDestruccion) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("autodestruccion", nuevaTecla);
-            botonesAccion.get("autodestruccion").setLabel(getKeyText(nuevaTecla));
-            esperandoNuevaTeclaAutoDestruccion = false; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaPausa) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("pausa", nuevaTecla);
-            botonesAccion.get("pausa").setLabel(getKeyText(nuevaTecla));
-//            guardarConfiguracion(); // Guardar inmediatamente
-            esperandoNuevaTeclaPausa = false; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaSubirJ1) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("subir(J1)", nuevaTecla);
-            botonesAccion.get("subir(J1)").setLabel(getKeyText(nuevaTecla));
-            esperandoNuevaTeclaSubirJ1 = false; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaBajarJ1) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("bajar(J1)", nuevaTecla);
-            botonesAccion.get("bajar(J1)").setLabel(getKeyText(nuevaTecla));
-            esperandoNuevaTeclaBajarJ1 = false; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaSubirJ2) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("subir(J2)", nuevaTecla);
-            botonesAccion.get("subir(J2)").setLabel(getKeyText(nuevaTecla));
-            esperandoNuevaTeclaSubirJ2 = false; // Resetear la selección
-        }
-        if (esperandoNuevaTeclaBajarJ2) {
-            nuevaTecla = e.getKeyCode();
-            teclas.put("bajar(J2)", nuevaTecla);
-            botonesAccion.get("bajar(J2)").setLabel(getKeyText(nuevaTecla));
-            esperandoNuevaTeclaBajarJ2 = false; // Resetear la selección
-        }
-    }
-
+    @Override
+    public void actionPerformed(ActionEvent e) {    }
     public void keyReleased(KeyEvent e) {
         // Innecesario por ahora
     }
@@ -242,6 +161,12 @@ public class Config extends Frame implements ActionListener, KeyListener{
     public void keyTyped(KeyEvent e) {
         // Innecesario por ahora
     }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
     private void cargarConfiguracion() {
         Properties prop = new Properties();
         try (InputStream input = new FileInputStream(CONFIG_FILE)) {
