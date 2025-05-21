@@ -16,7 +16,7 @@ public class Pong extends JGame {
     Paleta paletaDer = new Paleta(780,140);
     Pelota pelota = new Pelota(400, 250);
     Marcador marcador = new Marcador();
-    // ---- 0 para start --- 1 para jugando
+    // ---- 0 para start --- 1 para jugando -------
     private int estadoJuego = 0;
 
     public Pong(String title, int width, int height) {
@@ -36,6 +36,7 @@ public class Pong extends JGame {
 
     @Override
     public void gameUpdate(double v) {
+        // mientras el juego está en jugando
         if (estadoJuego == 1) {
             procesarTeclado();
             detectarColision();
@@ -84,12 +85,15 @@ public class Pong extends JGame {
     }
 
     public void detectarColision() {
+        //si la paleta choca contra el techo
         if (pelota.getY() <= getHeight())
             pelota.invertirVelocidadY();
 
+        //piso
         if (pelota.getY() >= 0)
             pelota.invertirVelocidadY();
 
+        //paletas
         if (pelota.getX() <= paletaIzq.getX() + paletaIzq.getAncho() &&
                 pelota.getX() + pelota.getRadio() * 2 >= paletaIzq.getX() &&
                 pelota.getY() <= paletaIzq.getY() + paletaIzq.getLargo() &&
