@@ -19,7 +19,7 @@ public class Config extends Frame implements ActionListener, KeyListener {
     private static final String CONFIG_FILE = "config.properties";
     private final Map<String, Integer> teclas = new HashMap<>();
     private final Map<String, Button> botonesAccion = new HashMap<>();
-    private final String[] acciones = {"pausa", "acelerar", "autodestruccion", "subir(J1)", "bajar(J1)", "subir(J2)", "bajar(J2)"};
+    private final String[] acciones = {"pausa", "acelerar", "autodestruccion", "subir(j1)", "bajar(j1)", "subir(j2)", "bajar(j2)"};
     JComboBox<String> musicComboBox;
     JComboBox<String> skinComboBox;
 
@@ -45,8 +45,6 @@ public class Config extends Frame implements ActionListener, KeyListener {
             Panel panel = new Panel(new FlowLayout(FlowLayout.CENTER));
             panel.add(new JLabel(accion + ":    "));
             Button boton = new Button(getKeyText(teclas.getOrDefault(accion, getDefaultKey(accion))));
-            System.out.println("Tecla " + boton.getLabel() + " asignada a la tecla de pausa");
-
             botonesAccion.put(accion, boton);
             panel.add(boton);
             boton.addActionListener(e -> iniciarConfiguracion(accion, boton)); // addActionListener(e -> iniciarCambioTecla(accion, boton)) es otra forma
@@ -143,7 +141,7 @@ public class Config extends Frame implements ActionListener, KeyListener {
 
     public void mResetTeclas() {
         for (String accion : acciones) {
-            teclas.put(accion.toLowerCase(), getDefaultKey(accion)); // valor predeterminado si no se encuentra
+            teclas.put(accion.toLowerCase(), getDefaultKey(accion));
             botonesAccion.get(accion).setLabel(getKeyText(getDefaultKey(accion)));
         }
         musicComboBox.setSelectedItem(DEFAULT_MUSIC);
@@ -234,16 +232,16 @@ public class Config extends Frame implements ActionListener, KeyListener {
 
 
     public int getTSubirJ1(){
-        return teclas.get("subir(J1)");
+        return teclas.get("subir(j1)");
     }
     public int getTBajarJ1(){
-        return teclas.get("bajar(J1)");
+        return teclas.get("bajar(j1)");
     }
     public int getTSubirJ2(){
-        return teclas.get("subir(J2)");
+        return teclas.get("subir(j2)");
     }
     public int getTBajarJ2(){
-        return teclas.get("bajar(J2)");
+        return teclas.get("bajar(j2)");
     }
 
 }
