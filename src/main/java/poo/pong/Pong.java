@@ -16,8 +16,11 @@ public class Pong extends JGame {
     Paleta paletaDer = new Paleta(780,140);
     Pelota pelota = new Pelota(400, 250);
     Marcador marcador = new Marcador();
-    // ---- 0 para start --- 1 para jugando -------
+    private int ganador;
     private int estadoJuego = 0;
+    public final static int START = 0;
+    public final static int JUGANDO = 1;
+    public final static int FIN = 2;
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -36,21 +39,22 @@ public class Pong extends JGame {
 
     @Override
     public void gameUpdate(double v) {
-        // mientras el juego está en jugando
-        if (estadoJuego == 1) {
+        if (estadoJuego == JUGANDO) {
             procesarTeclado();
             detectarColision();
             pelota.mover();
             anotarGol();
-            controlarVictoria();
         }
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
         g.drawImage(fondo,0,0,null);
-        if(estadoJuego == 0){
+        if(estadoJuego == START){
             estadoStart(g);
+        }
+        if(estadoJuego == FIN){
+            estadoFin(g);
         }
         paletaIzq.dibujar(g);
         paletaDer.dibujar(g);
@@ -99,23 +103,33 @@ public class Pong extends JGame {
                 pelota.getY() <= paletaIzq.getY() + paletaIzq.getLargo() &&
                 pelota.getY() + pelota.getRadio() * 2 >= paletaIzq.getY()) {
             pelota.invertirVelocidadX();
+            pelota.aumentarVelocidad();
         }
         if (pelota.getX() <= paletaDer.getX() + paletaDer.getAncho() &&
                 pelota.getX() + pelota.getRadio() * 2 >= paletaDer.getX() &&
                 pelota.getY() <= paletaDer.getY() + paletaDer.getLargo() &&
                 pelota.getY() + pelota.getRadio() * 2 >= paletaDer.getY()) {
             pelota.invertirVelocidadX();
+            pelota.aumentarVelocidad();
         }
 
     }
 
     public void anotarGol(){
         if (pelota.getX() < 0) {
-            marcador.sumarGolJugador2(); // Sumar gol al Jugador 2
+            marcador.sumarGolJugador2();
             pelota.reiniciarPelota();
         } else if (pelota.getX() > 800) {
-            marcador.sumarGolJugador1(); // Sumar gol al Jugador 1
+            marcador.sumarGolJugador1();
             pelota.reiniciarPelota();
+        }
+        if(marcador.getPuntosP1() == 3){
+            ganador = 1;
+            estadoJuego = FIN;
+        }
+        if(marcador.getPuntosP2() == 3) {
+            ganador = 2;
+            estadoJuego = FIN;
         }
     }
 
@@ -131,16 +145,15 @@ public class Pong extends JGame {
 
     }
 
-    public void controlarVictoria(){
-        if (marcador.getPuntosP2() == 5){
-            //debería haber un mensaje felicitando al jugador
-            estadoJuego = 0;
-            marcador.reiniciarMarcador();
-        }else if(marcador.getPuntosP1() == 5){
-            //aca tambien
-            estadoJuego = 0;
-            marcador.reiniciarMarcador();
-        }
-    }
+    public void estadoFin(Graphics2D g){
+        Keyboard keyboard = this.getKeyboard();
+        marcador.reiniciarMarcador();
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("El jugador " + ganador + "ha ganado!", 250, 300);
+        g.drawString("Presiona barra espaciadora para volver a jugar", 100, 400);
 
+        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE))
+            estadoJuego = 1;
+    }
 }

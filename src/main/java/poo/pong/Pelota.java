@@ -24,8 +24,15 @@ public class Pelota extends ObjetoMovible {
     public void reiniciarPelota(){
         setX(400);
         setY(250);
+        velocidadX = 5;
+        velocidadY = 5;
         velocidadX = velocidadX * (random.nextBoolean() ? 1 : -1);
         velocidadY = velocidadY * (random.nextBoolean() ? 1 : -1);
+    }
+
+    public void aumentarVelocidad(){
+        velocidadX = velocidadX+2;
+        velocidadY = velocidadY+2;
     }
 
     public void invertirVelocidadY(){
