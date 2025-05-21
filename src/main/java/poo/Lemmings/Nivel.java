@@ -4,10 +4,12 @@ import poo.ObjetoGrafico;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Nivel extends ObjetoGrafico {
 
-    private int[][] terreno;
+    List<List<Integer>> mapa = new ArrayList<>();
     private int entradaX, entradaY;
     private int salidaX, salidaY;
     private BufferedImage imagenTerrenoSolido;

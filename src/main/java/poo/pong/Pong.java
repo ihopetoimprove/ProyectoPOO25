@@ -153,7 +153,7 @@ public class Pong extends JGame {
         marcador.reiniciarMarcador();
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString("El jugador " + ganador + "ha ganado!", 250, 300);
+        g.drawString("El jugador " + ganador + " ha ganado!", 250, 300);
         g.drawString("Presiona barra espaciadora para volver a jugar", 100, 400);
 
         if (keyboard.isKeyPressed(KeyEvent.VK_SPACE))
