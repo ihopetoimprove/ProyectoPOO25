@@ -1,15 +1,12 @@
 package poo;
 
 import com.entropyinteractive.JGame;
-import poo.Lemmings.JuegoLemmings;
+import poo.Lemmings.*;
 import poo.pong.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Launcher extends Frame implements ActionListener {
 
@@ -101,7 +98,12 @@ public class Launcher extends Frame implements ActionListener {
         if (e.getSource() == botonAgregarJuego)
             JOptionPane.showMessageDialog(null, "Estamos trabajando en eso...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
         if (e.getSource() == botonConfig)
-                new Config();
+            if (juegoSeleccionado == "Pong") {
+                new ConfigPong();
+            } else if (juegoSeleccionado == "Lemmings") {
+                new ConfigLemmings();
+            }else
+        JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
