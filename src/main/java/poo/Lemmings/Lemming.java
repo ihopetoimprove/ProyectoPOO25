@@ -13,14 +13,14 @@ public class Lemming extends ObjetoMovible {
     private EstadoLemming estadoActual;
     private boolean direccionDerecha = true;
     private int habilidad;
-    protected Nivel nivel;
+    protected Nivel nivelActual;
     private static final int VELOCIDAD_BASE = 10;
     private static final int VELOCIDAD_CAIDA = 50;
 
 
     public Lemming(int x, int y) {
         super(x, y);
-        this.nivel = nivel;
+        this.nivelActual = nivelActual;
         this.estadoActual = EstadoLemming.CAMINANDO;
         this.velocidadX = VELOCIDAD_BASE;
         this.velocidadY = 0;

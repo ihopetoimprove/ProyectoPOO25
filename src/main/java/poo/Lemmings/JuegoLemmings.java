@@ -7,6 +7,7 @@ import com.entropyinteractive.Mouse;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -18,6 +19,7 @@ public class JuegoLemmings extends JGame{
     private Nivel nivelActual;
     //private List<Lemming> lemmings;
     private String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3,txt"};
+    private int nivelSeleccionado = -1;
 
     public JuegoLemmings(String title, int width, int height) {
         super(title, width, height);
@@ -33,11 +35,25 @@ public class JuegoLemmings extends JGame{
         Keyboard keyboard = this.getKeyboard();
         Mouse mouse = this.getMouse();
 
-        if(estadoJuego == EstadoJuego.JUGANDO){
+        if(estadoJuego == EstadoJuego.INICIO){
+            if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
+                int mouseX = mouse.getX();
+                int mouseY = mouse.getY();
+
+                if (mouseY >= 340 && mouseY <= 380) { // Rango vertical para todos los botones
+                    if (mouseX >= 70 && mouseX <= 220) { // "Iniciar nivel 1"
+                        nivelSeleccionado = 0;
+                    }
+                    if (nivelSeleccionado != -1) {
+                        nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
+                        estadoJuego = EstadoJuego.JUGANDO;
+                        Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
+                    }
+                }
+            }
+            else if (estadoJuego == EstadoJuego.JUGANDO){}
             //logica de jugando
         }
-
-
     }
 
     @Override
@@ -46,7 +62,7 @@ public class JuegoLemmings extends JGame{
             estadoInicio(g);
         }
         if(estadoJuego == EstadoJuego.JUGANDO){
-
+            nivelActual.dibujar(g);
         }
     }
 
