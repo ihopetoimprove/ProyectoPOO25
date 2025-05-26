@@ -3,7 +3,6 @@ package poo.pong;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
-import poo.Config;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 public class Pong extends JGame {
 
-    Config cPong= new Config();
+    ConfigPong cPong= new ConfigPong();
     BufferedImage fondo = null;
     Paleta paletaIzq = new Paleta(10,140);
     Paleta paletaDer = new Paleta(780,140);
