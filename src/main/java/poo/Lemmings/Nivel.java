@@ -13,8 +13,11 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Nivel extends ObjetoGrafico {
+    public static final int BLOQUE_ANCHO = 32;
+    public static final int BLOQUE_ALTO = 32;
 
     List<List<Integer>> mapa;
     private int entradaX, entradaY;
@@ -23,24 +26,22 @@ public class Nivel extends ObjetoGrafico {
     private static BufferedImage imagenTerrenoDestructible;
     private static BufferedImage imagenEntrada;
     private static BufferedImage imagenSalida;
-    private final int BLOQUE_ANCHO = 32;
-    private final int BLOQUE_ALTO = 32;
     private int totalLemmings;
     private int lemmingsASalvar;
     private int tiempoLimite;
 
     public Nivel(String archivoNivel) {
-        super(0, 0); // La posición del nivel en la pantalla puede ser 0,0 por ahora
+        super(0, 0);
         cargarImagenesTerreno();
-        cargarNivelDesdeArchivo("/src/main/resources/niveles/" + archivoNivel); // Asume que los archivos .txt están en /recursos/niveles/
+        cargarNivelDesdeArchivo("/src/main/resources/niveles/" + archivoNivel);
     }
 
     private void cargarImagenesTerreno() {
         try {
-            imagenTerrenoSolido = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/terreno_solido.png"));
-            imagenTerrenoDestructible = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/terreno_destructible.png"));
-            imagenEntrada = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/entrada.png"));
-            imagenSalida = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/salida.png"));
+            imagenTerrenoSolido = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/terreno_solido.png")));
+            imagenTerrenoDestructible = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/terreno_destructible.png")));
+            imagenEntrada = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/entrada.png")));
+            imagenSalida = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/salida.png")));
         } catch (IOException e) {
             System.err.println("Error al cargar imágenes de terreno o entrada/salida: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -54,8 +55,7 @@ public class Nivel extends ObjetoGrafico {
         String currentDir = System.getProperty("user.dir");
         System.out.println("Current dir using System:" + currentDir);
         rutaArchivo = currentDir + rutaArchivo;
-
-        //getClass().getClassLoader().getResourceAsStream(rutaArchivo));
+        
         try {
             String stringConfig = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
             String linea;
@@ -96,8 +96,6 @@ public class Nivel extends ObjetoGrafico {
                     mapa.add(fila);
                 }
             }
-            // System.out.println("Nivel '" + rutaArchivo + "' cargado. Dimensiones: " + getAnchoEnTiles() + "x" + getAltoEnTiles());
-
         } catch (IOException e) {
             System.err.println("Error al leer el archivo de nivel '" + rutaArchivo + "': " + e.getMessage());
         } catch (NumberFormatException e) {

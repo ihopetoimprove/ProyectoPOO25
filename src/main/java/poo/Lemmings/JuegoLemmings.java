@@ -5,11 +5,7 @@ import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class JuegoLemmings extends JGame {
 
@@ -17,10 +13,9 @@ public class JuegoLemmings extends JGame {
 
     private EstadoJuego estadoJuego = EstadoJuego.INICIO;
     private Nivel nivelActual;
-    private String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3,txt"};
+    private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3,txt"};
     private int nivelSeleccionado = -1;
     private int lemmingsGenerados = 0;
-    private final long INTERVALO_LEMMINGS = 1000;
     private long ultimoTiempoAccion;
 
     public JuegoLemmings(String title, int width, int height) {
@@ -45,18 +40,22 @@ public class JuegoLemmings extends JGame {
                 if (mouseY >= 340 && mouseY <= 380) { // Rango vertical para todos los botones
                     if (mouseX >= 70 && mouseX <= 220) { // "Iniciar nivel 1"
                         nivelSeleccionado = 0;
-                        System.out.println("lleguée");
+                        seleccionarNivel();
+                    }
+                    if (mouseX >= 260 && mouseX <= 400){
+                        nivelSeleccionado = 1;
+                        seleccionarNivel();
+                    }
+                    if (mouseX >= 460 && mouseX <= 600){
+                        nivelSeleccionado = 2;
                         seleccionarNivel();
                     }
                 }
             }
-        } else if (estadoJuego == EstadoJuego.JUGANDO) {
-            //logica de jugando
+        } if (estadoJuego == EstadoJuego.JUGANDO) {
             crearLemmings();
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
-                if (lemming != null) { // Pequeña verificación por seguridad, aunque la lista no debería tener nulos si solo añades instancias válidas
                     lemming.mover();
-                }
             }
         }
     }
@@ -69,9 +68,7 @@ public class JuegoLemmings extends JGame {
         if (estadoJuego == EstadoJuego.JUGANDO) {
             nivelActual.dibujar(g);
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
-                if (lemming != null) { // Pequeña verificación por seguridad, aunque la lista no debería tener nulos si solo añades instancias válidas
                     lemming.dibujar(g);
-                }
             }
         }
     }
@@ -100,6 +97,7 @@ public class JuegoLemmings extends JGame {
     private void crearLemmings() {
         if (lemmingsGenerados < nivelActual.getTotalLemmings()) {
             long tiempoActual = System.currentTimeMillis(); // Obtiene el tiempo actual en milisegundos
+            long INTERVALO_LEMMINGS = 1000;
             if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
                 ultimoTiempoAccion = tiempoActual;
                 Lemming nuevoLemming = new Lemming(nivelActual.getEntradaX(), nivelActual.getEntradaY(), nivelActual);
