@@ -10,16 +10,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Nivel extends ObjetoGrafico {
 
     List<List<Integer>> mapa;
     private int entradaX, entradaY;
     private int salidaX, salidaY;
-    private BufferedImage imagenTerrenoSolido;
-    private BufferedImage imagenTerrenoDestructible;
-    private BufferedImage imagenEntrada;
-    private BufferedImage imagenSalida;
+    private static BufferedImage imagenTerrenoSolido;
+    private static BufferedImage imagenTerrenoDestructible;
+    private static BufferedImage imagenEntrada;
+    private static BufferedImage imagenSalida;
     private final int BLOQUE_ANCHO = 32;
     private final int BLOQUE_ALTO = 32;
     private int totalLemmings;
@@ -40,8 +43,6 @@ public class Nivel extends ObjetoGrafico {
             imagenSalida = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/salida.png"));
         } catch (IOException e) {
             System.err.println("Error al cargar imágenes de terreno o entrada/salida: " + e.getMessage());
-            // Opcional: Asignar imágenes de fallback (ej. cuadrados de color)
-            // para que el juego no falle si una imagen no carga.
         } catch (IllegalArgumentException e) {
             System.err.println("Recurso de imagen no encontrado. Asegúrate de que las rutas son correctas y las imágenes existen: " + e.getMessage());
         }
@@ -56,45 +57,45 @@ public class Nivel extends ObjetoGrafico {
 
         //getClass().getClassLoader().getResourceAsStream(rutaArchivo));
         try {
-
             String stringConfig = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
             String linea;
+            BufferedReader reader = null;
+            reader = new BufferedReader(new FileReader(rutaArchivo));
             boolean leyendoMapa = false;
 
-//            while ((linea = reader.readLine()) != null) {
-//                linea = linea.trim(); // Eliminar espacios al inicio y fin de la línea
-//
-//                if (linea.isEmpty()) {
-//                    continue; // Saltar líneas vacías
-//                }
-//
-//                if (linea.startsWith("#")) { // Líneas de configuración (metadatos del nivel)
-//                    if (linea.startsWith("#LEMMINGS_TOTAL:")) {
-//                        totalLemmings = Integer.parseInt(linea.split(":")[1].trim());
-//                    } else if (linea.startsWith("#LEMMINGS_SALVAR:")) {
-//                        lemmingsASalvar = Integer.parseInt(linea.split(":")[1].trim());
-//                    } else if (linea.startsWith("#TIEMPO_LIMITE:")) {
-//                        tiempoLimite = Integer.parseInt(linea.split(":")[1].trim());
-//                    } else if (linea.startsWith("#ENTRADA:")) {
-//                        String[] coords = linea.split(":")[1].trim().split(",");
-//                        entradaX = Integer.parseInt(coords[0].trim());
-//                        entradaY = Integer.parseInt(coords[1].trim());
-//                    } else if (linea.startsWith("#SALIDA:")) {
-//                        String[] coords = linea.split(":")[1].trim().split(",");
-//                        salidaX = Integer.parseInt(coords[0].trim());
-//                        salidaY = Integer.parseInt(coords[1].trim());
-//                    } else if (linea.startsWith("#MAPA")) { // Indica el comienzo de los datos del mapa
-//                        leyendoMapa = true;
-//                    }
-//                } else if (leyendoMapa) { // Líneas del mapa en sí
-//                    List<Integer> fila = new ArrayList<>();
-//                    for (char c : linea.toCharArray()) {
-//                        // Convierte el carácter a su valor numérico (ej. '1' a 1)
-//                        fila.add(Character.getNumericValue(c));
-//                    }
-//                    mapa.add(fila);
-//                }
-//            }
+            while ((linea = reader.readLine()) != null) {
+                linea = linea.trim(); // Eliminar espacios al inicio y fin de la línea
+                if (linea.isEmpty()) {
+                    continue; // Saltar líneas vacías
+                }
+
+                if (linea.startsWith("#")) { // Líneas de configuración (metadatos del nivel)
+                    if (linea.startsWith("#LEMMINGS_TOTAL:")) {
+                        totalLemmings = Integer.parseInt(linea.split(":")[1].trim());
+                    } else if (linea.startsWith("#LEMMINGS_SALVAR:")) {
+                        lemmingsASalvar = Integer.parseInt(linea.split(":")[1].trim());
+                    } else if (linea.startsWith("#TIEMPO_LIMITE:")) {
+                        tiempoLimite = Integer.parseInt(linea.split(":")[1].trim());
+                    } else if (linea.startsWith("#ENTRADA:")) {
+                        String[] coords = linea.split(":")[1].trim().split(",");
+                        entradaX = Integer.parseInt(coords[0].trim());
+                        entradaY = Integer.parseInt(coords[1].trim());
+                    } else if (linea.startsWith("#SALIDA:")) {
+                        String[] coords = linea.split(":")[1].trim().split(",");
+                        salidaX = Integer.parseInt(coords[0].trim());
+                        salidaY = Integer.parseInt(coords[1].trim());
+                    } else if (linea.startsWith("#MAPA")) { // Indica el comienzo de los datos del mapa
+                        leyendoMapa = true;
+                    }
+                } else if (leyendoMapa) { // Líneas del mapa en sí
+                    List<Integer> fila = new ArrayList<>();
+                    for (char c : linea.toCharArray()) {
+                        // Convierte el carácter a su valor numérico (ej. '1' a 1)
+                        fila.add(Character.getNumericValue(c));
+                    }
+                    mapa.add(fila);
+                }
+            }
             // System.out.println("Nivel '" + rutaArchivo + "' cargado. Dimensiones: " + getAnchoEnTiles() + "x" + getAltoEnTiles());
 
         } catch (IOException e) {
@@ -108,8 +109,6 @@ public class Nivel extends ObjetoGrafico {
 
     @Override
     public void dibujar(Graphics2D g) {
-        // Dibujar el terreno tile por tile
-        if (mapa == null) {
             for (int yTile = 0; yTile < mapa.size(); yTile++) {
                 List<Integer> fila = mapa.get(yTile);
                 // Asegurarse de que la fila no es nula y tiene elementos
@@ -144,32 +143,30 @@ public class Nivel extends ObjetoGrafico {
                     }
                 }
             }
-        } else {
-            // Mensaje de depuración si el mapa está vacío o nulo
-            System.out.println("ADVERTENCIA: El mapa del nivel está vacío o no se cargó correctamente. No se dibujará el terreno.");
-            g.setColor(Color.RED);
-            g.setFont(new Font("Arial", Font.BOLD, 30));
-            g.drawString("ERROR: MAPA NO CARGADO!", 100, 100);
-        }
-
-        // Dibujar la imagen de la entrada
-        if (imagenEntrada != null) {
-            g.drawImage(imagenEntrada, entradaX - BLOQUE_ANCHO / 2, entradaY - BLOQUE_ALTO, BLOQUE_ANCHO, BLOQUE_ALTO, null);
-        } else {
-            g.setColor(Color.BLUE);
-            g.fillRect(entradaX - 10, entradaY - 20, 20, 20);
-            g.setColor(Color.WHITE);
-            g.drawString("E", entradaX - 5, entradaY - 5);
-        }
-
-        // Dibujar la imagen de la salida
-        if (imagenSalida != null) {
-            g.drawImage(imagenSalida, salidaX - BLOQUE_ANCHO / 2, salidaY - BLOQUE_ALTO, BLOQUE_ANCHO, BLOQUE_ALTO, null);
-        } else {
-            g.setColor(Color.GREEN);
-            g.fillRect(salidaX - 10, salidaY - 20, 20, 20);
-            g.setColor(Color.BLACK);
-            g.drawString("S", salidaX - 5, salidaY - 5);
-        }
+        if (imagenEntrada != null)
+            g.drawImage(imagenEntrada, entradaX, entradaY, null);
+        if (imagenSalida != null)
+            g.drawImage(imagenSalida, salidaX, salidaY, null);
     }
+
+    public int getTipoTile(int pixelX, int pixelY) {
+        // Convierte las coordenadas de píxel a coordenadas de tile
+        int tileX = pixelX / BLOQUE_ANCHO;
+        int tileY = pixelY / BLOQUE_ALTO;
+
+        // Verifica si las coordenadas de tile están dentro de los límites del mapa
+        if (tileY >= 0 && tileY < mapa.size()) {
+            List<Integer> fila = mapa.get(tileY);
+            if (fila != null && tileX >= 0 && tileX < fila.size()) {
+                return fila.get(tileX); // Devuelve el tipo de tile
+            }
+        }
+        // Si las coordenadas están fuera de los límites del mapa, consideramos que es "aire" o "vacío"
+        // Retorna -1 para indicar que está fuera o que no es un tipo de tile válido
+        return -1;
+    }
+
+    public int getEntradaX() {return entradaX;}
+    public int getEntradaY() {return entradaY;}
+    public int getTotalLemmings() {return totalLemmings;}
 }
