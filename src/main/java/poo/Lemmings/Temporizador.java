@@ -1,12 +1,12 @@
 package poo.Lemmings;
 
 public class Temporizador {
-    private int tiempoRestante;
-    private boolean pausa = true;
+    private int tiempoRestante = 500;
+    private boolean pausa = false;
 
-    public Temporizador(int tiempoLimite){
-        this.tiempoRestante = tiempoLimite;
-    }
+    public Temporizador(){}
+
+    public int getTiempoRestante(){return tiempoRestante;}
 
     public void iniciar(){
         this.pausa = false;

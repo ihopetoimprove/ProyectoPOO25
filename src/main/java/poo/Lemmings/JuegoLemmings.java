@@ -13,6 +13,7 @@ public class JuegoLemmings extends JGame {
 
     private EstadoJuego estadoJuego = EstadoJuego.INICIO;
     private Nivel nivelActual;
+    private PanelHabilidades panel;
     private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3,txt"};
     private int nivelSeleccionado = -1;
     private int lemmingsGenerados = 0;
@@ -70,6 +71,7 @@ public class JuegoLemmings extends JGame {
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                     lemming.dibujar(g);
             }
+            panel.dibujar(g, nivelActual);
         }
     }
 
@@ -88,6 +90,7 @@ public class JuegoLemmings extends JGame {
 
     public void seleccionarNivel() {
         if (nivelSeleccionado != -1) {
+            panel = new PanelHabilidades();
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);

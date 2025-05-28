@@ -42,10 +42,13 @@ public class Lemming extends ObjetoMovible {
     public EstadoLemming getEstado() {
         return estadoActual;
     }
+
     @Override
     public void mover() {
         if (estadoActual == EstadoLemming.MURIENDO || estadoActual == EstadoLemming.SALVADO || estadoActual == EstadoLemming.BLOQUEANDO) {
-            return;
+            //acá deberíamos eliminarlo de la lista
+            setX(900);
+            setY(900);
         }
         boolean haySuelo = haySueloDebajo();
 
@@ -81,6 +84,10 @@ public class Lemming extends ObjetoMovible {
            this.x = x + velocidadX;
            if(hayParedDelante()){
                cambiarDireccion();
+           }
+           if(tocaSalida()){
+               setEstado(EstadoLemming.SALVADO);
+               nivelActual.salvarLemming();
            }
        }
     }
@@ -135,6 +142,13 @@ public class Lemming extends ObjetoMovible {
         return esTerrenoSolidoODestructible(checkX, checkYCentroVertical) ||
                 esTerrenoSolidoODestructible(checkX, checkYSuperior);
     }
+
+    private boolean tocaSalida() {
+        Rectangle lemmingRect = new Rectangle(x, y, ANCHO_LEMMING, ALTO_LEMMING);
+        Rectangle salidaRect = new Rectangle(nivelActual.getSalidaX(), nivelActual.getSalidaY(),32, 32);
+        return lemmingRect.intersects(salidaRect);
+    }
+
 
     public static void agregarLemming(Lemming nuevoLemming) {
         todosLosLemmings.add(nuevoLemming);
