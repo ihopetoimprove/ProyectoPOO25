@@ -28,6 +28,7 @@ public class Nivel extends ObjetoGrafico {
     private static BufferedImage imagenSalida;
     private int totalLemmings;
     private int lemmingsASalvar;
+    private int lemmingsSalvados = 0;
     private int tiempoLimite;
 
     public Nivel(String archivoNivel) {
@@ -164,7 +165,16 @@ public class Nivel extends ObjetoGrafico {
         return -1;
     }
 
+    public void salvarLemming(){
+        lemmingsSalvados +=1 ;
+    }
+
     public int getEntradaX() {return entradaX;}
     public int getEntradaY() {return entradaY;}
+    public int getSalidaX() {return salidaX;}
+    public int getSalidaY() {return salidaY;}
     public int getTotalLemmings() {return totalLemmings;}
+    public int getLemmingsSalvados() {return lemmingsSalvados;}
+    public int getLemmingsASalvar() {return lemmingsASalvar;}
+
 }
