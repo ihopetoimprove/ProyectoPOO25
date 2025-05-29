@@ -10,10 +10,7 @@ import javax.swing.*;
 
 public class PanelHabilidades{
 
-    private static BufferedImage imagenBloqueador;
-    private static BufferedImage imagenExcavador;
-    private static BufferedImage imagenCayendo;
-
+    private static BufferedImage imagenHabilidades;
     private Temporizador temporizador = new Temporizador();
     private int salvados = 0;
 
@@ -23,22 +20,19 @@ public class PanelHabilidades{
 
     public void cargarImagenesPanel(){
         try {
-            imagenExcavador = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/excavador.png")));
-            imagenCayendo = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/cayendo.png")));
-            imagenBloqueador = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/bloqueador.png")));
+            imagenHabilidades = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Habilidades.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void dibujar(Graphics2D g, Nivel nivel){
+    public void dibujar(Graphics2D g, Nivel nivel, int tiempoLimite, int cantidadExcavadores){
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0, 500, 820, 120);
+        g.drawImage(imagenHabilidades, 100, 500, null);
         g.setColor(Color.black);
         g.drawString("Lemmings salvados: " + nivel.getLemmingsSalvados() + " / " + nivel.getLemmingsASalvar(), 600, 550);
-        g.drawString(String.valueOf("Tiempo restante: " + temporizador.getTiempoRestante()), 600, 570);
-        g.drawImage(imagenExcavador, 200, 530, null);
-        g.drawImage(imagenCayendo, 100, 530, null);
-        g.drawImage(imagenBloqueador, 300, 530, null);
+        g.drawString("Tiempo restante: " + String.valueOf(tiempoLimite), 600, 570);
+        g.drawString(String.valueOf(cantidadExcavadores), 395, 525);
     }
 }

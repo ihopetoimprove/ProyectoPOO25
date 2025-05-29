@@ -71,7 +71,7 @@ public class JuegoLemmings extends JGame {
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                     lemming.dibujar(g);
             }
-            panel.dibujar(g, nivelActual);
+            panel.dibujar(g, nivelActual, nivelActual.getTiempoLimite(), nivelActual.getCantidadExcavadores());
         }
     }
 

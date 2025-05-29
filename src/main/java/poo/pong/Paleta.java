@@ -28,7 +28,6 @@ public class Paleta extends ObjetoMovible {
     public int getAncho(){
         return ancho;
     }
-
     public int getLargo(){
         return largo;
     }

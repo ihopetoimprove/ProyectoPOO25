@@ -1,12 +1,6 @@
 package poo.Lemmings;
 
-public class HabilidadExcavador implements Habilidad {
-    private int cantidad;
-
-    public HabilidadExcavador(int usosIniciales){
-        this.cantidad = usosIniciales;
-    }
-
+public class HabilidadBloqueador implements Habilidad{
     @Override
     public boolean aplicarHabilidad(Lemming lemming, Nivel nivel) {
         return false;
@@ -14,12 +8,11 @@ public class HabilidadExcavador implements Habilidad {
 
     @Override
     public void consumirUso() {
-        this.cantidad -= 1;
+
     }
 
     @Override
     public int getUsosRestantes() {
         return 0;
     }
-
 }
