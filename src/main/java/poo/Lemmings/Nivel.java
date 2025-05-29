@@ -30,6 +30,10 @@ public class Nivel extends ObjetoGrafico {
     private int lemmingsASalvar;
     private int lemmingsSalvados = 0;
     private int tiempoLimite;
+    private int cantidadExcavadores;
+    private int cantidadBloqueadores;
+    private int cantidadBombas;
+    private int cantidadParaguas;
 
     public Nivel(String archivoNivel) {
         super(0, 0);
@@ -54,11 +58,9 @@ public class Nivel extends ObjetoGrafico {
         mapa = new ArrayList<>(); // Inicializa el mapa para este nivel
 
         String currentDir = System.getProperty("user.dir");
-        System.out.println("Current dir using System:" + currentDir);
         rutaArchivo = currentDir + rutaArchivo;
         
         try {
-            String stringConfig = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
             String linea;
             BufferedReader reader = null;
             reader = new BufferedReader(new FileReader(rutaArchivo));
@@ -85,7 +87,15 @@ public class Nivel extends ObjetoGrafico {
                         String[] coords = linea.split(":")[1].trim().split(",");
                         salidaX = Integer.parseInt(coords[0].trim());
                         salidaY = Integer.parseInt(coords[1].trim());
-                    } else if (linea.startsWith("#MAPA")) { // Indica el comienzo de los datos del mapa
+                    } else if (linea.startsWith("#EXCAVADOR:")) {
+                        cantidadExcavadores = Integer.parseInt(linea.split(":")[1].trim());
+                    } else if (linea.startsWith("#PARAGUAS:")) {
+                        cantidadParaguas = Integer.parseInt(linea.split(":")[1].trim());
+                    } else if (linea.startsWith("#BOMBA:")) {
+                        cantidadBombas = Integer.parseInt(linea.split(":")[1].trim());
+                    } else if (linea.startsWith("#BLOQUEADOR:")) {
+                        cantidadBloqueadores = Integer.parseInt(linea.split(":")[1].trim());
+                    }else if (linea.startsWith("#MAPA")) { // Indica el comienzo de los datos del mapa
                         leyendoMapa = true;
                     }
                 } else if (leyendoMapa) { // Líneas del mapa en sí
@@ -176,5 +186,7 @@ public class Nivel extends ObjetoGrafico {
     public int getTotalLemmings() {return totalLemmings;}
     public int getLemmingsSalvados() {return lemmingsSalvados;}
     public int getLemmingsASalvar() {return lemmingsASalvar;}
+    public int getTiempoLimite() {return tiempoLimite;}
+    public int getCantidadExcavadores() {return cantidadExcavadores;}
 
 }

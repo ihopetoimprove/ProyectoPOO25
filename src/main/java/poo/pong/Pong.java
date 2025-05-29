@@ -125,11 +125,11 @@ public class Pong extends JGame {
             marcador.sumarGolJugador1();
             pelota.reiniciarPelota();
         }
-        if(marcador.getPuntosP1() == 3){
+        if(marcador.getPuntosP1() == 10){
             ganador = 1;
             estadoJuego = FIN;
         }
-        if(marcador.getPuntosP2() == 3) {
+        if(marcador.getPuntosP2() == 10) {
             ganador = 2;
             estadoJuego = FIN;
         }

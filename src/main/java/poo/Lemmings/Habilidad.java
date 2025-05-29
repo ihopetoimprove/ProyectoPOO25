@@ -1,10 +1,8 @@
 package poo.Lemmings;
 
-public interface Habilidad {
+public interface Habilidad{
 
     boolean aplicarHabilidad(Lemming lemming, Nivel nivel);
-    String getNombre();
-    boolean consumirUso();
+    void consumirUso();
     int getUsosRestantes();
-    void setUsos(int usos);
 }
