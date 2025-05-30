@@ -92,11 +92,11 @@ public class Pong extends JGame {
 
     public void detectarColision() {
         //si la paleta choca contra el techo
-        if (pelota.getY() <= getHeight())
+        if (pelota.getY() >= getHeight()-40)
             pelota.invertirVelocidadY();
 
         //piso
-        if (pelota.getY() >= 0)
+        if (pelota.getY() <= 40)
             pelota.invertirVelocidadY();
 
         //paletas
@@ -105,6 +105,7 @@ public class Pong extends JGame {
                 pelota.getY() <= paletaIzq.getY() + paletaIzq.getLargo() &&
                 pelota.getY() + pelota.getRadio() * 2 >= paletaIzq.getY()) {
             pelota.invertirVelocidadX();
+            pelota.setX(paletaIzq.getX() + paletaIzq.getAncho());
             pelota.aumentarVelocidad();
         }
         if (pelota.getX() <= paletaDer.getX() + paletaDer.getAncho() &&
@@ -112,6 +113,7 @@ public class Pong extends JGame {
                 pelota.getY() <= paletaDer.getY() + paletaDer.getLargo() &&
                 pelota.getY() + pelota.getRadio() * 2 >= paletaDer.getY()) {
             pelota.invertirVelocidadX();
+            pelota.setX(paletaDer.getX() - paletaDer.getAncho());
             pelota.aumentarVelocidad();
         }
 
