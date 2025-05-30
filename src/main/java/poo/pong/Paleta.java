@@ -17,7 +17,7 @@ public class Paleta extends ObjetoMovible {
 
     @Override
     public void dibujar(Graphics2D g) {
-        g.setColor(Color.WHITE);
+        g.setColor(ConfigPong.getColor());
         g.fillRect(x,y,ancho, largo);
     }
 

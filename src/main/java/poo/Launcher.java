@@ -3,18 +3,18 @@ package poo;
 import com.entropyinteractive.JGame;
 import poo.Lemmings.*;
 import poo.pong.*;
-
+import java.net.URL;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Launcher extends Frame implements ActionListener {
+public class Launcher extends JFrame implements ActionListener {
 
-    private final List listaJuegos;
     private final Button botonIniciar;
     private final Button botonConfig;
     private final Button botonAgregarJuego;
-    private JLabel imagenLauncher;
+    private JButton botonSelect;
+    private JLabel imagen;
     JGame juego;
     Thread t;
 
@@ -24,14 +24,35 @@ public class Launcher extends Frame implements ActionListener {
         setSize(640, 480);
         setLocationRelativeTo(null);
 
+        imagen = new JLabel();
+        imagen.setHorizontalAlignment(SwingConstants.CENTER); // Centrar la imagen en el JLabel
+        imagen.setVerticalAlignment(SwingConstants.CENTER);
+        imagen.setBackground(Color.DARK_GRAY);
+        imagen.setOpaque(true);
+        cargaImgPrinc();
+        add(imagen, BorderLayout.CENTER);
+
+
         // Crear la lista de juegos en el WEST
-        listaJuegos = new List();
-        listaJuegos.add("Pong");
-        listaJuegos.add("Lemmings");
-        add(listaJuegos, BorderLayout.WEST);
+        JPanel listJuegos= new JPanel();
+        listJuegos.setLayout(new BoxLayout(listJuegos, BoxLayout.Y_AXIS));
+        listJuegos.setBackground(Color.DARK_GRAY);
+        listJuegos.setBackground(new Color(45,45,45));
+        listJuegos.setBorder(BorderFactory.createEmptyBorder(0, 1, 1, 1));
+        listJuegos.add(Box.createRigidArea(new Dimension(5, 0))); // Espacio vertical de 20px
+        //Boton Pong
+        String Juego1 = "Pong";
+        String rutaImgPong = "/imagenes/pong.jpeg"; // Ruta
+        listJuegos.add(crearBotonJuego(Juego1, rutaImgPong, this)); // this, es para que los botones se conecten con Launcher
+        //Boton Lemmings
+        String Juego2 = "Lemmings";
+        String rutaImgLemmings = "/imagenes/LemmingsImg.jpg"; // Ruta
+        listJuegos.add(crearBotonJuego(Juego2, rutaImgLemmings, this));
+        add(listJuegos, BorderLayout.WEST);
 
         // Crear los botones en el SOUTH
         Panel panelBotones = new Panel(new FlowLayout(FlowLayout.CENTER));
+        panelBotones.setBackground(Color.DARK_GRAY);
         botonIniciar = new Button("Iniciar Juego");
         botonConfig = new Button("Configuracion");
         botonAgregarJuego = new Button("Agregar juego");
@@ -42,6 +63,9 @@ public class Launcher extends Frame implements ActionListener {
         botonConfig.addActionListener(this);
         botonAgregarJuego.addActionListener(this);
         add(panelBotones, BorderLayout.SOUTH);
+
+
+
 
         // Crear el área de texto en el CENTER
         //add(areaTexto, BorderLayout.CENTER);
@@ -55,9 +79,96 @@ public class Launcher extends Frame implements ActionListener {
         });
     }
 
+    public void cargaImgPrinc(){
+        String ruta="/imagenes/GTA.jpeg";
+        if(botonSelect!=null){
+            switch (botonSelect.getText()){
+                case "Pong":
+                    ruta="/imagenes/pong.jpeg";
+                    break;
+                case "Lemmings":
+                    ruta="/imagenes/LemmingsImg.jpg";
+                    break;
+                default:
+                    ruta="/imagenes/GTA.jpeg2";
+                    break;
+            }
+        }
+        try {
+            URL imageUrl = Launcher.class.getResource(ruta);// obtiene la carpeta de recursos
+            if (imageUrl != null) {
+                ImageIcon originalIcon = new ImageIcon(imageUrl);
+
+                if (originalIcon != null) {
+                    imagen.setIcon(originalIcon);
+                } else {
+                    imagen.setIcon(null); // Quitar icono si no se carga
+                    imagen.setText("IMAGEN NO DISPONIBLE"); // Mostrar texto de error
+                    imagen.setForeground(Color.RED);
+                }
+            } else {
+                System.err.println("Imagen no encontrado img");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar imagen");
+        }
+        imagen.revalidate();
+        imagen.repaint();
+    }
+    private JButton crearBotonJuego(String nombre, String rutaIcono, JFrame parentFrame) {
+        // Cargar el icono
+        ImageIcon icono = null;
+        try {
+            URL imageUrl = Launcher.class.getResource(rutaIcono);// obtiene la carpeta de recursos
+            if (imageUrl != null) {
+                icono = new ImageIcon(imageUrl);
+                Image image = icono.getImage();
+                Image scaledImage = image.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // Puedes ajustar 40,40
+                icono = new ImageIcon(scaledImage);
+            } else {
+                System.err.println("Icono no encontrado para '" + nombre + "': " + rutaIcono);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar icono para '" + nombre + "': " + e.getMessage());
+        }
+
+        // Crear el botón
+        JButton botonJuego = new JButton(nombre);
+        if (icono != null) {
+            botonJuego.setIcon(icono);
+        } else {
+            botonJuego.setText(nombre + " (Sin Icono)"); // Muestra que no hay icono
+        }
+
+        // Configurar el estilo del botón
+        botonJuego.setBorder(BorderFactory.createCompoundBorder( // Borde redondeado sutil
+                BorderFactory.createLineBorder(new Color(90, 90, 90), 1),
+                BorderFactory.createEmptyBorder(0, 5, 0, 5) // Relleno interno
+        ));
+        botonJuego.setPreferredSize(new Dimension(110, 50)); // Tamaño preferido
+        botonJuego.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50)); // Asegura que el ancho se expanda con BoxLayout
+        // Alineación del botón en el BoxLayout (centrado horizontalmente)
+        botonJuego.setHorizontalAlignment(SwingConstants.LEFT);
+
+        botonJuego.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                botonSelect=botonJuego;
+                cargaImgPrinc();
+//                botonJuego.setBackground(new Color(60, 140, 200));
+//                botonJuego.setFocusPainted(false);
+            }
+        });
+
+        return botonJuego;
+    }
+
+
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        String juegoSeleccionado = listaJuegos.getSelectedItem();
+        String juegoSeleccionado = botonSelect.getText();
         //intento de cargar imagen en el lanzador
         /*if(juegoSeleccionado == "Pong"){
             try {
@@ -106,10 +217,14 @@ public class Launcher extends Frame implements ActionListener {
         JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
     }
 
+
+
+
     public static void main(String[] args) {
         Launcher ejemplo = new Launcher();
         ejemplo.setVisible(true);
 
     }
 }
+
 

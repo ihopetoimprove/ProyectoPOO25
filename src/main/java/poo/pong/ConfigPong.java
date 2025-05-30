@@ -20,6 +20,7 @@ public class ConfigPong extends ConfigP {
     protected final String[] acciones = {"pausa", "acelerar", "autodestruccion", "subir(j1)", "bajar(j1)", "subir(j2)", "bajar(j2)"};
     JComboBox<String> musicComboBox;
     JComboBox<String> skinComboBox;
+    static Color color;
 
     public ConfigPong() {
         super();
@@ -39,6 +40,10 @@ public class ConfigPong extends ConfigP {
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
 
+    }
+
+    public static Color getColor() {
+        return color;
     }
 
     private void BoxMusica(){
