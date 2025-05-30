@@ -14,7 +14,7 @@ public class PanelHabilidades{
     private static BufferedImage imagenHabilidades;
     private Temporizador temporizador = new Temporizador();
     private static int totalLemmings;
-    private int lemmingsASalvar;
+    private static int lemmingsASalvar;
     private static int lemmingsSalvados = 0;
     private int tiempoLimite;
     private int cantidadExcavadores;
@@ -40,13 +40,19 @@ public class PanelHabilidades{
 
     }
 
+    public static void limpiarPanel(){
+        lemmingsSalvados = 0;
+        lemmingsASalvar = 0;
+        totalLemmings = 0;
+    }
+
     public static void salvarLemming(){
         lemmingsSalvados +=1 ;
     }
 
     public static int getTotalLemmings() {return totalLemmings;}
-    public int getLemmingsSalvados() {return lemmingsSalvados;}
-    public int getLemmingsASalvar() {return lemmingsASalvar;}
+    public static int getLemmingsSalvados() {return lemmingsSalvados;}
+    public static int getLemmingsASalvar() {return lemmingsASalvar;}
     public int getTiempoLimite() {return tiempoLimite;}
 
     public void cargarPanelNivel(String rutaNivel) {

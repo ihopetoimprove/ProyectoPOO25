@@ -9,12 +9,12 @@ import java.awt.*;
 
 public class JuegoLemmings extends JGame {
 
-    public enum EstadoJuego {INICIO, JUGANDO, FIN}
+    public enum EstadoJuego {INICIO, JUGANDO, GANA, FIN}
 
-    private EstadoJuego estadoJuego = EstadoJuego.INICIO;
+    private static EstadoJuego estadoJuego = EstadoJuego.INICIO;
     private Nivel nivelActual;
     private PanelHabilidades panel;
-    private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3,txt"};
+    private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3.txt"};
     private int nivelSeleccionado = -1;
     private int lemmingsGenerados = 0;
     private long ultimoTiempoAccion;
@@ -34,30 +34,13 @@ public class JuegoLemmings extends JGame {
         Mouse mouse = this.getMouse();
 
         if (estadoJuego == EstadoJuego.INICIO) {
-            if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
-                int mouseX = mouse.getX();
-                int mouseY = mouse.getY();
 
-                if (mouseY >= 340 && mouseY <= 380) { // Rango vertical para todos los botones
-                    if (mouseX >= 70 && mouseX <= 220) { // "Iniciar nivel 1"
-                        nivelSeleccionado = 0;
-                        seleccionarNivel();
-                    }
-                    if (mouseX >= 260 && mouseX <= 400){
-                        nivelSeleccionado = 1;
-                        seleccionarNivel();
-                    }
-                    if (mouseX >= 460 && mouseX <= 600){
-                        nivelSeleccionado = 2;
-                        seleccionarNivel();
-                    }
-                }
-            }
         } if (estadoJuego == EstadoJuego.JUGANDO) {
             crearLemmings();
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                     lemming.mover();
             }
+            controlarVictoria();
         }
     }
 
@@ -73,6 +56,9 @@ public class JuegoLemmings extends JGame {
             }
             panel.dibujar(g, nivelActual);
         }
+        if (estadoJuego == EstadoJuego.GANA){
+            estadoGana(g);
+        }
     }
 
     @Override
@@ -81,22 +67,63 @@ public class JuegoLemmings extends JGame {
     }
 
     public void estadoInicio(Graphics2D g) {
+        Mouse mouse = this.getMouse();
         //Establecer fondo
         g.setColor(new Color(50, 50, 150));
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 48));
         String gameTitle = "¡LEMMINGS!";
-        int titleWidth = g.getFontMetrics().stringWidth(gameTitle);
-        g.drawString(gameTitle, (getWidth() - titleWidth) / 2, 100);
+        g.drawString(gameTitle, 255, 100);
 
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Iniciar nivel 1", 100, 400);
         g.drawString("Iniciar nivel 2", 350, 400);
         g.drawString("Iniciar nivel 3", 600, 400);
+        if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
+            int mouseX = mouse.getX();
+            int mouseY = mouse.getY();
+
+            if (mouseY >= 340 && mouseY <= 380) { // Rango vertical para todos los botones
+                if (mouseX >= 0 && mouseX <= 200) { // "Iniciar nivel 1"
+                    nivelSeleccionado = 0;
+                    seleccionarNivel();
+                }
+                if (mouseX >= 250 && mouseX <= 450){
+                    nivelSeleccionado = 1;
+                    seleccionarNivel();
+                }
+                if (mouseX >= 500 && mouseX <= 700){
+                    nivelSeleccionado = 2;
+                    seleccionarNivel();
+                }
+            }
+        }
+    }
+
+    public void estadoGana(Graphics2D g) {
+        Mouse mouse = this.getMouse();
+        //Establecer fondo
+        g.setColor(new Color(50, 50, 150));
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.YELLOW);
+        g.setFont(new Font("Arial", Font.BOLD, 40));
+        g.drawString("Muy bien ganaste!", 240, 200);
+        g.drawString("Siguiente nivel", 400, 500);
+        if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
+            int mouseX = mouse.getX();
+            int mouseY = mouse.getY();
+            if (mouseX >= 300 && mouseX <= 600 && mouseY >= 400 && mouseY <= 600) {
+                nivelSeleccionado +=1 ;
+                seleccionarNivel();
+            }
+        }
     }
 
     public void seleccionarNivel() {
+        Lemming.limpiarLemmings();
+        PanelHabilidades.limpiarPanel();
+        lemmingsGenerados = 0;
         if (nivelSeleccionado != -1) {
             panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado]);
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
@@ -115,6 +142,11 @@ public class JuegoLemmings extends JGame {
                 Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estática
                 lemmingsGenerados++;
             }
+        }
+    }
+    public static void controlarVictoria() {
+        if (PanelHabilidades.getLemmingsSalvados() == PanelHabilidades.getLemmingsASalvar()){
+            estadoJuego = EstadoJuego.GANA;
         }
     }
 }
