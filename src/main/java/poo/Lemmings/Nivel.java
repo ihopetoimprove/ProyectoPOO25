@@ -26,14 +26,7 @@ public class Nivel extends ObjetoGrafico {
     private static BufferedImage imagenTerrenoDestructible;
     private static BufferedImage imagenEntrada;
     private static BufferedImage imagenSalida;
-    private int totalLemmings;
-    private int lemmingsASalvar;
-    private int lemmingsSalvados = 0;
-    private int tiempoLimite;
-    private int cantidadExcavadores;
-    private int cantidadBloqueadores;
-    private int cantidadBombas;
-    private int cantidadParaguas;
+
 
     public Nivel(String archivoNivel) {
         super(0, 0);
@@ -73,13 +66,7 @@ public class Nivel extends ObjetoGrafico {
                 }
 
                 if (linea.startsWith("#")) { // Líneas de configuración (metadatos del nivel)
-                    if (linea.startsWith("#LEMMINGS_TOTAL:")) {
-                        totalLemmings = Integer.parseInt(linea.split(":")[1].trim());
-                    } else if (linea.startsWith("#LEMMINGS_SALVAR:")) {
-                        lemmingsASalvar = Integer.parseInt(linea.split(":")[1].trim());
-                    } else if (linea.startsWith("#TIEMPO_LIMITE:")) {
-                        tiempoLimite = Integer.parseInt(linea.split(":")[1].trim());
-                    } else if (linea.startsWith("#ENTRADA:")) {
+                    if (linea.startsWith("#ENTRADA:")) {
                         String[] coords = linea.split(":")[1].trim().split(",");
                         entradaX = Integer.parseInt(coords[0].trim());
                         entradaY = Integer.parseInt(coords[1].trim());
@@ -87,15 +74,7 @@ public class Nivel extends ObjetoGrafico {
                         String[] coords = linea.split(":")[1].trim().split(",");
                         salidaX = Integer.parseInt(coords[0].trim());
                         salidaY = Integer.parseInt(coords[1].trim());
-                    } else if (linea.startsWith("#EXCAVADOR:")) {
-                        cantidadExcavadores = Integer.parseInt(linea.split(":")[1].trim());
-                    } else if (linea.startsWith("#PARAGUAS:")) {
-                        cantidadParaguas = Integer.parseInt(linea.split(":")[1].trim());
-                    } else if (linea.startsWith("#BOMBA:")) {
-                        cantidadBombas = Integer.parseInt(linea.split(":")[1].trim());
-                    } else if (linea.startsWith("#BLOQUEADOR:")) {
-                        cantidadBloqueadores = Integer.parseInt(linea.split(":")[1].trim());
-                    }else if (linea.startsWith("#MAPA")) { // Indica el comienzo de los datos del mapa
+                    } else if (linea.startsWith("#MAPA")) { // Indica el comienzo de los datos del mapa
                         leyendoMapa = true;
                     }
                 } else if (leyendoMapa) { // Líneas del mapa en sí
@@ -175,18 +154,9 @@ public class Nivel extends ObjetoGrafico {
         return -1;
     }
 
-    public void salvarLemming(){
-        lemmingsSalvados +=1 ;
-    }
-
     public int getEntradaX() {return entradaX;}
     public int getEntradaY() {return entradaY;}
     public int getSalidaX() {return salidaX;}
     public int getSalidaY() {return salidaY;}
-    public int getTotalLemmings() {return totalLemmings;}
-    public int getLemmingsSalvados() {return lemmingsSalvados;}
-    public int getLemmingsASalvar() {return lemmingsASalvar;}
-    public int getTiempoLimite() {return tiempoLimite;}
-    public int getCantidadExcavadores() {return cantidadExcavadores;}
 
 }

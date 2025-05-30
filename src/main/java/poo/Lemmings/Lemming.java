@@ -87,7 +87,7 @@ public class Lemming extends ObjetoMovible {
            }
            if(tocaSalida()){
                setEstado(EstadoLemming.SALVADO);
-               nivelActual.salvarLemming();
+               PanelHabilidades.salvarLemming();
            }
        }
     }

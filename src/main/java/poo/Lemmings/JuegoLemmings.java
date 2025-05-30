@@ -71,7 +71,7 @@ public class JuegoLemmings extends JGame {
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                     lemming.dibujar(g);
             }
-            panel.dibujar(g, nivelActual, nivelActual.getTiempoLimite(), nivelActual.getCantidadExcavadores());
+            panel.dibujar(g, nivelActual);
         }
     }
 
@@ -81,7 +81,15 @@ public class JuegoLemmings extends JGame {
     }
 
     public void estadoInicio(Graphics2D g) {
-        g.setColor(Color.WHITE);
+        //Establecer fondo
+        g.setColor(new Color(50, 50, 150));
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.YELLOW);
+        g.setFont(new Font("Arial", Font.BOLD, 48));
+        String gameTitle = "¡LEMMINGS!";
+        int titleWidth = g.getFontMetrics().stringWidth(gameTitle);
+        g.drawString(gameTitle, (getWidth() - titleWidth) / 2, 100);
+
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Iniciar nivel 1", 100, 400);
         g.drawString("Iniciar nivel 2", 350, 400);
@@ -90,7 +98,7 @@ public class JuegoLemmings extends JGame {
 
     public void seleccionarNivel() {
         if (nivelSeleccionado != -1) {
-            panel = new PanelHabilidades();
+            panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado]);
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
@@ -98,7 +106,7 @@ public class JuegoLemmings extends JGame {
     }
 
     private void crearLemmings() {
-        if (lemmingsGenerados < nivelActual.getTotalLemmings()) {
+        if (lemmingsGenerados < PanelHabilidades.getTotalLemmings()) {
             long tiempoActual = System.currentTimeMillis(); // Obtiene el tiempo actual en milisegundos
             long INTERVALO_LEMMINGS = 1000;
             if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
