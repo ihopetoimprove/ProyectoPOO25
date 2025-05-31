@@ -1,15 +1,13 @@
 package poo.Lemmings;
+import poo.ConfigFramePadre;
 
-import poo.ConfigP;
-
-import javax.swing.*;
 import java.awt.*;
 
-public class ConfigLemmings extends ConfigP {
-    protected final String[] acciones = {"pausa"};
-    public ConfigLemmings() {
+public class ConfigFrameLemmings extends ConfigFramePadre {
+//    protected final String[] acciones = {"pausa"};
+    public ConfigFrameLemmings() {
         super();
-        super.agregarBotones(acciones);
+//        super.agregarBotones(acciones, null);
 //    checkSound();
 //    checkMusic();
     //ComboBox musica
