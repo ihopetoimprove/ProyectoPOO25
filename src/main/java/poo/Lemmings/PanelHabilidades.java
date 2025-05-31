@@ -1,5 +1,7 @@
 package poo.Lemmings;
 
+import com.entropyinteractive.Mouse;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -9,8 +11,10 @@ import java.io.IOException;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 
-public class PanelHabilidades{
+public class PanelHabilidades {
 
+    public enum TipoHabilidad {NINGUNA, EXCAVADOR, BLOQUEADOR, BOMBA, PARAGUAS}
+    private TipoHabilidad habilidadSeleccionada = TipoHabilidad.NINGUNA;
     private static BufferedImage imagenHabilidades;
     private Temporizador temporizador = new Temporizador();
     private static int totalLemmings;
@@ -21,12 +25,14 @@ public class PanelHabilidades{
     private int cantidadBloqueadores;
     private int cantidadBombas;
     private int cantidadParaguas;
+    private Mouse mouse;
 
-    public PanelHabilidades(String rutaNivel) {
+    public PanelHabilidades(String rutaNivel, Mouse mouse) {
         cargarPanelNivel("/src/main/resources/niveles/" + rutaNivel);
+        this.mouse = mouse;
     }
 
-    public void dibujar(Graphics2D g, Nivel rutaNivel){
+    public void dibujar(Graphics2D g){
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0, 500, 820, 120);
         g.drawImage(imagenHabilidades, 100, 500, null);
@@ -37,7 +43,8 @@ public class PanelHabilidades{
         g.drawString(String.valueOf(cantidadBombas), 222, 525);
         g.drawString(String.valueOf(cantidadBloqueadores),310, 525);
         g.drawString(String.valueOf(cantidadExcavadores), 395, 525);
-
+        seleccionarHabilidad(g);
+        dibujarHabilidadSeleccionada(g);
     }
 
     public static void limpiarPanel(){
@@ -46,14 +53,42 @@ public class PanelHabilidades{
         totalLemmings = 0;
     }
 
-    public static void salvarLemming(){
-        lemmingsSalvados +=1 ;
+    public static void salvarLemming(){lemmingsSalvados +=1;} ;
+
+    public int getTotalLemmings() {return totalLemmings;}
+    public int getLemmingsSalvados() {return lemmingsSalvados;}
+    public int getLemmingsASalvar() {return lemmingsASalvar;}
+    public int getTiempoLimite() {return tiempoLimite;}
+
+    public void seleccionarHabilidad(Graphics2D g){
+        if (mouse.isLeftButtonPressed()) {
+            int mouseX = mouse.getX();
+            int mouseY = mouse.getY();
+            if (mouseY >= 500){
+                if (mouseX >= 100 && mouseX <= 175) {
+                    habilidadSeleccionada = TipoHabilidad.PARAGUAS;
+                } else if (mouseX >= 180 && mouseX <= 260){
+                    habilidadSeleccionada = TipoHabilidad.BOMBA;
+                } else if (mouseX > 265 && mouseX < 340){
+                    habilidadSeleccionada = TipoHabilidad.BLOQUEADOR;
+                } else if (mouseX >= 361 && mouseX <= 440){
+                    habilidadSeleccionada = TipoHabilidad.EXCAVADOR;
+                }
+            }
+        }
     }
 
-    public static int getTotalLemmings() {return totalLemmings;}
-    public static int getLemmingsSalvados() {return lemmingsSalvados;}
-    public static int getLemmingsASalvar() {return lemmingsASalvar;}
-    public int getTiempoLimite() {return tiempoLimite;}
+    public void dibujarHabilidadSeleccionada(Graphics2D g){
+        if (habilidadSeleccionada == TipoHabilidad.PARAGUAS){
+        g.drawRect(105, 505, 70, 95);
+        } else if (habilidadSeleccionada == TipoHabilidad.BOMBA){
+            g.drawRect(190, 505, 70, 95);
+        } else if (habilidadSeleccionada == TipoHabilidad.BLOQUEADOR){
+            g.drawRect(275, 505, 70, 95);
+        } else if (habilidadSeleccionada == TipoHabilidad.EXCAVADOR){
+            g.drawRect(360, 505, 70, 95);
+        }
+    }
 
     public void cargarPanelNivel(String rutaNivel) {
         String currentDir = System.getProperty("user.dir");
@@ -99,4 +134,6 @@ public class PanelHabilidades{
             throw new RuntimeException(e);
         }
     }
+
+    public TipoHabilidad getHabilidadSeleccionada() {return this.habilidadSeleccionada; }
 }

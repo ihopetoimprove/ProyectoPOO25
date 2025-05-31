@@ -153,6 +153,10 @@ public class Lemming extends ObjetoMovible {
         todosLosLemmings.clear();
     }
 
+    public void convertirAExcavador(){
+        setEstado(EstadoLemming.EXCAVANDO);
+    }
+
     public static void agregarLemming(Lemming nuevoLemming) {
         todosLosLemmings.add(nuevoLemming);
     }
