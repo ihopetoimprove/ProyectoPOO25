@@ -18,6 +18,11 @@ public class JuegoLemmings extends JGame {
     private int nivelSeleccionado = -1;
     private int lemmingsGenerados = 0;
     private long ultimoTiempoAccion;
+    Mouse mouse = this.getMouse();
+
+    //no se que onda con esto
+    private StringBuilder currentNameInput = new StringBuilder(); // ¡Aquí está declarado!
+    private String playerName = "Jugador";
 
     public JuegoLemmings(String title, int width, int height) {
         super(title, width, height);
@@ -30,18 +35,16 @@ public class JuegoLemmings extends JGame {
 
     @Override
     public void gameUpdate(double v) {
-        Keyboard keyboard = this.getKeyboard();
-        Mouse mouse = this.getMouse();
 
-        if (estadoJuego == EstadoJuego.INICIO) {
-
-        } if (estadoJuego == EstadoJuego.JUGANDO) {
+        if (estadoJuego == EstadoJuego.JUGANDO) {
             crearLemmings();
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                     lemming.mover();
             }
+            controlarHabilidades();
             controlarVictoria();
         }
+
     }
 
     @Override
@@ -54,7 +57,7 @@ public class JuegoLemmings extends JGame {
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                     lemming.dibujar(g);
             }
-            panel.dibujar(g, nivelActual);
+            panel.dibujar(g);
         }
         if (estadoJuego == EstadoJuego.GANA){
             estadoGana(g);
@@ -75,6 +78,19 @@ public class JuegoLemmings extends JGame {
         g.setFont(new Font("Arial", Font.BOLD, 48));
         String gameTitle = "¡LEMMINGS!";
         g.drawString(gameTitle, 255, 100);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 24));
+        g.drawString("Introduce tu nombre:", 280, 250);
+
+        // Dibujar el recuadro para el nombre
+        g.setColor(Color.WHITE);
+        g.drawRect(250, 280, 300, 40); // Recuadro para el texto
+
+        // Dibujar el texto introducido
+        g.setColor(Color.YELLOW);
+        String textToDisplay = currentNameInput.toString();
+        g.drawString(textToDisplay, 260, 308);
 
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Iniciar nivel 1", 100, 400);
@@ -103,18 +119,20 @@ public class JuegoLemmings extends JGame {
 
     public void estadoGana(Graphics2D g) {
         Mouse mouse = this.getMouse();
-        //Establecer fondo
         g.setColor(new Color(50, 50, 150));
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("Muy bien ganaste!", 240, 200);
-        g.drawString("Siguiente nivel", 400, 500);
+        g.drawString("Jugar de nuevo", 50, 500);
+        g.drawString("Siguiente nivel", 450, 500);
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
-            if (mouseX >= 300 && mouseX <= 600 && mouseY >= 400 && mouseY <= 600) {
+            if (mouseX >= 350 && mouseX <= 600 && mouseY >= 400 && mouseY <= 600) {
                 nivelSeleccionado +=1 ;
+                seleccionarNivel();
+            } else if (mouseX >= 0 && mouseX <= 250  && mouseY >= 400 && mouseY <= 600){
                 seleccionarNivel();
             }
         }
@@ -125,7 +143,7 @@ public class JuegoLemmings extends JGame {
         PanelHabilidades.limpiarPanel();
         lemmingsGenerados = 0;
         if (nivelSeleccionado != -1) {
-            panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado]);
+            panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado], getMouse());
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
@@ -133,7 +151,7 @@ public class JuegoLemmings extends JGame {
     }
 
     private void crearLemmings() {
-        if (lemmingsGenerados < PanelHabilidades.getTotalLemmings()) {
+        if (lemmingsGenerados < panel.getTotalLemmings()) {
             long tiempoActual = System.currentTimeMillis(); // Obtiene el tiempo actual en milisegundos
             long INTERVALO_LEMMINGS = 1000;
             if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
@@ -144,9 +162,36 @@ public class JuegoLemmings extends JGame {
             }
         }
     }
-    public static void controlarVictoria() {
-        if (PanelHabilidades.getLemmingsSalvados() == PanelHabilidades.getLemmingsASalvar()){
+
+    public void controlarHabilidades() {
+        //NO TERMINADO
+        if (panel.getHabilidadSeleccionada() != PanelHabilidades.TipoHabilidad.NINGUNA) {
+            if (mouse.isLeftButtonPressed()) {
+                int mouseX = mouse.getX();
+                int mouseY = mouse.getY();
+                for (Lemming lemming : Lemming.getTodosLosLemmings()) {
+                    encontrarLemmingEn(mouseX, mouseY);
+                }
+
+            }
+        }
+    }
+
+    public void controlarVictoria() {
+        if (panel.getLemmingsSalvados() == panel.getLemmingsASalvar()){
             estadoJuego = EstadoJuego.GANA;
         }
+    }
+
+    public Lemming encontrarLemmingEn(int x, int y) {
+        //NO CHECKEADO
+        for (Lemming lemming : Lemming.getTodosLosLemmings()) {
+            if (
+                    x >= lemming.getX() && x <= (lemming.getX() + 20) &&
+                    y >= lemming.getY() && y <= (lemming.getY() + 20)) {
+                return lemming;
+            }
+        }
+        return null; // No se encontró ningún Lemming en las coordenadas del clic
     }
 }
