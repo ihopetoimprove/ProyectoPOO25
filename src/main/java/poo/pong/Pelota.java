@@ -9,6 +9,7 @@ public class Pelota extends ObjetoMovible {
     int velocidadX = 5;
     int velocidadY = 5;
     private final Random random = new Random();
+    boolean enMovimiento=true;
 
 
     public Pelota(int x, int y) {
@@ -17,8 +18,16 @@ public class Pelota extends ObjetoMovible {
 
     @Override
     public void mover() {
-        setX(x+velocidadX);
-        setY(y+velocidadY);
+        if (enMovimiento) {
+            setX(x+velocidadX);
+            setY(y+velocidadY);
+        }
+    }
+    public void pararPelota(){
+        this.enMovimiento = false;
+    }
+    public void reanudarPelota() {
+        this.enMovimiento = true;
     }
 
     public void reiniciarPelota(){
@@ -30,9 +39,13 @@ public class Pelota extends ObjetoMovible {
         velocidadY = velocidadY * (random.nextBoolean() ? 1 : -1);
     }
 
-    public void aumentarVelocidad(){
+    public void aumentarVelocidad1(){
         velocidadX = velocidadX+2;
         velocidadY = velocidadY+2;
+    }
+    public void aumentarVelocidad2(){
+        velocidadX = velocidadX-2;
+        velocidadY = velocidadY-2;
     }
 
     public void invertirVelocidadY(){

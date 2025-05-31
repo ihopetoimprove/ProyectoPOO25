@@ -1,0 +1,52 @@
+package poo;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ConfigFramePadre extends Frame implements ActionListener, KeyListener {
+    protected String accionConfigurando = null;
+
+    protected final Map<String, Button> botonesAccion = new HashMap<>();
+    protected String[] acciones ={};
+
+    public ConfigFramePadre() {
+        WindowListener l = new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
+                dispose();
+            }
+        };
+        addKeyListener(this);
+        addWindowListener(l);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setVisible(true);
+    }
+    protected void mResetTeclas() {}
+
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
+
+
+
