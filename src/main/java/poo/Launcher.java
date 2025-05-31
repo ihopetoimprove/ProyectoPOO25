@@ -168,53 +168,46 @@ public class Launcher extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String juegoSeleccionado = botonSelect.getText();
-        //intento de cargar imagen en el lanzador
-        /*if(juegoSeleccionado == "Pong"){
-            try {
-                BufferedImage imagenFondo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
-                ImageIcon icon = new ImageIcon(imagenFondo);
-                imagenLauncher.setIcon(icon);
-                add(imagenLauncher, BorderLayout.CENTER);
-                revalidate();
-                repaint();
-                System.out.println("llegué2");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+        String juegoSeleccionado;
+        if(botonSelect!=null) {
+        juegoSeleccionado = botonSelect.getText();
+            if (e.getSource() == botonIniciar) {
+                if (juegoSeleccionado == "Pong") {
+
+                    juego = new Pong("Pong", 800, 600);
+                    t = new Thread() {
+                        public void run() {
+                            juego.run(1.0 / 60.0);
+                        }
+                    };
+                    t.start();
+
+                } else if (juegoSeleccionado == "Lemmings") {
+
+                    juego = new JuegoLemmings("Lemmings", 800, 600);
+                    t = new Thread() {
+                        public void run() {
+                            juego.run(1.0 / 60.0);
+                        }
+                    };
+                    t.start();
+                }
             }
-        }*/
-        if (e.getSource() == botonIniciar) {
-            if (juegoSeleccionado == "Pong") {
 
-                juego = new Pong("Pong", 800, 600);
-                t = new Thread() {
-                    public void run() {
-                        juego.run(1.0 / 60.0);
-                    }
-                };
-                t.start();
+            if (e.getSource() == botonAgregarJuego)
+                JOptionPane.showMessageDialog(null, "Estamos trabajando en eso...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            if (e.getSource() == botonConfig)
+                if (juegoSeleccionado == "Pong") {
+                    new ConfigFramePong();
+                } else if (juegoSeleccionado == "Lemmings") {
+                    new ConfigFrameLemmings();
+                }
+        }else if (e.getSource() == botonIniciar&&botonSelect==null)
+            JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 
-            } else if (juegoSeleccionado == "Lemmings") {
-
-                juego = new JuegoLemmings("Lemmings", 800, 600);
-                t = new Thread() {
-                    public void run() {
-                        juego.run(1.0 / 60.0);
-                    }
-                };
-                t.start();
-            }
+        if(botonSelect==null && e.getSource()==botonConfig){
+            new ConfigFramePadre();
         }
-
-        if (e.getSource() == botonAgregarJuego)
-            JOptionPane.showMessageDialog(null, "Estamos trabajando en eso...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        if (e.getSource() == botonConfig)
-            if (juegoSeleccionado == "Pong") {
-                new ConfigPong();
-            } else if (juegoSeleccionado == "Lemmings") {
-                new ConfigLemmings();
-            }else
-        JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
