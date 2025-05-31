@@ -12,18 +12,18 @@ import java.util.Objects;
 
 public class Lemming extends ObjetoMovible {
 
-    public enum EstadoLemming {CAMINANDO, CAYENDO, ESCALANDO, EXCAVANDO, BLOQUEANDO, FLOTANDO, CONSTRUYENDO, MURIENDO, SALVADO}
+    public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, FLOTANDO, MURIENDO, SALVADO}
     private static final int VELOCIDAD_BASE = 3;
     private static final int VELOCIDAD_CAIDA = 10;
     private static final int ANCHO_LEMMING = 20;
     private static final int ALTO_LEMMING = 20;
     private static final int UMBRAL_CAIDA_FATAL_PIXELES = 6 * Nivel.BLOQUE_ALTO;
 
+    private static List<Lemming> todosLosLemmings = new ArrayList<>();
     private EstadoLemming estadoActual;
     private boolean direccionDerecha = true;
     private int habilidad;
     protected Nivel nivelActual;
-    private static List<Lemming> todosLosLemmings = new ArrayList<>();
     private int pixelsCaidos = 0;
     private static BufferedImage spriteLemming;
 
@@ -149,6 +149,9 @@ public class Lemming extends ObjetoMovible {
         return lemmingRect.intersects(salidaRect);
     }
 
+    public static void limpiarLemmings(){
+        todosLosLemmings.clear();
+    }
 
     public static void agregarLemming(Lemming nuevoLemming) {
         todosLosLemmings.add(nuevoLemming);
