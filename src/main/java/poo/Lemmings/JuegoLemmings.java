@@ -1,7 +1,6 @@
 package poo.Lemmings;
 
 import com.entropyinteractive.JGame;
-import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
 
@@ -19,6 +18,8 @@ public class JuegoLemmings extends JGame {
     private int lemmingsGenerados = 0;
     private long ultimoTiempoAccion;
     Mouse mouse = this.getMouse();
+    private boolean leftButtonReleasedThisFrame;
+    boolean sePresionoElMouse = false;
 
     //no se que onda con esto
     private StringBuilder currentNameInput = new StringBuilder(); // ¡Aquí está declarado!
@@ -43,6 +44,7 @@ public class JuegoLemmings extends JGame {
             }
             controlarHabilidades();
             controlarVictoria();
+            sePresionoElMouse = mouse.isLeftButtonPressed();
         }
 
     }
@@ -164,15 +166,20 @@ public class JuegoLemmings extends JGame {
     }
 
     public void controlarHabilidades() {
-        //NO TERMINADO
         if (panel.getHabilidadSeleccionada() != PanelHabilidades.TipoHabilidad.NINGUNA) {
-            if (mouse.isLeftButtonPressed()) {
+            boolean mouseApretado = mouse.isLeftButtonPressed();
+            if (mouseApretado && !sePresionoElMouse) {
                 int mouseX = mouse.getX();
                 int mouseY = mouse.getY();
-                for (Lemming lemming : Lemming.getTodosLosLemmings()) {
-                    encontrarLemmingEn(mouseX, mouseY);
+                Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
+                if (lemmingClickeado != null) {
+                    if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
+                        if (lemmingClickeado.getEstadoActual() == Lemming.EstadoLemming.CAMINANDO) {
+                            lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
+                            panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
+                        }
+                    }
                 }
-
             }
         }
     }
@@ -184,7 +191,6 @@ public class JuegoLemmings extends JGame {
     }
 
     public Lemming encontrarLemmingEn(int x, int y) {
-        //NO CHECKEADO
         for (Lemming lemming : Lemming.getTodosLosLemmings()) {
             if (
                     x >= lemming.getX() && x <= (lemming.getX() + 20) &&

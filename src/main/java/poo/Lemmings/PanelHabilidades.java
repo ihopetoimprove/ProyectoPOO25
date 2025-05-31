@@ -90,6 +90,23 @@ public class PanelHabilidades {
         }
     }
 
+    public void decrementarHabilidad(TipoHabilidad habilidad){
+        switch (habilidad){
+            case PARAGUAS:
+                cantidadParaguas--;
+                break;
+            case BOMBA:
+                cantidadBombas--;
+                break;
+            case EXCAVADOR:
+                cantidadExcavadores--;
+                break;
+            case BLOQUEADOR:
+                cantidadBloqueadores--;
+                break;
+        }
+    }
+
     public void cargarPanelNivel(String rutaNivel) {
         String currentDir = System.getProperty("user.dir");
         rutaNivel = currentDir + rutaNivel;
@@ -132,6 +149,21 @@ public class PanelHabilidades {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public int getCantidadHabilidad(TipoHabilidad habilidad) {
+        switch (habilidad) {
+            case PARAGUAS:
+                return cantidadParaguas;
+            case BOMBA:
+                return cantidadBombas;
+            case EXCAVADOR:
+                return cantidadExcavadores;
+            case BLOQUEADOR:
+                return cantidadBloqueadores;
+            default:
+                return 0; // O manejar un error si NINGUNA u otra habilidad se consulta
         }
     }
 

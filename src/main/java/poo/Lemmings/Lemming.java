@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class Lemming extends ObjetoMovible {
 
-    public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, FLOTANDO, MURIENDO, SALVADO}
+    public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, AMORTIGUANDO, EXPLOTANDO, MURIENDO, SALVADO}
     private static final int VELOCIDAD_BASE = 3;
     private static final int VELOCIDAD_CAIDA = 10;
     private static final int ANCHO_LEMMING = 20;
@@ -50,14 +50,17 @@ public class Lemming extends ObjetoMovible {
             setX(900);
             setY(900);
         }
+
+        if (estadoActual == EstadoLemming.EXCAVANDO){
+            velocidadX = 0;
+        }
         boolean haySuelo = haySueloDebajo();
 
-        // 2. Lógica principal de Gravedad (APLICADA SIEMPRE)
-        // Si no hay suelo debajo Y no estamos ya cayendo o flotando o escalando (estados que manejan su propia Y)
         if (!haySuelo && estadoActual != EstadoLemming.CAYENDO ) {
             setEstado(EstadoLemming.CAYENDO); // ¡Empieza a caer!
             pixelsCaidos = 0; // Reinicia el contador de caída
         }
+
         // Si estamos cayendo Y encontramos suelo
         else if (haySuelo && estadoActual == EstadoLemming.CAYENDO) {
             setEstado(EstadoLemming.CAMINANDO); // Aterriza y camina
@@ -153,12 +156,30 @@ public class Lemming extends ObjetoMovible {
         todosLosLemmings.clear();
     }
 
-    public void convertirAExcavador(){
-        setEstado(EstadoLemming.EXCAVANDO);
+    public void aplicarHabilidadLemming(PanelHabilidades.TipoHabilidad habilidad) {
+        if (estadoActual == EstadoLemming.CAMINANDO) {
+            switch (habilidad) {
+                case PARAGUAS:
+                    setEstado(EstadoLemming.AMORTIGUANDO);
+                    break;
+                case BOMBA:
+                    setEstado(EstadoLemming.EXPLOTANDO);
+                    break;
+                case EXCAVADOR:
+                    setEstado(EstadoLemming.EXCAVANDO);
+                    break;
+                case BLOQUEADOR:
+                    setEstado(EstadoLemming.BLOQUEANDO);
+                    break;
+            }
+        }
     }
 
     public static void agregarLemming(Lemming nuevoLemming) {
         todosLosLemmings.add(nuevoLemming);
     }
 
+    public EstadoLemming getEstadoActual() {
+        return estadoActual;
+    }
 }
