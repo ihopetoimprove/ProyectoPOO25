@@ -152,6 +152,7 @@ public class PanelHabilidades {
         }
     }
 
+
     public int getCantidadHabilidad(TipoHabilidad habilidad) {
         switch (habilidad) {
             case PARAGUAS:

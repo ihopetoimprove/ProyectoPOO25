@@ -156,6 +156,7 @@ public class Lemming extends ObjetoMovible {
         todosLosLemmings.clear();
     }
 
+
     public void aplicarHabilidadLemming(PanelHabilidades.TipoHabilidad habilidad) {
         if (estadoActual == EstadoLemming.CAMINANDO) {
             switch (habilidad) {
@@ -173,6 +174,10 @@ public class Lemming extends ObjetoMovible {
                     break;
             }
         }
+
+    public void convertirAExcavador(){
+        setEstado(EstadoLemming.EXCAVANDO);
+
     }
 
     public static void agregarLemming(Lemming nuevoLemming) {
