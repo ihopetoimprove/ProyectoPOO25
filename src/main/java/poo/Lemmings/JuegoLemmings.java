@@ -197,6 +197,6 @@ public class JuegoLemmings extends JGame {
                 return lemming;
             }
         }
-        return null; // No se encontró ningún Lemming en las coordenadas del clic
+        return null;
     }
 }
