@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class JuegoLemmings extends JGame {
 
-    public enum EstadoJuego {INICIO, JUGANDO, GANA, FIN}
+    public enum EstadoJuego {INICIO, JUGANDO, PERDIO, GANA, FIN}
 
     private static EstadoJuego estadoJuego = EstadoJuego.INICIO;
     private Nivel nivelActual;
@@ -19,6 +19,10 @@ public class JuegoLemmings extends JGame {
     private long ultimoTiempoAccion;
     Mouse mouse = this.getMouse();
     boolean sePresionoElMouse = false;
+
+    Temporizador tiempo;
+    private final int FPS_JUEGO =60;
+    int f= FPS_JUEGO;
 
     //no se que onda con esto
     private StringBuilder currentNameInput = new StringBuilder(); // ¡Aquí está declarado!
@@ -37,13 +41,20 @@ public class JuegoLemmings extends JGame {
     public void gameUpdate(double v) {
 
         if (estadoJuego == EstadoJuego.JUGANDO) {
+            f--;
+            if(f<=0) {
+                tiempo.restarTiempo();
+                f=FPS_JUEGO;
+            }
             crearLemmings();
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                 lemming.mover();
             }
             controlarHabilidades();
             controlarVictoria();
+            controlarDerrota();
             sePresionoElMouse = mouse.isLeftButtonPressed();
+
         }
 
     }
@@ -60,8 +71,13 @@ public class JuegoLemmings extends JGame {
             }
             panel.dibujar(g);
         }
+        if (estadoJuego == EstadoJuego.PERDIO){
+            estadoPerdio(g);
+        }
         if (estadoJuego == EstadoJuego.GANA){
             estadoGana(g);
+        }
+        if (estadoJuego == EstadoJuego.FIN){
         }
     }
 
@@ -118,6 +134,23 @@ public class JuegoLemmings extends JGame {
         }
     }
 
+    public void estadoPerdio(Graphics2D g) {
+        Mouse mouse = this.getMouse();
+        g.setColor(new Color(50, 50, 150));
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 40));
+        g.drawString("Muy bien PERDISTE!", 240, 200);
+        g.drawString("Intentar de nuevo", 50, 500);
+        if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
+            int mouseX = mouse.getX();
+            int mouseY = mouse.getY();
+            if (mouseX >= 0 && mouseX <= 250  && mouseY >= 400 && mouseY <= 600){
+                seleccionarNivel();
+            }
+        }
+    }
+
     public void estadoGana(Graphics2D g) {
         Mouse mouse = this.getMouse();
         g.setColor(new Color(50, 50, 150));
@@ -147,6 +180,7 @@ public class JuegoLemmings extends JGame {
             panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado], getMouse());
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
+            tiempo=new Temporizador(panel.getTiempoLimite());
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
         }
     }
@@ -186,6 +220,12 @@ public class JuegoLemmings extends JGame {
     public void controlarVictoria() {
         if (panel.getLemmingsSalvados() == panel.getLemmingsASalvar()){
             estadoJuego = EstadoJuego.GANA;
+        }
+    }
+
+    public void controlarDerrota() {
+        if (tiempo.getTiempoRestante() <= 0/*|| panel.getLemmingsSalvados()< panel.getLemmingsASalvar()*/){
+            estadoJuego = EstadoJuego.PERDIO;
         }
     }
 
