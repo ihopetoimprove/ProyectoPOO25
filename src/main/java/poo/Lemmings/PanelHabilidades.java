@@ -38,7 +38,7 @@ public class PanelHabilidades {
         g.drawImage(imagenHabilidades, 100, 500, null);
         g.setColor(Color.black);
         g.drawString("Lemmings salvados: " + getLemmingsSalvados() + " / " + getLemmingsASalvar(), 600, 550);
-        g.drawString("Tiempo restante: " + String.valueOf(tiempoLimite), 600, 570);
+        g.drawString("Tiempo restante: " + Integer.toString(Temporizador.getTiempoRestante()), 600, 570);
         g.drawString(String.valueOf(cantidadParaguas), 135, 525);
         g.drawString(String.valueOf(cantidadBombas), 222, 525);
         g.drawString(String.valueOf(cantidadBloqueadores),310, 525);
@@ -117,7 +117,7 @@ public class PanelHabilidades {
             reader = new BufferedReader(new FileReader(rutaNivel));
 
             while ((linea = reader.readLine()) != null) {
-                linea = linea.trim(); // Eliminar espacios al inicio y fin de la línea
+                linea = linea.trim(); // Eliminaar espacios al inicio y fin de la línea
                 if (linea.isEmpty()) {
                     continue; // Saltar líneas vacías
                 }

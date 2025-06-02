@@ -3,13 +3,19 @@ package poo.Lemmings;
 import javax.swing.Timer;
 
 public class Temporizador {
-    private int tiempoRestante = 500;
+    private static int tiempoRestante;
     private boolean pausa = false;
 
-    public Temporizador(){
+    public Temporizador(){}
+    public Temporizador(int n){//recibe el tiempo de cada nivel
+        tiempoRestante=n;
     }
 
-    public int getTiempoRestante(){return tiempoRestante;}
+
+    public static int getTiempoRestante(){return tiempoRestante;}
+    public void restarTiempo(){
+        tiempoRestante--;
+    }
 
     public void iniciar(){
         this.pausa = false;
