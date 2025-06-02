@@ -7,7 +7,7 @@ public class Temporizador {
     private boolean pausa = false;
 
     public Temporizador(){}
-    public Temporizador(int n){
+    public Temporizador(int n){//recibe el tiempo de cada nivel
         tiempoRestante=n;
     }
 

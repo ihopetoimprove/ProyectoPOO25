@@ -224,7 +224,7 @@ public class JuegoLemmings extends JGame {
     }
 
     public void controlarDerrota() {
-        if (tiempo.getTiempoRestante() <= 0/*|| panel.getLemmingsSalvados()< panel.getLemmingsASalvar()*/){
+        if (tiempo.getTiempoRestante() <= 0/*|| paanel.getLemmingsSalvados()< panel.getLemmingsASalvar()*/){
             estadoJuego = EstadoJuego.PERDIO;
         }
     }

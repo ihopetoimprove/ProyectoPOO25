@@ -117,7 +117,7 @@ public class PanelHabilidades {
             reader = new BufferedReader(new FileReader(rutaNivel));
 
             while ((linea = reader.readLine()) != null) {
-                linea = linea.trim(); // Eliminar espacios al inicio y fin de la línea
+                linea = linea.trim(); // Eliminaar espacios al inicio y fin de la línea
                 if (linea.isEmpty()) {
                     continue; // Saltar líneas vacías
                 }
