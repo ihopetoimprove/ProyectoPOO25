@@ -18,7 +18,6 @@ public class JuegoLemmings extends JGame {
     private int lemmingsGenerados = 0;
     private long ultimoTiempoAccion;
     Mouse mouse = this.getMouse();
-    private boolean leftButtonReleasedThisFrame;
     boolean sePresionoElMouse = false;
 
     //no se que onda con esto
