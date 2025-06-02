@@ -26,7 +26,7 @@ public class Lemming extends ObjetoMovible {
     protected Nivel nivelActual;
     private int pixelsCaidos = 0;
     private static BufferedImage spriteLemming;
-    private int columnaActual = 0;
+    private int columnaActual = 1;
     private int filaActual = 0;
 
     public Lemming(int x, int y, Nivel nivelActual) {
@@ -60,7 +60,7 @@ public class Lemming extends ObjetoMovible {
 
         if (estadoActual == EstadoLemming.EXCAVANDO){
             velocidadX = 0;
-            columnaActual = (columnaActual + 1) % 8;
+            columnaActual = (columnaActual + 1) % 16;
         }
         boolean haySuelo = haySueloDebajo();
 
@@ -89,7 +89,7 @@ public class Lemming extends ObjetoMovible {
         else if (estadoActual == EstadoLemming.CAYENDO) {
             this.y += VELOCIDAD_CAIDA; // Mover verticalmente
             pixelsCaidos += velocidadY; // Acumular distancia de caída
-            columnaActual = (columnaActual + 1) % 8;
+            columnaActual = (columnaActual + 1);
         }
 
        if(estadoActual == EstadoLemming.CAMINANDO){
@@ -101,7 +101,7 @@ public class Lemming extends ObjetoMovible {
                setEstado(EstadoLemming.SALVADO);
                PanelHabilidades.salvarLemming();
            }
-           columnaActual = (columnaActual + 1) % 6;
+           columnaActual = (columnaActual + 1);
        }
 
     }
@@ -128,10 +128,10 @@ public class Lemming extends ObjetoMovible {
                 filaActual = 5; // Fila de paraguas
                 break;
             case EXCAVANDO:
-                if (columnaActual >= 8) {
+                if (columnaActual >= 16) {
                     columnaActual = 0;
                 }
-                filaActual = 7;
+                filaActual = 247;
                 break;
             case EXPLOTANDO:
                 if (columnaActual >= 16) {
@@ -143,12 +143,12 @@ public class Lemming extends ObjetoMovible {
                 break;
         }
         int sx = columnaActual * 16;
-        int sy = filaActual * 16;
+        //int sy = filaActual * 16;
         int dx = this.x;
         int dy = this.y;
         g.drawImage(spriteLemming,
                 dx, dy, dx + 16, dy + 16, // Coordenadas de destino en pantalla (esquina superior izq y esquina inferior der)
-                sx, sy, sx + 16, sy + 16, // Coordenadas de origen en el sprite sheet (esquina superior izq y esquina inferior der)
+                sx, filaActual, sx + 16, filaActual + 16, // Coordenadas de origen en el sprite sheet (esquina superior izq y esquina inferior der)
                 null);
     }
 
