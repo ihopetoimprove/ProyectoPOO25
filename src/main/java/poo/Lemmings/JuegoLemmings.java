@@ -158,14 +158,13 @@ public class JuegoLemmings extends JGame {
             if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
                 ultimoTiempoAccion = tiempoActual;
                 Lemming nuevoLemming = new Lemming(nivelActual.getEntradaX(), nivelActual.getEntradaY(), nivelActual);
-                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estática
+                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estáticav
                 lemmingsGenerados++;
             }
         }
     }
 
     public void controlarHabilidades() {
-
         if (panel.getHabilidadSeleccionada() != PanelHabilidades.TipoHabilidad.NINGUNA) {
             boolean mouseApretado = mouse.isLeftButtonPressed();
             if (mouseApretado && !sePresionoElMouse) {
@@ -180,15 +179,6 @@ public class JuegoLemmings extends JGame {
                         }
                     }
                 }
-
-        if (panel.getHabilidadSeleccionada() != PanelHabilidades.TipoHabilidad.NINGUNA) {
-            if (mouse.isLeftButtonPressed()) {
-                int mouseX = mouse.getX();
-                int mouseY = mouse.getY();
-                for (Lemming lemming : Lemming.getTodosLosLemmings()) {
-                    encontrarLemmingEn(mouseX, mouseY);
-                }
-
             }
         }
     }
@@ -200,7 +190,6 @@ public class JuegoLemmings extends JGame {
     }
 
     public Lemming encontrarLemmingEn(int x, int y) {
-
         for (Lemming lemming : Lemming.getTodosLosLemmings()) {
             if (
                     x >= lemming.getX() && x <= (lemming.getX() + 20) &&
