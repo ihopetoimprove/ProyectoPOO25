@@ -39,7 +39,7 @@ public class JuegoLemmings extends JGame {
         if (estadoJuego == EstadoJuego.JUGANDO) {
             crearLemmings();
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
-                    lemming.mover();
+                lemming.mover();
             }
             controlarHabilidades();
             controlarVictoria();
@@ -56,7 +56,7 @@ public class JuegoLemmings extends JGame {
         if (estadoJuego == EstadoJuego.JUGANDO) {
             nivelActual.dibujar(g);
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
-                    lemming.dibujar(g);
+                lemming.dibujar(g);
             }
             panel.dibujar(g);
         }
@@ -193,7 +193,7 @@ public class JuegoLemmings extends JGame {
         for (Lemming lemming : Lemming.getTodosLosLemmings()) {
             if (
                     x >= lemming.getX() && x <= (lemming.getX() + 20) &&
-                    y >= lemming.getY() && y <= (lemming.getY() + 20)) {
+                            y >= lemming.getY() && y <= (lemming.getY() + 20)) {
                 return lemming;
             }
         }
