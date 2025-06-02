@@ -12,9 +12,9 @@ import java.util.Objects;
 
 public class Lemming extends ObjetoMovible {
 
-    public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, AMORTIGUANDO, EXPLOTANDO, MURIENDO, SALVADO}
+    public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, PLANEANDO, EXPLOTANDO, MURIENDO, SALVADO}
     private static final int VELOCIDAD_BASE = 1;
-    private static final int VELOCIDAD_CAIDA = 8;
+    private static final int VELOCIDAD_CAIDA = 4;
     private static final int ANCHO_LEMMING = 20;
     private static final int ALTO_LEMMING = 20;
     private static final int UMBRAL_CAIDA_FATAL_PIXELES = 6 * Nivel.BLOQUE_ALTO;
@@ -52,7 +52,8 @@ public class Lemming extends ObjetoMovible {
 
     @Override
     public void mover() {
-        if (estadoActual == EstadoLemming.MURIENDO || estadoActual == EstadoLemming.SALVADO || estadoActual == EstadoLemming.BLOQUEANDO) {
+        boolean haySuelo = haySueloDebajo();
+        if (estadoActual == EstadoLemming.MURIENDO || estadoActual == EstadoLemming.SALVADO) {
             //acá deberíamos eliminarlo de la lista
             setX(900);
             setY(900);
@@ -61,8 +62,19 @@ public class Lemming extends ObjetoMovible {
         if (estadoActual == EstadoLemming.EXCAVANDO){
             velocidadX = 0;
             columnaActual = (columnaActual + 1) % 16;
+            //nivelActual.destruirBloque(x, y);
+
         }
-        boolean haySuelo = haySueloDebajo();
+
+        if (estadoActual == EstadoLemming.PLANEANDO){
+            velocidadY = 1;
+            columnaActual = (columnaActual + 1);
+        }
+
+        if (estadoActual == EstadoLemming.BLOQUEANDO){
+            velocidadX = 0;
+            columnaActual = (columnaActual + 1);
+        }
 
         if (!haySuelo && estadoActual != EstadoLemming.CAYENDO ) {
             setEstado(EstadoLemming.CAYENDO); // ¡Empieza a caer!
@@ -121,14 +133,14 @@ public class Lemming extends ObjetoMovible {
                 }
                 filaActual = 4; // Fila de caída
                 break;
-            case AMORTIGUANDO:
+            case PLANEANDO:
                 if (columnaActual >= 2) {
                     columnaActual = 0;
                 }
                 filaActual = 5; // Fila de paraguas
                 break;
             case EXCAVANDO:
-                if (columnaActual >= 16) {
+                if (columnaActual >= 8) {
                     columnaActual = 0;
                 }
                 filaActual = 247;
@@ -141,6 +153,11 @@ public class Lemming extends ObjetoMovible {
                 }
                 filaActual = 8; // Fila de explosión
                 break;
+            case BLOQUEANDO:
+                if (columnaActual >= 8){
+                    columnaActual = 0;
+                }
+                filaActual = 130;
         }
         int sx = columnaActual * 16;
         //int sy = filaActual * 16;
@@ -205,7 +222,7 @@ public class Lemming extends ObjetoMovible {
         if (estadoActual == EstadoLemming.CAMINANDO) {
             switch (habilidad) {
                 case PARAGUAS:
-                    setEstado(EstadoLemming.AMORTIGUANDO);
+                    setEstado(EstadoLemming.PLANEANDO);
                     break;
                 case BOMBA:
                     setEstado(EstadoLemming.EXPLOTANDO);
