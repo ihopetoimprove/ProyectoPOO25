@@ -92,17 +92,17 @@ public class Lemming extends ObjetoMovible {
             columnaActual = (columnaActual + 1);
         }
 
-       if(estadoActual == EstadoLemming.CAMINANDO){
-           this.x = x + velocidadX;
-           if(hayParedDelante()){
-               cambiarDireccion();
-           }
-           if(tocaSalida()){
-               setEstado(EstadoLemming.SALVADO);
-               PanelHabilidades.salvarLemming();
-           }
-           columnaActual = (columnaActual + 1);
-       }
+        if(estadoActual == EstadoLemming.CAMINANDO){
+            this.x = x + velocidadX;
+            if(hayParedDelante()){
+                cambiarDireccion();
+            }
+            if(tocaSalida()){
+                setEstado(EstadoLemming.SALVADO);
+                PanelHabilidades.salvarLemming();
+            }
+            columnaActual = (columnaActual + 1);
+        }
 
     }
 
@@ -201,7 +201,6 @@ public class Lemming extends ObjetoMovible {
         todosLosLemmings.clear();
     }
 
-
     public void aplicarHabilidadLemming(PanelHabilidades.TipoHabilidad habilidad) {
         if (estadoActual == EstadoLemming.CAMINANDO) {
             switch (habilidad) {
@@ -219,10 +218,6 @@ public class Lemming extends ObjetoMovible {
                     break;
             }
         }
-
-    public void convertirAExcavador(){
-        setEstado(EstadoLemming.EXCAVANDO);
-
     }
 
     public static void agregarLemming(Lemming nuevoLemming) {
