@@ -13,8 +13,8 @@ import java.util.Objects;
 public class Lemming extends ObjetoMovible {
 
     public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, AMORTIGUANDO, EXPLOTANDO, MURIENDO, SALVADO}
-    private static final int VELOCIDAD_BASE = 3;
-    private static final int VELOCIDAD_CAIDA = 10;
+    private static final int VELOCIDAD_BASE = 1;
+    private static final int VELOCIDAD_CAIDA = 8;
     private static final int ANCHO_LEMMING = 20;
     private static final int ALTO_LEMMING = 20;
     private static final int UMBRAL_CAIDA_FATAL_PIXELES = 6 * Nivel.BLOQUE_ALTO;
@@ -26,6 +26,8 @@ public class Lemming extends ObjetoMovible {
     protected Nivel nivelActual;
     private int pixelsCaidos = 0;
     private static BufferedImage spriteLemming;
+    private int columnaActual = 0;
+    private int filaActual = 0;
 
     public Lemming(int x, int y, Nivel nivelActual) {
         super(x, y);
@@ -33,6 +35,11 @@ public class Lemming extends ObjetoMovible {
         this.estadoActual = EstadoLemming.CAYENDO;
         this.velocidadX = VELOCIDAD_BASE;
         this.velocidadY = 0;
+        try {
+            spriteLemming = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/animacionesLemming.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setEstado(EstadoLemming nuevoEstado) {
@@ -53,6 +60,7 @@ public class Lemming extends ObjetoMovible {
 
         if (estadoActual == EstadoLemming.EXCAVANDO){
             velocidadX = 0;
+            columnaActual = (columnaActual + 1) % 8;
         }
         boolean haySuelo = haySueloDebajo();
 
@@ -81,6 +89,7 @@ public class Lemming extends ObjetoMovible {
         else if (estadoActual == EstadoLemming.CAYENDO) {
             this.y += VELOCIDAD_CAIDA; // Mover verticalmente
             pixelsCaidos += velocidadY; // Acumular distancia de caída
+            columnaActual = (columnaActual + 1) % 8;
         }
 
        if(estadoActual == EstadoLemming.CAMINANDO){
@@ -92,21 +101,58 @@ public class Lemming extends ObjetoMovible {
                setEstado(EstadoLemming.SALVADO);
                PanelHabilidades.salvarLemming();
            }
+           columnaActual = (columnaActual + 1) % 6;
        }
+
     }
 
     @Override
     public void dibujar(Graphics2D g) {
-        BufferedImage imagenLemming;
-        try {
-            imagenLemming = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/mario.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        switch (estadoActual) {
+            case CAMINANDO:
+                if (columnaActual >= 8) {
+                    columnaActual = 0;
+                }
+                filaActual = 0;
+                break;
+            case CAYENDO:
+                if (columnaActual >= 4) {
+                    columnaActual = 0;
+                }
+                filaActual = 4; // Fila de caída
+                break;
+            case AMORTIGUANDO:
+                if (columnaActual >= 2) {
+                    columnaActual = 0;
+                }
+                filaActual = 5; // Fila de paraguas
+                break;
+            case EXCAVANDO:
+                if (columnaActual >= 8) {
+                    columnaActual = 0;
+                }
+                filaActual = 7;
+                break;
+            case EXPLOTANDO:
+                if (columnaActual >= 16) {
+                    // - Eliminar el Lemming del juego
+                    // - Ponerlo en un estado "muerto" o "inactivo"
+                    columnaActual = 15; // Se queda en el último frame de la explosión
+                }
+                filaActual = 8; // Fila de explosión
+                break;
         }
-        if (imagenLemming != null) {
-            g.drawImage(imagenLemming, x, y, ANCHO_LEMMING, ALTO_LEMMING, null);
+        int sx = columnaActual * 16;
+        int sy = filaActual * 16;
+        int dx = this.x;
+        int dy = this.y;
+        g.drawImage(spriteLemming,
+                dx, dy, dx + 16, dy + 16, // Coordenadas de destino en pantalla (esquina superior izq y esquina inferior der)
+                sx, sy, sx + 16, sy + 16, // Coordenadas de origen en el sprite sheet (esquina superior izq y esquina inferior der)
+                null);
     }
-}
+
+
     public static List<Lemming> getTodosLosLemmings() {
         return todosLosLemmings;
     }
@@ -117,7 +163,6 @@ public class Lemming extends ObjetoMovible {
 
     private boolean esTerrenoSolidoODestructible(int px, int py) {
         int tipo = nivelActual.getTipoTile(px, py);
-        // Simplificado:
         return tipo == 1 || tipo == 2;
     }
 
