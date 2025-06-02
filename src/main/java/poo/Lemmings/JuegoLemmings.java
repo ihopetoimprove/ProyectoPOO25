@@ -158,7 +158,7 @@ public class JuegoLemmings extends JGame {
             if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
                 ultimoTiempoAccion = tiempoActual;
                 Lemming nuevoLemming = new Lemming(nivelActual.getEntradaX(), nivelActual.getEntradaY(), nivelActual);
-                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estática
+                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estáticav
                 lemmingsGenerados++;
             }
         }
