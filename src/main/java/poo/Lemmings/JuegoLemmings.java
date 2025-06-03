@@ -11,6 +11,7 @@ public class JuegoLemmings extends JGame {
     public enum EstadoJuego {INICIO, JUGANDO, PERDIO, GANA, FIN}
 
     private static EstadoJuego estadoJuego = EstadoJuego.INICIO;
+    private short nivelesCompletados = 0;
     private Nivel nivelActual;
     private PanelHabilidades panel;
     private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3.txt"};
@@ -145,31 +146,39 @@ public class JuegoLemmings extends JGame {
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
-            if (mouseX >= 0 && mouseX <= 250  && mouseY >= 400 && mouseY <= 600){
+            if (mouseX >= 0 && mouseX <= 350  && mouseY >= 400 && mouseY <= 600){
                 seleccionarNivel();
             }
         }
     }
 
     public void estadoGana(Graphics2D g) {
+        if (nivelesCompletados == 3) {
+            //estado
+        }
         Mouse mouse = this.getMouse();
         g.setColor(new Color(50, 50, 150));
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("Muy bien ganaste!", 240, 200);
+        g.drawString("Niveles completados: " + nivelesCompletados + " / 3", 160, 300);
         g.drawString("Jugar de nuevo", 50, 500);
         g.drawString("Siguiente nivel", 450, 500);
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
             if (mouseX >= 350 && mouseX <= 600 && mouseY >= 400 && mouseY <= 600) {
-                nivelSeleccionado +=1 ;
+                nivelSeleccionado += 1;
                 seleccionarNivel();
-            } else if (mouseX >= 0 && mouseX <= 250  && mouseY >= 400 && mouseY <= 600){
+            } else if (mouseX >= 0 && mouseX <= 350 && mouseY >= 400 && mouseY <= 600) {
                 seleccionarNivel();
             }
         }
+    }
+
+    public void estadoFin(){
+
     }
 
     public void seleccionarNivel() {
@@ -192,7 +201,7 @@ public class JuegoLemmings extends JGame {
             if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
                 ultimoTiempoAccion = tiempoActual;
                 Lemming nuevoLemming = new Lemming(nivelActual.getEntradaX(), nivelActual.getEntradaY(), nivelActual);
-                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estáticav
+                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estática
                 lemmingsGenerados++;
             }
         }
@@ -207,7 +216,7 @@ public class JuegoLemmings extends JGame {
                 Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
                 if (lemmingClickeado != null) {
                     if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                        if (lemmingClickeado.getEstadoActual() == Lemming.EstadoLemming.CAMINANDO) {
+                        if (lemmingClickeado.getEstadoActual() == Lemming.EstadoLemming.CAMINANDO || lemmingClickeado.getEstadoActual() == Lemming.EstadoLemming.CAYENDO) {
                             lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
                             panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
                         }
@@ -219,6 +228,7 @@ public class JuegoLemmings extends JGame {
 
     public void controlarVictoria() {
         if (panel.getLemmingsSalvados() == panel.getLemmingsASalvar()){
+            nivelesCompletados ++;
             estadoJuego = EstadoJuego.GANA;
         }
     }
@@ -232,8 +242,8 @@ public class JuegoLemmings extends JGame {
     public Lemming encontrarLemmingEn(int x, int y) {
         for (Lemming lemming : Lemming.getTodosLosLemmings()) {
             if (
-                    x >= lemming.getX() && x <= (lemming.getX() + 20) &&
-                            y >= lemming.getY() && y <= (lemming.getY() + 20)) {
+                    x >= (lemming.getX() - 60) && x <= (lemming.getX() + 20) &&
+                            y >= (lemming.getY() - 60) && y <= (lemming.getY() + 20)) {
                 return lemming;
             }
         }

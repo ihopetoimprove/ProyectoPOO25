@@ -42,11 +42,11 @@ public class Launcher extends JFrame implements ActionListener {
         listJuegos.add(Box.createRigidArea(new Dimension(5, 0))); // Espacio vertical de 20px
         //Boton Pong
         String Juego1 = "Pong";
-        String rutaImgPong = "/imagenes/pong.jpeg"; // Ruta
+        String rutaImgPong = "/imagenes/Launcher/pong.jpeg"; // Ruta
         listJuegos.add(crearBotonJuego(Juego1, rutaImgPong, this)); // this, es para que los botones se conecten con Launcher
         //Boton Lemmings
         String Juego2 = "Lemmings";
-        String rutaImgLemmings = "/imagenes/LemmingsImg.jpg"; // Ruta
+        String rutaImgLemmings = "/imagenes/Launcher/LemmingsImg.jpg"; // Ruta
         listJuegos.add(crearBotonJuego(Juego2, rutaImgLemmings, this));
         add(listJuegos, BorderLayout.WEST);
 
@@ -80,17 +80,17 @@ public class Launcher extends JFrame implements ActionListener {
     }
 
     public void cargaImgPrinc(){
-        String ruta="/imagenes/GTA.jpeg";
+        String ruta="/imagenes/Launcher/GTA.jpeg";
         if(botonSelect!=null){
             switch (botonSelect.getText()){
                 case "Pong":
-                    ruta="/imagenes/pong.jpeg";
+                    ruta="/imagenes/Launcher/pong.jpeg";
                     break;
                 case "Lemmings":
-                    ruta="/imagenes/LemmingsImg.jpg";
+                    ruta="/imagenes/Launcher/LemmingsImg.jpg";
                     break;
                 default:
-                    ruta="/imagenes/GTA.jpeg2";
+                    ruta="/imagenes/Launcher/GTA.jpeg2";
                     break;
             }
         }

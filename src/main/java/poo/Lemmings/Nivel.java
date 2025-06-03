@@ -26,6 +26,7 @@ public class Nivel extends ObjetoGrafico {
     private static BufferedImage imagenTerrenoDestructible;
     private static BufferedImage imagenEntrada;
     private static BufferedImage imagenSalida;
+    private static BufferedImage imagenLava;
 
 
     public Nivel(String archivoNivel) {
@@ -36,10 +37,11 @@ public class Nivel extends ObjetoGrafico {
 
     private void cargarImagenesTerreno() {
         try {
-            imagenTerrenoSolido = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/terreno_solido.png")));
-            imagenTerrenoDestructible = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/terreno_destructible.png")));
-            imagenEntrada = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/entrada.png")));
-            imagenSalida = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/salida.png")));
+            imagenTerrenoSolido = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/terreno_solido.png")));
+            imagenTerrenoDestructible = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/terreno_destructible.png")));
+            imagenEntrada = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/entrada.png")));
+            imagenSalida = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/salida.png")));
+            imagenLava = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/lava.jpg")));
         } catch (IOException e) {
             System.err.println("Error al cargar imágenes de terreno o entrada/salida: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -116,6 +118,8 @@ public class Nivel extends ObjetoGrafico {
                         case 2:
                             imagenADibujar = imagenTerrenoDestructible;
                             break;
+                        case 3:
+                            imagenADibujar = imagenLava;
                     }
 
                     if (imagenADibujar != null) {
