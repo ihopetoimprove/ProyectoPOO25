@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,9 +56,6 @@ public class Lemming extends ObjetoMovible {
         boolean haySuelo = haySueloDebajo();
         columnaActual ++ ;
         if (estadoActual == EstadoLemming.MURIENDO || estadoActual == EstadoLemming.SALVADO) {
-            //acá deberíamos eliminarlo de la lista
-            setX(900);
-            setY(900);
         }
 
         if (estadoActual == EstadoLemming.EXCAVANDO){

@@ -38,6 +38,7 @@ public class PanelHabilidades {
         g.setColor(Color.black);
         g.drawString("Lemmings salvados: " + getLemmingsSalvados() + " / " + getLemmingsASalvar(), 600, 550);
         g.drawString("Tiempo restante: " + Integer.toString(Temporizador.getTiempoRestante()), 600, 570);
+        g.drawString("Cantidad de Lemmings restantes: " + Integer.toString(getTotalLemmings()), 600, 530);
         g.drawString(String.valueOf(cantidadParaguas), 135, 525);
         g.drawString(String.valueOf(cantidadBombas), 222, 525);
         g.drawString(String.valueOf(cantidadBloqueadores),310, 525);
@@ -165,6 +166,10 @@ public class PanelHabilidades {
             default:
                 return 0; // O manejar un error si NINGUNA u otra habilidad se consulta
         }
+    }
+
+    public void eliminarLemming() {
+        totalLemmings--;
     }
 
     public TipoHabilidad getHabilidadSeleccionada() {return this.habilidadSeleccionada; }
