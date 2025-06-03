@@ -16,7 +16,6 @@ public class PanelHabilidades {
     public enum TipoHabilidad {NINGUNA, EXCAVADOR, BLOQUEADOR, BOMBA, PARAGUAS}
     private TipoHabilidad habilidadSeleccionada = TipoHabilidad.NINGUNA;
     private static BufferedImage imagenHabilidades;
-    private Temporizador temporizador = new Temporizador();
     private static int totalLemmings;
     private static int lemmingsASalvar;
     private static int lemmingsSalvados = 0;
@@ -39,6 +38,7 @@ public class PanelHabilidades {
         g.setColor(Color.black);
         g.drawString("Lemmings salvados: " + getLemmingsSalvados() + " / " + getLemmingsASalvar(), 600, 550);
         g.drawString("Tiempo restante: " + Integer.toString(Temporizador.getTiempoRestante()), 600, 570);
+        g.drawString("Cantidad de Lemmings restantes: " + Integer.toString(getTotalLemmings()), 600, 530);
         g.drawString(String.valueOf(cantidadParaguas), 135, 525);
         g.drawString(String.valueOf(cantidadBombas), 222, 525);
         g.drawString(String.valueOf(cantidadBloqueadores),310, 525);
@@ -64,7 +64,7 @@ public class PanelHabilidades {
         if (mouse.isLeftButtonPressed()) {
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
-            if (mouseY >= 500){
+            if (mouseY >= 480){
                 if (mouseX >= 100 && mouseX <= 175) {
                     habilidadSeleccionada = TipoHabilidad.PARAGUAS;
                 } else if (mouseX >= 180 && mouseX <= 260){
@@ -139,7 +139,7 @@ public class PanelHabilidades {
                         cantidadBloqueadores = Integer.parseInt(linea.split(":")[1].trim());
                     }
                     try {
-                        imagenHabilidades = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Habilidades.png")));
+                        imagenHabilidades = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/Habilidades.png")));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -166,6 +166,10 @@ public class PanelHabilidades {
             default:
                 return 0; // O manejar un error si NINGUNA u otra habilidad se consulta
         }
+    }
+
+    public void eliminarLemming() {
+        totalLemmings--;
     }
 
     public TipoHabilidad getHabilidadSeleccionada() {return this.habilidadSeleccionada; }

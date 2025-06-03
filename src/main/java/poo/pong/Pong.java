@@ -12,8 +12,8 @@ import java.awt.image.BufferedImage;
 public class Pong extends JGame {
     ConfigPong configPong = new ConfigPong();
     BufferedImage fondo = null;
-    Paleta paletaIzq = new Paleta(10,140);
-    Paleta paletaDer = new Paleta(780,140);
+    Paleta paletaIzq = new Paleta(10, 140);
+    Paleta paletaDer = new Paleta(780, 140);
     Pelota pelota = new Pelota(400, 250);
     Marcador marcador = new Marcador();
     private int ganador;
@@ -30,10 +30,9 @@ public class Pong extends JGame {
     @Override
     public void gameStartup() {
 
-        try{
-            fondo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/fondo.png"));
-        }
-        catch(Exception e){
+        try {
+            fondo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/Pong/fondo.png"));
+        } catch (Exception e) {
             System.out.println("La excepcion " + e + " ha ocurrido.");
         }
     }
@@ -54,14 +53,14 @@ public class Pong extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-        g.drawImage(fondo,0,0,null);
-        if(estadoJuego == START){
+        g.drawImage(fondo, 0, 0, null);
+        if (estadoJuego == START) {
             estadoStart(g);
         }
-        if(estadoJuego == FIN){
+        if (estadoJuego == FIN) {
             estadoFin(g);
         }
-        if(estadoJuego == PAUSA){
+        if (estadoJuego == PAUSA) {
             estadoPausa(g);
         }
 
@@ -76,37 +75,37 @@ public class Pong extends JGame {
         Log.info(getClass().getSimpleName(), "Shutting down game");
     }
 
-    public void procesarTeclado(){
+    public void procesarTeclado() {
         Keyboard keyboard = this.getKeyboard();
         //Pausa
-        if(keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
+        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
             estadoJuego = PAUSA;
         }
 
-        if(keyboard.isKeyPressed(KeyEvent.VK_ESCAPE))//temporal, creo
+        if (keyboard.isKeyPressed(KeyEvent.VK_ESCAPE))//temporal, creo
             this.shutdown();
 
         // Mover la paleta derecha hacia arriba si la tecla está presionada y no está en el borde superior
         if (keyboard.isKeyPressed(configPong.getTSubirJ2()) && paletaDer.getY() > 0)
-            paletaDer.setY((paletaDer.getY() - paletaDer.getVelocidadY() ));
+            paletaDer.setY((paletaDer.getY() - paletaDer.getVelocidadY()));
 
         // Mover la paleta derecha hacia abajo si la tecla está presionada y no está en el borde inferior
         if (keyboard.isKeyPressed(configPong.getTBajarJ2()) && paletaDer.getY() < getHeight() - 100)
-            paletaDer.setY((paletaDer.getY() + paletaDer.getVelocidadY() ));
+            paletaDer.setY((paletaDer.getY() + paletaDer.getVelocidadY()));
 
         // Mover la paleta izquierda hacia arriba si la tecla está presionada y no está en el borde superior
         if (keyboard.isKeyPressed(configPong.getTSubirJ1()) && paletaIzq.getY() > 0)
-            paletaIzq.setY( (paletaIzq.getY() - paletaIzq.getVelocidadY() ));
+            paletaIzq.setY((paletaIzq.getY() - paletaIzq.getVelocidadY()));
 
         // Mover la paleta izquierda hacia abajo si la tecla está presionada y no está en el borde inferior
         if (keyboard.isKeyPressed(configPong.getTBajarJ1()) && paletaIzq.getY() < getHeight() - 100)
-            paletaIzq.setY( (paletaIzq.getY() + paletaIzq.getVelocidadY() ));
+            paletaIzq.setY((paletaIzq.getY() + paletaIzq.getVelocidadY()));
 
     }
 
     public void detectarColision() {
         //si la paleta choca contra el techo
-        if (pelota.getY() >= getHeight()-40)
+        if (pelota.getY() >= getHeight() - 40)
             pelota.invertirVelocidadY();
 
         //piso
@@ -133,7 +132,7 @@ public class Pong extends JGame {
 
     }
 
-    public void anotarGol(){
+    public void anotarGol() {
         if (pelota.getX() < 0) {
             marcador.sumarGolJugador2();
             pelota.reiniciarPelota();
@@ -141,34 +140,35 @@ public class Pong extends JGame {
             marcador.sumarGolJugador1();
             pelota.reiniciarPelota();
         }
-        if(marcador.getPuntosP1() == 10){
+        if (marcador.getPuntosP1() == 5) {
             ganador = 1;
             estadoJuego = FIN;
         }
-        if(marcador.getPuntosP2() == 10) {
+        if (marcador.getPuntosP2() == 5) {
             ganador = 2;
             estadoJuego = FIN;
         }
     }
 
-    public void estadoStart(Graphics2D g){
+    public void estadoStart(Graphics2D g) {
         Keyboard keyboard = this.getKeyboard();
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawString("Apreta barra espaciadora para comenzar", 150, 300);
         g.drawString("¡Buena suerte!", 300, 400);
 
-        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE)&& estadoJuego == START)
+        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE) && estadoJuego == START)
             estadoJuego = 1;
 
     }
-    public void estadoPausa(Graphics2D g){
+
+    public void estadoPausa(Graphics2D g) {
         Keyboard keyboard = this.getKeyboard();
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawString("JUEGO PAUSADO", 300, 300);
 
-        if (!keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
+        if (!keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
             pelota.reanudarPelota();
             estadoJuego = 1;
         }
@@ -176,15 +176,17 @@ public class Pong extends JGame {
     }
 
 
-    public void estadoFin(Graphics2D g){
+    public void estadoFin(Graphics2D g) {
         Keyboard keyboard = this.getKeyboard();
-        marcador.reiniciarMarcador();
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawString("El jugador " + ganador + " ha ganado!", 250, 300);
         g.drawString("Presiona barra espaciadora para volver a jugar", 100, 400);
 
-        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE))
+        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
+            marcador.reiniciarMarcador();
             estadoJuego = 1;
+
+        }
     }
 }

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ public class Lemming extends ObjetoMovible {
     protected Nivel nivelActual;
     private int pixelsCaidos = 0;
     private static BufferedImage spriteLemming;
-    private int columnaActual = 1;
+    private int columnaActual = 2;
     private int filaActual = 0;
 
     public Lemming(int x, int y, Nivel nivelActual) {
@@ -36,7 +37,7 @@ public class Lemming extends ObjetoMovible {
         this.velocidadX = VELOCIDAD_BASE;
         this.velocidadY = 0;
         try {
-            spriteLemming = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/animacionesLemming.png")));
+            spriteLemming = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/animacionesLemming.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -53,36 +54,31 @@ public class Lemming extends ObjetoMovible {
     @Override
     public void mover() {
         boolean haySuelo = haySueloDebajo();
+        columnaActual ++ ;
         if (estadoActual == EstadoLemming.MURIENDO || estadoActual == EstadoLemming.SALVADO) {
-            //acá deberíamos eliminarlo de la lista
-            setX(900);
-            setY(900);
         }
 
         if (estadoActual == EstadoLemming.EXCAVANDO){
             velocidadX = 0;
-            columnaActual = (columnaActual + 1) % 16;
             //nivelActual.destruirBloque(x, y);
 
         }
 
         if (estadoActual == EstadoLemming.PLANEANDO){
-            velocidadY = 1;
-            columnaActual = (columnaActual + 1);
+            this.y = y + 1;
         }
 
         if (estadoActual == EstadoLemming.BLOQUEANDO){
             velocidadX = 0;
-            columnaActual = (columnaActual + 1);
         }
 
-        if (!haySuelo && estadoActual != EstadoLemming.CAYENDO ) {
+        if (!haySuelo && estadoActual == EstadoLemming.CAMINANDO) {
             setEstado(EstadoLemming.CAYENDO); // ¡Empieza a caer!
             pixelsCaidos = 0; // Reinicia el contador de caída
         }
 
         // Si estamos cayendo Y encontramos suelo
-        else if (haySuelo && estadoActual == EstadoLemming.CAYENDO) {
+        else if (haySuelo && (estadoActual == EstadoLemming.CAYENDO || estadoActual == EstadoLemming.PLANEANDO)) {
             setEstado(EstadoLemming.CAMINANDO); // Aterriza y camina
             // Ajustar Y para que el Lemming esté exactamente sobre el suelo
             int ySuelo = (this.y + ALTO_LEMMING) / Nivel.BLOQUE_ALTO * Nivel.BLOQUE_ALTO;
@@ -113,7 +109,6 @@ public class Lemming extends ObjetoMovible {
                 setEstado(EstadoLemming.SALVADO);
                 PanelHabilidades.salvarLemming();
             }
-            columnaActual = (columnaActual + 1);
         }
 
     }
@@ -123,27 +118,25 @@ public class Lemming extends ObjetoMovible {
         switch (estadoActual) {
             case CAMINANDO:
                 if (columnaActual >= 8) {
-                    columnaActual = 0;
+                    columnaActual = 3;
                 }
                 filaActual = 0;
                 break;
             case CAYENDO:
-                if (columnaActual >= 4) {
-                    columnaActual = 0;
+                if (columnaActual >= 8) {
+                    columnaActual = 3;
                 }
-                filaActual = 4; // Fila de caída
+                filaActual = 3; // Fila de caída
                 break;
             case PLANEANDO:
-                if (columnaActual >= 2) {
-                    columnaActual = 0;
-                }
-                filaActual = 5; // Fila de paraguas
+                columnaActual = 4;
+                filaActual = 97; // Fila de paraguas
                 break;
             case EXCAVANDO:
-                if (columnaActual >= 8) {
-                    columnaActual = 0;
+                if (columnaActual >= 12) {
+                    columnaActual = 2;
                 }
-                filaActual = 247;
+                filaActual = 250;
                 break;
             case EXPLOTANDO:
                 if (columnaActual >= 16) {
@@ -154,18 +147,17 @@ public class Lemming extends ObjetoMovible {
                 filaActual = 8; // Fila de explosión
                 break;
             case BLOQUEANDO:
-                if (columnaActual >= 8){
-                    columnaActual = 0;
+                if (columnaActual >= 16){
+                    columnaActual = 3;
                 }
-                filaActual = 130;
+                filaActual = 149;
         }
         int sx = columnaActual * 16;
-        //int sy = filaActual * 16;
         int dx = this.x;
         int dy = this.y;
         g.drawImage(spriteLemming,
-                dx, dy, dx + 16, dy + 16, // Coordenadas de destino en pantalla (esquina superior izq y esquina inferior der)
-                sx, filaActual, sx + 16, filaActual + 16, // Coordenadas de origen en el sprite sheet (esquina superior izq y esquina inferior der)
+                dx, dy, dx + 24, dy + 24, // Coordenadas de destino en pantalla (esquina superior izq y esquina inferior der)
+                sx, filaActual, sx + 12, filaActual + 12, // Coordenadas de origen en el sprite sheet (esquina superior izq y esquina inferior der)
                 null);
     }
 
@@ -219,7 +211,6 @@ public class Lemming extends ObjetoMovible {
     }
 
     public void aplicarHabilidadLemming(PanelHabilidades.TipoHabilidad habilidad) {
-        if (estadoActual == EstadoLemming.CAMINANDO) {
             switch (habilidad) {
                 case PARAGUAS:
                     setEstado(EstadoLemming.PLANEANDO);
@@ -234,7 +225,6 @@ public class Lemming extends ObjetoMovible {
                     setEstado(EstadoLemming.BLOQUEANDO);
                     break;
             }
-        }
     }
 
     public static void agregarLemming(Lemming nuevoLemming) {
