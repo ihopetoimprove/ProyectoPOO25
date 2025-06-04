@@ -141,23 +141,7 @@ public class Nivel extends ObjetoGrafico {
             g.drawImage(imagenSalida, salidaX, salidaY, null);
     }
 
-    public boolean destruirBloque(int pixelX, int pixelY) {
-        int tileX = pixelX / BLOQUE_ANCHO;
-        int tileY = pixelY / BLOQUE_ALTO;
 
-        // Verificar si las coordenadas de tile están dentro de los límites del mapa
-        if (tileY >= 0 && tileY < mapa.size()) {
-            List<Integer> fila = mapa.get(tileY);
-            if (fila != null && tileX >= 0 && tileX < fila.size()) {
-                // Solo destruir si es un bloque destructible
-                if (fila.get(tileX) == 1) { //1 para terreno destructible
-                    fila.set(tileX, 0); // Cambia el tipo de bloque a vacío (0)
-                    return true;
-                }
-            }
-        }
-        return false; // No se destruyó ningún bloque
-    }
 
     public int getTipoTile(int pixelX, int pixelY) {
         // Convierte las coordenadas de píxel a coordenadas de tile
