@@ -3,11 +3,12 @@ package poo.Lemmings;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
+import poo.Juego;
 
 import java.awt.*;
 import java.util.Iterator;
 
-public class JuegoLemmings extends JGame {
+public class JuegoLemmings extends Juego {
 
     public enum EstadoJuego {INICIO, JUGANDO, PAUSA, PERDIO, GANA, FIN}
 
@@ -30,7 +31,6 @@ public class JuegoLemmings extends JGame {
 
     public JuegoLemmings(String title, int width, int height) {
         super(title, width, height);
-
     }
 
     @Override

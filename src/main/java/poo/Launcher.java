@@ -187,7 +187,7 @@ public class Launcher extends JFrame implements ActionListener {
                     juego = new JuegoLemmings("Lemmings", 800, 600);
                     t = new Thread() {
                         public void run() {
-                            juego.run(1.0 / 60.0);
+                            juego.run(1.0 / 30.0);
                         }
                     };
                     t.start();

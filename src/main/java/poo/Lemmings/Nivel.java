@@ -113,10 +113,10 @@ public class Nivel extends ObjetoGrafico {
                         case 0:
                             break;
                         case 1:
-                            imagenADibujar = imagenTerrenoSolido;
+                            imagenADibujar = imagenTerrenoDestructible;
                             break;
                         case 2:
-                            imagenADibujar = imagenTerrenoDestructible;
+                            imagenADibujar = imagenTerrenoSolido;
                             break;
                         case 3:
                             imagenADibujar = imagenLava;
@@ -142,6 +142,23 @@ public class Nivel extends ObjetoGrafico {
     }
 
 
+    public boolean setTipoTile(int pixelX, int pixelY, int nuevoTipo) {
+        int tileX = pixelX / BLOQUE_ANCHO;
+        int tileY = pixelY / BLOQUE_ALTO;
+
+        if (tileY >= 0 && tileY < mapa.size()) {
+            List<Integer> fila = mapa.get(tileY);
+            if (fila != null && tileX >= 0 && tileX < fila.size()) {
+                // Solo modificar si es terreno destructible (tipo 2)
+                int tipoActual = fila.get(tileX);
+                if (tipoActual == 1) { // Puedes romper destructible y lava
+                    fila.set(tileX, nuevoTipo); // Cambia el tipo de tile en el mapa
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public int getTipoTile(int pixelX, int pixelY) {
         // Convierte las coordenadas de píxel a coordenadas de tile

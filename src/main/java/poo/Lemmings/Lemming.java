@@ -19,15 +19,7 @@ public class Lemming extends ObjetoMovible {
     private static final int ANCHO_LEMMING = 20;
     private static final int ALTO_LEMMING = 20;
     private static final int UMBRAL_CAIDA_FATAL_PIXELES = 6 * Nivel.BLOQUE_ALTO;
-    private static final BufferedImage spriteLemming;
-    static {
-        try {
-            spriteLemming = ImageIO.read(Objects.requireNonNull(Lemming.class.getClassLoader().getResourceAsStream("imagenes/Lemmings/animacionesLemming.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    private static BufferedImage spriteLemming = null;
     private static List<Lemming> todosLosLemmings = new ArrayList<>();
     private EstadoLemming estadoActual;
     private boolean direccionDerecha = true;
@@ -35,6 +27,7 @@ public class Lemming extends ObjetoMovible {
     private int pixelsCaidos = 0;
     private int columnaActual = 2;
     private int filaActual = 0;
+    private int tiempoInicioExplosion = 0;
 
     public Lemming(int x, int y, Nivel nivelActual) {
         super(x, y);
@@ -42,26 +35,27 @@ public class Lemming extends ObjetoMovible {
         this.estadoActual = EstadoLemming.CAYENDO;
         this.velocidadX = VELOCIDAD_BASE;
         this.velocidadY = 0;
+        if (spriteLemming == null){
+            try {
+                spriteLemming = ImageIO.read(Objects.requireNonNull(Lemming.class.getClassLoader().getResourceAsStream("imagenes/Lemmings/animacionesLemming.png")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public static void limpiarLemmings(){todosLosLemmings.clear();}
-    public void setEstado(EstadoLemming nuevoEstado) {
-        this.estadoActual = nuevoEstado;
-    }
-    public EstadoLemming getEstado() {
-        return estadoActual;
-    }
+    public void setEstado(EstadoLemming nuevoEstado) {this.estadoActual = nuevoEstado;}
+    public EstadoLemming getEstado() {return estadoActual;}
     public EstadoLemming getEstadoActual() { return estadoActual;}
     public static List<Lemming> getTodosLosLemmings() { return todosLosLemmings;}
 
     @Override
     public void mover() {
         boolean haySuelo = haySueloDebajo();
-        columnaActual ++ ;
-
+        columnaActual ++;
         if (estadoActual == EstadoLemming.EXCAVANDO){
             velocidadX = 0;
-            //nivelActual.destruirBloque(x, y);
         }
 
         if (estadoActual == EstadoLemming.PLANEANDO){
@@ -73,7 +67,17 @@ public class Lemming extends ObjetoMovible {
         }
 
         if (estadoActual == EstadoLemming.EXPLOTANDO){
-
+            velocidadX = 0;
+            // Lógica de explosión: después de un cierto tiempo, destruir bloques y eliminar Lemming
+            // Explotar después de 0.5 segundos de animación
+            tiempoInicioExplosion ++;
+            if (tiempoInicioExplosion >= 16) {
+                realizarExplosion();
+                setEstado(EstadoLemming.MURIENDO); // O un estado para ser eliminado completamente
+                tiempoInicioExplosion = 0;
+                // Puedes añadir una lógica aquí para removerlo de todosLosLemmings en el próximo ciclo de jueg
+            }
+            return; // No hacer ninguna otra lógica de movimiento si está explotando
         }
 
         if (!haySuelo && estadoActual == EstadoLemming.CAMINANDO) {
@@ -114,6 +118,19 @@ public class Lemming extends ObjetoMovible {
                 PanelHabilidades.salvarLemming();
             }
         }
+    }
+
+    private void realizarExplosion() {
+        System.out.println("Lemming en (" + x + "," + y + ") EXPLOTANDO! Rompiendo el bloque debajo.");
+
+        // Calcular la posición en píxeles del centro inferior del Lemming
+        // Esto es el punto donde el Lemming "toca" el suelo o el bloque debajo
+        int pixelXCentroInferior = this.x + ANCHO_LEMMING / 2;
+        int pixelYDebajo = this.y + ALTO_LEMMING + 10; // Un pixel por debajo de la base del Lemming
+
+        // Llamar a setTipoTile del nivel para cambiar el tile a "vacío" (0)
+        // Se rompe el tile en la posición inferor-central del Lemming
+        nivelActual.setTipoTile(pixelXCentroInferior, pixelYDebajo, 0);
     }
 
     @Override
@@ -184,17 +201,52 @@ public class Lemming extends ObjetoMovible {
 
     private boolean hayParedDelante() {
         int checkX;
+        int checkYCentroVertical = this.y + ALTO_LEMMING / 2; // A la altura del centro del Lemming
+        int checkYSuperior = this.y + 5; // Cerca de la cabeza (para túneles bajos)
+
         if (direccionDerecha) {
             checkX = this.x + ANCHO_LEMMING + 1; // Un píxel más allá de la derecha del Lemming
         } else {
             checkX = this.x - 1; // Un píxel más allá de la izquierda del Lemming
         }
-        int checkYCentroVertical = this.y + ALTO_LEMMING / 2; // A la altura del centro del Lemming
-        int checkYSuperior = this.y + 5; // Cerca de la cabeza
 
-        // Verifica si hay terreno a la altura del cuerpo o de la cabeza en la dirección de movimiento
-        return esTerrenoSolidoODestructible(checkX, checkYCentroVertical) ||
-                esTerrenoSolidoODestructible(checkX, checkYSuperior);
+        // 1. Detección de terreno sólido
+        if (esTerrenoSolidoODestructible(checkX, checkYCentroVertical) ||
+                esTerrenoSolidoODestructible(checkX, checkYSuperior)) {
+            return true;
+        }
+
+        // 2. Detección de otros Lemmings bloqueadores
+        Rectangle lemmingRect = new Rectangle(x, y, ANCHO_LEMMING, ALTO_LEMMING);
+        for (Lemming otroLemming : todosLosLemmings) {
+            // No compararse a sí mismo
+            if (otroLemming == this) {
+                continue;
+            }
+
+            // Solo si el otro Lemming está en estado BLOQUEANDO
+            if (otroLemming.getEstadoActual() == EstadoLemming.BLOQUEANDO) {
+                Rectangle otroLemmingRect = new Rectangle(otroLemming.x, otroLemming.y, ANCHO_LEMMING, ALTO_LEMMING);
+                Rectangle nextLemmingRect;
+                if (direccionDerecha) {
+                    nextLemmingRect = new Rectangle(x + velocidadX, y, ANCHO_LEMMING, ALTO_LEMMING);
+                } else {
+                    nextLemmingRect = new Rectangle(x + velocidadX, y, ANCHO_LEMMING, ALTO_LEMMING);
+                }
+
+                // Si el bloqueador está muy cerca en la dirección del movimiento
+                // y se intersectaría con la próxima posición, lo consideramos una pared.
+                if (nextLemmingRect.intersects(otroLemmingRect)) {
+                    // Opcional: solo considerar si el bloqueador está justo en frente (misma altura, dirección correcta)
+                    // int distanciaX = Math.abs(this.x - otroLemming.x);
+                    // if (distanciaX <= ANCHO_LEMMING && // Están cerca horizontalmente
+                    //     Math.abs(this.y - otroLemming.y) < ALTO_LEMMING / 2) { // Están a una altura similar
+                    return true;
+                    // }
+                }
+            }
+        }
+        return false; // No hay pared de terreno ni Lemming bloqueador
     }
 
     private boolean tocaSalida() {
