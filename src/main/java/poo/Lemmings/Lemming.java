@@ -19,14 +19,20 @@ public class Lemming extends ObjetoMovible {
     private static final int ANCHO_LEMMING = 20;
     private static final int ALTO_LEMMING = 20;
     private static final int UMBRAL_CAIDA_FATAL_PIXELES = 6 * Nivel.BLOQUE_ALTO;
+    private static final BufferedImage spriteLemming;
+    static {
+        try {
+            spriteLemming = ImageIO.read(Objects.requireNonNull(Lemming.class.getClassLoader().getResourceAsStream("imagenes/Lemmings/animacionesLemming.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static List<Lemming> todosLosLemmings = new ArrayList<>();
     private EstadoLemming estadoActual;
     private boolean direccionDerecha = true;
-    private int habilidad;
     protected Nivel nivelActual;
     private int pixelsCaidos = 0;
-    private static BufferedImage spriteLemming;
     private int columnaActual = 2;
     private int filaActual = 0;
 
@@ -36,32 +42,26 @@ public class Lemming extends ObjetoMovible {
         this.estadoActual = EstadoLemming.CAYENDO;
         this.velocidadX = VELOCIDAD_BASE;
         this.velocidadY = 0;
-        try {
-            spriteLemming = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/animacionesLemming.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
+    public static void limpiarLemmings(){todosLosLemmings.clear();}
     public void setEstado(EstadoLemming nuevoEstado) {
         this.estadoActual = nuevoEstado;
     }
-
     public EstadoLemming getEstado() {
         return estadoActual;
     }
+    public EstadoLemming getEstadoActual() { return estadoActual;}
+    public static List<Lemming> getTodosLosLemmings() { return todosLosLemmings;}
 
     @Override
     public void mover() {
         boolean haySuelo = haySueloDebajo();
         columnaActual ++ ;
-        if (estadoActual == EstadoLemming.MURIENDO || estadoActual == EstadoLemming.SALVADO) {
-        }
 
         if (estadoActual == EstadoLemming.EXCAVANDO){
             velocidadX = 0;
             //nivelActual.destruirBloque(x, y);
-
         }
 
         if (estadoActual == EstadoLemming.PLANEANDO){
@@ -72,8 +72,12 @@ public class Lemming extends ObjetoMovible {
             velocidadX = 0;
         }
 
+        if (estadoActual == EstadoLemming.EXPLOTANDO){
+
+        }
+
         if (!haySuelo && estadoActual == EstadoLemming.CAMINANDO) {
-            setEstado(EstadoLemming.CAYENDO); // ¡Empieza a caer!
+            setEstado(EstadoLemming.CAYENDO);
             pixelsCaidos = 0; // Reinicia el contador de caída
         }
 
@@ -110,7 +114,6 @@ public class Lemming extends ObjetoMovible {
                 PanelHabilidades.salvarLemming();
             }
         }
-
     }
 
     @Override
@@ -123,20 +126,18 @@ public class Lemming extends ObjetoMovible {
                 filaActual = 0;
                 break;
             case CAYENDO:
-                if (columnaActual >= 8) {
-                    columnaActual = 3;
-                }
-                filaActual = 3; // Fila de caída
+                columnaActual = 3;
+                filaActual = 22; // Fila de caída
                 break;
             case PLANEANDO:
-                columnaActual = 4;
+                columnaActual = 6;
                 filaActual = 97; // Fila de paraguas
                 break;
             case EXCAVANDO:
                 if (columnaActual >= 12) {
                     columnaActual = 2;
                 }
-                filaActual = 250;
+                filaActual = 249;
                 break;
             case EXPLOTANDO:
                 if (columnaActual >= 16) {
@@ -144,26 +145,22 @@ public class Lemming extends ObjetoMovible {
                     // - Ponerlo en un estado "muerto" o "inactivo"
                     columnaActual = 15; // Se queda en el último frame de la explosión
                 }
-                filaActual = 8; // Fila de explosión
+                filaActual = 169; // Fila de explosión
                 break;
             case BLOQUEANDO:
                 if (columnaActual >= 16){
                     columnaActual = 3;
                 }
                 filaActual = 149;
+                break;
         }
-        int sx = columnaActual * 16;
+        int sx = columnaActual * 16 + 2;
         int dx = this.x;
         int dy = this.y;
         g.drawImage(spriteLemming,
                 dx, dy, dx + 24, dy + 24, // Coordenadas de destino en pantalla (esquina superior izq y esquina inferior der)
                 sx, filaActual, sx + 12, filaActual + 12, // Coordenadas de origen en el sprite sheet (esquina superior izq y esquina inferior der)
                 null);
-    }
-
-
-    public static List<Lemming> getTodosLosLemmings() {
-        return todosLosLemmings;
     }
 
     public void cambiarDireccion(){
@@ -206,10 +203,6 @@ public class Lemming extends ObjetoMovible {
         return lemmingRect.intersects(salidaRect);
     }
 
-    public static void limpiarLemmings(){
-        todosLosLemmings.clear();
-    }
-
     public void aplicarHabilidadLemming(PanelHabilidades.TipoHabilidad habilidad) {
             switch (habilidad) {
                 case PARAGUAS:
@@ -229,9 +222,5 @@ public class Lemming extends ObjetoMovible {
 
     public static void agregarLemming(Lemming nuevoLemming) {
         todosLosLemmings.add(nuevoLemming);
-    }
-
-    public EstadoLemming getEstadoActual() {
-        return estadoActual;
     }
 }

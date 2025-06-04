@@ -7,15 +7,12 @@ import java.awt.*;
 public class DibujarEstado{
 
     private JuegoLemmings juegoLemmings;
-
     private short nivelesCompletados = 0;
 
 
     public DibujarEstado(JuegoLemmings juegoLemmings) {
         this.juegoLemmings = juegoLemmings;
     }
-
-
 
     public void estadoInicio(Graphics2D g) {
         Mouse mouse = juegoLemmings.getMouse();
@@ -101,6 +98,7 @@ public class DibujarEstado{
                 juegoLemmings.seleccionarNivel();
             } else if (mouseX >= 0 && mouseX <= 350 && mouseY >= 400 && mouseY <= 600) {
                 juegoLemmings.seleccionarNivel();
+                nivelesCompletados --;
             }
         }
     }
@@ -114,12 +112,16 @@ public class DibujarEstado{
         g.drawString("Has completado el juego!", 240, 200);
         g.drawString("Niveles completados: " + nivelesCompletados + " / 3", 160, 300);
         g.drawString("Jugar de nuevo", 50, 500);
-        if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
+        if (mouse.isLeftButtonPressed()) {
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
             if (mouseX >= 0 && mouseX <= 350  && mouseY >= 400 && mouseY <= 600){
-                juegoLemmings.seleccionarNivel();
+                JuegoLemmings.reiniciarJuego();
             }
         }
+    }
+
+    public void completarNivel(){
+        nivelesCompletados ++;
     }
 }
