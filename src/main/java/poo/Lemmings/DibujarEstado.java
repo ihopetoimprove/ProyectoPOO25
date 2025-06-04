@@ -1,14 +1,18 @@
 package poo.Lemmings;
 
 import com.entropyinteractive.Mouse;
+import poo.BDJugador;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class DibujarEstado{
+
+public class DibujarEstado extends JFrame{
 
     private JuegoLemmings juegoLemmings;
     private short nivelesCompletados = 0;
-
+    JTextField campoNombre;
+    private BDJugador jugador;
 
     public DibujarEstado(JuegoLemmings juegoLemmings) {
         this.juegoLemmings = juegoLemmings;
@@ -23,6 +27,13 @@ public class DibujarEstado{
         g.setFont(new Font("Arial", Font.BOLD, 48));
         String gameTitle = "¡LEMMINGS!";
         g.drawString(gameTitle, 255, 100);
+
+        // campo de texto
+        campoNombre = new JTextField("Ingresa tu nombre aquí");
+        campoNombre.setBounds(100, 50, 200, 30); // Posición y tamaño
+        campoNombre.setBackground(Color.black);
+        add(campoNombre);
+
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 24));
