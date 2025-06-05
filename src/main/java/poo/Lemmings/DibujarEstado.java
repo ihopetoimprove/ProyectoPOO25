@@ -13,9 +13,12 @@ public class DibujarEstado extends JFrame{
     private short nivelesCompletados = 0;
     JTextField campoNombre;
     private BDJugador jugador;
+    PanelHabilidades panel;
+    private static int puntos = 0;
 
-    public DibujarEstado(JuegoLemmings juegoLemmings) {
+    public DibujarEstado(JuegoLemmings juegoLemmings, PanelHabilidades panelHabilidades) {
         this.juegoLemmings = juegoLemmings;
+        this.panel = panelHabilidades;
     }
 
     public void estadoInicio(Graphics2D g) {
@@ -72,6 +75,7 @@ public class DibujarEstado extends JFrame{
             }
         }
     }
+
     public void estadoPerdio(Graphics2D g) {
         Mouse mouse = juegoLemmings.getMouse();
         g.setColor(new Color(50, 50, 150));
@@ -88,17 +92,22 @@ public class DibujarEstado extends JFrame{
             }
         }
     }
+
     public void estadoGana(Graphics2D g) {
         Mouse mouse = juegoLemmings.getMouse();
         if (nivelesCompletados == 3) {
             juegoLemmings.finDelJuego();
         }
+        sumarPuntos();
         g.setColor(new Color(50, 50, 150));
         g.fillRect(0, 0, 800, 600);
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("Muy bien ganaste!", 240, 200);
-        g.drawString("Niveles completados: " + nivelesCompletados + " / 3", 160, 300);
+        g.drawString("Muy bien ganaste!", 240, 100);
+        g.drawString("-Niveles completados: " + nivelesCompletados + " / 3", 20, 200);
+        g.drawString("-Lemmings salvados: " + panel.getLemmingsSalvados(), 20, 250);
+        g.drawString("-Tiempo restante: " + Temporizador.getTiempoRestante(), 20, 300);
+        g.drawString("-Puntos totales: " + puntos, 20, 350);
         g.drawString("Jugar de nuevo", 50, 500);
         g.drawString("Siguiente nivel", 450, 500);
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
@@ -121,7 +130,9 @@ public class DibujarEstado extends JFrame{
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("Has completado el juego!", 240, 200);
-        g.drawString("Niveles completados: " + nivelesCompletados + " / 3", 160, 300);
+        g.drawString("-Lemmings salvados: " + panel.getLemmingsSalvados(), 20, 250);
+        g.drawString("-Tiempo restante: " + Temporizador.getTiempoRestante(), 20, 300);
+        g.drawString("-Puntos totales: " + puntos, 20, 350);
         g.drawString("Jugar de nuevo", 50, 500);
         if (mouse.isLeftButtonPressed()) {
             int mouseX = mouse.getX();
@@ -136,7 +147,13 @@ public class DibujarEstado extends JFrame{
         juegoLemmings.seleccionarNivel();
         nivelesCompletados --;
     }
+    public void sumarPuntos(){
+        puntos = Temporizador.getTiempoRestante() + (panel.getLemmingsSalvados()*10);
+    }
     public void completarNivel(){
         nivelesCompletados ++;
+    }
+    public void setPanelHabilidades(PanelHabilidades nuevoPanelHabilidades) {
+        this.panel = nuevoPanelHabilidades;
     }
 }
