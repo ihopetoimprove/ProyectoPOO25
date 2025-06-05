@@ -17,6 +17,7 @@ public class PanelHabilidades {
     private TipoHabilidad habilidadSeleccionada = TipoHabilidad.NINGUNA;
     private static BufferedImage imagenHabilidades;
     private static int totalLemmings;
+    private static int lemmingsVivos;
     private static int lemmingsASalvar;
     private static int lemmingsSalvados = 0;
     private int tiempoLimite;
@@ -37,8 +38,8 @@ public class PanelHabilidades {
         g.drawImage(imagenHabilidades, 50, 500, null);
         g.setColor(Color.black);
         g.drawString("Lemmings salvados: " + getLemmingsSalvados() + " / " + getLemmingsASalvar(), 600, 550);
-        g.drawString("Tiempo restante: " + Integer.toString(Temporizador.getTiempoRestante()), 600, 570);
-        g.drawString("Cantidad de Lemmings restantes: " + Integer.toString(getTotalLemmings()), 600, 530);
+        g.drawString("Tiempo restante: " + Temporizador.getTiempoRestante(), 600, 570);
+        g.drawString("Cantidad de Lemmings restantes: " + getLemmingsVivos(), 600, 530);
         g.drawString(String.valueOf(cantidadParaguas), 85, 525);
         g.drawString(String.valueOf(cantidadBombas), 172, 525);
         g.drawString(String.valueOf(cantidadBloqueadores),260, 525);
@@ -127,6 +128,7 @@ public class PanelHabilidades {
                 if (linea.startsWith("#")) { // Líneas de configuración (metadatos del nivel)
                     if (linea.startsWith("#LEMMINGS_TOTAL:")) {
                         totalLemmings = Integer.parseInt(linea.split(":")[1].trim());
+                        lemmingsVivos = totalLemmings;
                     } else if (linea.startsWith("#LEMMINGS_SALVAR:")) {
                         lemmingsASalvar = Integer.parseInt(linea.split(":")[1].trim());
                     } else if (linea.startsWith("#TIEMPO_LIMITE:")) {
@@ -171,8 +173,9 @@ public class PanelHabilidades {
     }
 
     public void eliminarLemming() {
-        totalLemmings--;
+        lemmingsVivos--;
     }
 
+    public int getLemmingsVivos(){return lemmingsVivos;}
     public TipoHabilidad getHabilidadSeleccionada() {return this.habilidadSeleccionada; }
 }

@@ -80,6 +80,7 @@ public class Lemming extends ObjetoMovible {
 
         if (!haySuelo && estadoActual == EstadoLemming.CAMINANDO) {
             setEstado(EstadoLemming.CAYENDO);
+            this.x = x+11;
             pixelsCaidos = 0; // Reinicia el contador de caída
         }
 
@@ -100,6 +101,9 @@ public class Lemming extends ObjetoMovible {
         else if (estadoActual == EstadoLemming.CAYENDO) {
             this.y += VELOCIDAD_CAIDA; // Mover verticalmente
             pixelsCaidos += VELOCIDAD_CAIDA; // Acumular distancia de caída
+            if(tocaLava()){
+                setEstado(EstadoLemming.MURIENDO);
+            }
         }
 
         if(estadoActual == EstadoLemming.CAMINANDO){
@@ -135,8 +139,8 @@ public class Lemming extends ObjetoMovible {
                     filaActual = direccionDerecha ? 0 : 10;
                 break;
             case CAYENDO:
-                columnaActual = 3;
-                filaActual = 22; // Fila de caída
+                columnaActual = 1;
+                filaActual = 19;
                 break;
             case PLANEANDO:
                 columnaActual = 6;

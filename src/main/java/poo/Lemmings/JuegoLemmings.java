@@ -23,13 +23,8 @@ public class JuegoLemmings extends Juego {
     private long ultimoTiempoAccion;
     Mouse mouse = this.getMouse();
     static boolean sePresionoElMouse = false;
-
     Temporizador temporizador;
 
-
-    //no se que onda con esto
-    private StringBuilder currentNameInput = new StringBuilder(); // ¡Aquí está declarado!
-    private String playerName = "Jugador";
 
     public JuegoLemmings(String title, int width, int height) {
         super(title, width, height);
@@ -37,7 +32,7 @@ public class JuegoLemmings extends Juego {
 
     @Override
     public void gameStartup() {
-        this.dibujadorEstados = new DibujarEstado(this);
+        dibujadorEstados = new DibujarEstado(this, panel);
     }
 
     @Override
@@ -86,6 +81,7 @@ public class JuegoLemmings extends Juego {
         lemmingsGenerados = 0;
         if (nivelSeleccionado != -1) {
             panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado], getMouse());
+            dibujadorEstados = new DibujarEstado(this, panel);
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
             temporizador = new Temporizador(panel.getTiempoLimite());
@@ -141,14 +137,14 @@ public class JuegoLemmings extends Juego {
     }
 
     public void controlarVictoria() {
-        if (panel.getLemmingsSalvados() == panel.getLemmingsASalvar()) {
+        if (panel.getLemmingsVivos() == 0) {
             dibujadorEstados.completarNivel();
             estadoJuego = EstadoJuego.GANA;
         }
     }
 
     public void controlarDerrota() {
-        if (temporizador.getTiempoRestante() <= 0 || panel.getLemmingsASalvar() - panel.getLemmingsSalvados() > panel.getTotalLemmings()) {
+        if (Temporizador.getTiempoRestante() <= 0 || panel.getLemmingsASalvar() - panel.getLemmingsSalvados() > panel.getLemmingsVivos()) {
             estadoJuego = EstadoJuego.PERDIO;
         }
     }
@@ -156,8 +152,8 @@ public class JuegoLemmings extends Juego {
     public Lemming encontrarLemmingEn(int x, int y) {
         for (Lemming lemming : Lemming.getTodosLosLemmings()) {
             if (
-                    x >= (lemming.getX() - 60) && x <= (lemming.getX() + 20) &&
-                            y >= (lemming.getY() - 60) && y <= (lemming.getY() + 20)) {
+                    x >= (lemming.getX() - 20) && x <= (lemming.getX() + 20) &&
+                            y >= (lemming.getY() - 20) && y <= (lemming.getY() + 20)) {
                 return lemming;
             }
         }
