@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 public class PanelHabilidades {
 
-    public enum TipoHabilidad {NINGUNA, EXCAVADOR, BLOQUEADOR, BOMBA, PARAGUAS}
+    public enum TipoHabilidad {NINGUNA, EXCAVADOR, NUKE, BLOQUEADOR, BOMBA, PARAGUAS}
     private TipoHabilidad habilidadSeleccionada = TipoHabilidad.NINGUNA;
     private static BufferedImage imagenHabilidades;
     private static int totalLemmings;
@@ -34,15 +34,15 @@ public class PanelHabilidades {
     public void dibujar(Graphics2D g){
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0, 500, 820, 120);
-        g.drawImage(imagenHabilidades, 100, 500, null);
+        g.drawImage(imagenHabilidades, 50, 500, null);
         g.setColor(Color.black);
         g.drawString("Lemmings salvados: " + getLemmingsSalvados() + " / " + getLemmingsASalvar(), 600, 550);
         g.drawString("Tiempo restante: " + Integer.toString(Temporizador.getTiempoRestante()), 600, 570);
         g.drawString("Cantidad de Lemmings restantes: " + Integer.toString(getTotalLemmings()), 600, 530);
-        g.drawString(String.valueOf(cantidadParaguas), 135, 525);
-        g.drawString(String.valueOf(cantidadBombas), 222, 525);
-        g.drawString(String.valueOf(cantidadBloqueadores),310, 525);
-        g.drawString(String.valueOf(cantidadExcavadores), 395, 525);
+        g.drawString(String.valueOf(cantidadParaguas), 85, 525);
+        g.drawString(String.valueOf(cantidadBombas), 172, 525);
+        g.drawString(String.valueOf(cantidadBloqueadores),260, 525);
+        g.drawString(String.valueOf(cantidadExcavadores), 345, 525);
         seleccionarHabilidad(g);
         dibujarHabilidadSeleccionada(g);
     }
@@ -65,14 +65,16 @@ public class PanelHabilidades {
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
             if (mouseY >= 480){
-                if (mouseX >= 100 && mouseX <= 175) {
+                if (mouseX >= 50 && mouseX <= 125) {
                     habilidadSeleccionada = TipoHabilidad.PARAGUAS;
-                } else if (mouseX >= 180 && mouseX <= 260){
+                } else if (mouseX >= 130 && mouseX <= 210){
                     habilidadSeleccionada = TipoHabilidad.BOMBA;
-                } else if (mouseX > 265 && mouseX < 340){
+                } else if (mouseX > 215 && mouseX < 290){
                     habilidadSeleccionada = TipoHabilidad.BLOQUEADOR;
-                } else if (mouseX >= 361 && mouseX <= 440){
+                } else if (mouseX >= 300 && mouseX <= 400){
                     habilidadSeleccionada = TipoHabilidad.EXCAVADOR;
+                } else if (mouseX >=470 && mouseX <= 550){
+                    habilidadSeleccionada = TipoHabilidad.NUKE;
                 }
             }
         }
@@ -80,13 +82,13 @@ public class PanelHabilidades {
 
     public void dibujarHabilidadSeleccionada(Graphics2D g){
         if (habilidadSeleccionada == TipoHabilidad.PARAGUAS){
-        g.drawRect(105, 505, 70, 95);
+        g.drawRect(55, 505, 70, 95);
         } else if (habilidadSeleccionada == TipoHabilidad.BOMBA){
-            g.drawRect(190, 505, 70, 95);
+            g.drawRect(140, 505, 70, 95);
         } else if (habilidadSeleccionada == TipoHabilidad.BLOQUEADOR){
-            g.drawRect(275, 505, 70, 95);
+            g.drawRect(225, 505, 70, 95);
         } else if (habilidadSeleccionada == TipoHabilidad.EXCAVADOR){
-            g.drawRect(360, 505, 70, 95);
+            g.drawRect(310, 505, 70, 95);
         }
     }
 

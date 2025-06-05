@@ -78,7 +78,7 @@ public class DibujarEstado extends JFrame{
         g.fillRect(0, 0, 800, 600);
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("Muy bien PERDISTE!", 240, 200);
+        g.drawString("Has perdido", 240, 200);
         g.drawString("Intentar de nuevo", 50, 500);
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             int mouseX = mouse.getX();
@@ -132,6 +132,10 @@ public class DibujarEstado extends JFrame{
         }
     }
 
+    public void reiniciarNivel(){
+        juegoLemmings.seleccionarNivel();
+        nivelesCompletados --;
+    }
     public void completarNivel(){
         nivelesCompletados ++;
     }

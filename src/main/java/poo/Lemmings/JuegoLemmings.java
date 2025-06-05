@@ -60,21 +60,17 @@ public class JuegoLemmings extends Juego {
     public void gameDraw(Graphics2D g) {
         if (estadoJuego == EstadoJuego.INICIO) {
             dibujadorEstados.estadoInicio(g);
-        }
-        if (estadoJuego == EstadoJuego.JUGANDO || estadoJuego == EstadoJuego.PAUSA) {
+        } else if (estadoJuego == EstadoJuego.JUGANDO || estadoJuego == EstadoJuego.PAUSA) {
             nivelActual.dibujar(g);
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                 lemming.dibujar(g);
             }
             panel.dibujar(g);
-        }
-        if (estadoJuego == EstadoJuego.PERDIO) {
+        } else if (estadoJuego == EstadoJuego.PERDIO) {
             dibujadorEstados.estadoPerdio(g);
-        }
-        if (estadoJuego == EstadoJuego.GANA) {
+        } else if (estadoJuego == EstadoJuego.GANA) {
             dibujadorEstados.estadoGana(g);
-        }
-        if (estadoJuego == EstadoJuego.FIN) {
+        } else if (estadoJuego == EstadoJuego.FIN) {
             dibujadorEstados.estadoFin(g);
         }
     }
@@ -124,6 +120,9 @@ public class JuegoLemmings extends Juego {
     }
 
     public void controlarHabilidades() {
+        if (panel.getHabilidadSeleccionada() == PanelHabilidades.TipoHabilidad.NUKE){
+            dibujadorEstados.reiniciarNivel();
+        }
         int mouseX = mouse.getX();
         int mouseY = mouse.getY();
         boolean mouseApretado = mouse.isLeftButtonPressed();
@@ -131,7 +130,7 @@ public class JuegoLemmings extends Juego {
             Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
             if (lemmingClickeado != null) {
                 if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                    if (lemmingClickeado.getEstadoActual() == Lemming.EstadoLemming.CAMINANDO || lemmingClickeado.getEstadoActual() == Lemming.EstadoLemming.CAYENDO) {
+                    if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO || lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.EXCAVANDO) {
                         lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
                         panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
                     }
@@ -165,22 +164,13 @@ public class JuegoLemmings extends Juego {
         return null;
     }
 
-    public Mouse getMouse() {
-        return super.getMouse(); // Asegúrate de llamar al getMouse() de JGame
-    }
-
+    public Mouse getMouse() {return super.getMouse();}
     public static EstadoJuego getEstadoJuego(){return estadoJuego;}
     public static boolean getSePresionoElMouse(){return sePresionoElMouse;}
     public void setNivelSeleccionado(int nivel){nivelSeleccionado = nivel;}
     public static void setPausa(){estadoJuego = EstadoJuego.PAUSA;}
     public static void reaunudarJuego(){estadoJuego = EstadoJuego.JUGANDO;}
     public static void reiniciarJuego(){estadoJuego = EstadoJuego.INICIO;}
-
-    public void subirNivel(){
-        nivelSeleccionado = (nivelSeleccionado + 1) % 3;
-    }
-
-    public void finDelJuego(){
-        estadoJuego = EstadoJuego.FIN;
-    }
+    public void subirNivel(){nivelSeleccionado = (nivelSeleccionado + 1) % 3;}
+    public void finDelJuego(){estadoJuego = EstadoJuego.FIN;}
 }
