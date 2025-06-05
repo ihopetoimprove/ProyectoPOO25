@@ -5,6 +5,7 @@ import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
 import poo.Juego;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
@@ -24,6 +25,7 @@ public class JuegoLemmings extends Juego {
     static boolean sePresionoElMouse = false;
 
     Temporizador temporizador;
+
 
     //no se que onda con esto
     private StringBuilder currentNameInput = new StringBuilder(); // ¡Aquí está declarado!

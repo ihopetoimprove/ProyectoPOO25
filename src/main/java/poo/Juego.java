@@ -1,8 +1,6 @@
 package poo;
 
 import com.entropyinteractive.JGame;
-import poo.Lemmings.Jugador;
-import poo.Lemmings.Temporizador;
 
 public abstract class Juego extends JGame {
 
