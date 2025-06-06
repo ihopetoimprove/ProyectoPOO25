@@ -1,6 +1,7 @@
 package poo.Lemmings;
 
 import com.entropyinteractive.Mouse;
+import poo.Sonido;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -49,6 +50,9 @@ public class PanelHabilidades {
         g.drawString(String.valueOf(cantidadBombas), 132, 525);
         g.drawString(String.valueOf(cantidadBloqueadores),220, 525);
         g.drawString(String.valueOf(cantidadEscaladores), 305, 525);
+        g.drawString("Pausa", 370,520);
+        g.drawString("Nuke", 460,520);
+        g.drawString("Acelerar", 540,520);
         seleccionarHabilidad(g);
         dibujarHabilidadSeleccionada(g);
     }
@@ -217,6 +221,7 @@ public class PanelHabilidades {
 
     public void eliminarLemming() {
         lemmingsVivos--;
+        Sonido.reproducir("die.wav");
     }
 
     public int getLemmingsVivos(){return lemmingsVivos;}

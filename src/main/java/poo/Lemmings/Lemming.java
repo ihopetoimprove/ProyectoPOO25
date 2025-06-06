@@ -1,6 +1,7 @@
 package poo.Lemmings;
 
 import poo.ObjetoMovible;
+import poo.Sonido;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -28,6 +29,7 @@ public class Lemming extends ObjetoMovible {
     private int filaActual = 0;
     private int tiempoInicioExplosion = 0;
     private boolean puedeEscalar = false;
+    private boolean puedePlanear = false;
 
     public Lemming(int x, int y, Nivel nivelActual) {
         super(x, y);
@@ -55,7 +57,7 @@ public class Lemming extends ObjetoMovible {
         boolean haySuelo = haySueloDebajo();
         columnaActual ++;
         if (estadoActual == EstadoLemming.ESCALANDO) {
-            this.y -= (int)(1*delta);
+            this.y -= (int)(1 * delta);
             if (!hayParedDelante(x, y) || y <= 0) {
                 setEstado(EstadoLemming.CAMINANDO);
                 puedeEscalar = false;
@@ -65,6 +67,9 @@ public class Lemming extends ObjetoMovible {
         if (estadoActual == EstadoLemming.PLANEANDO){
             this.y = (int)(y + 1 * delta);
             pixelsCaidos = 0;
+            if(haySueloDebajo()){
+                puedePlanear = false;
+            }
         }
 
         if (estadoActual == EstadoLemming.BLOQUEANDO){
@@ -83,30 +88,31 @@ public class Lemming extends ObjetoMovible {
         }
 
         if (!haySuelo && estadoActual == EstadoLemming.CAMINANDO) {
+            if (direccionDerecha){
+                this.x = x +11;
+            }else {
+                this.x = x - 6;
+            }
             setEstado(EstadoLemming.CAYENDO);
-            this.x = x+11;
             pixelsCaidos = 0; // Reinicia el contador de caída
         }
 
         // Si estamos cayendo Y encontramos suelo
         else if (haySuelo && (estadoActual == EstadoLemming.CAYENDO || estadoActual == EstadoLemming.PLANEANDO)) {
             setEstado(EstadoLemming.CAMINANDO); // Aterriza y camina
-            // Ajustar Y para que el Lemming esté exactamente sobre el suelo
-            int ySuelo = (this.y + ALTO_LEMMING) / Nivel.BLOQUE_ALTO * Nivel.BLOQUE_ALTO;
-            // Ajusta la posición Y del Lemming para que su base esté JUSTO sobre la superficie del suelo
-            this.y = ySuelo - ALTO_LEMMING;
-
-            setEstado(EstadoLemming.CAMINANDO);
             if (pixelsCaidos > UMBRAL_CAIDA_FATAL_PIXELES || tocaLava()) {
                 setEstado(EstadoLemming.MURIENDO);
             }
+            int ySuelo = (this.y + ALTO_LEMMING) / Nivel.BLOQUE_ALTO * Nivel.BLOQUE_ALTO;
+            this.y = ySuelo - ALTO_LEMMING;
+
         }
         // Si sigue cayendo (no ha aterrizado aún)
         else if (estadoActual == EstadoLemming.CAYENDO) {
             this.y += (int)(VELOCIDAD_CAIDA * delta); // Mover verticalmente
-            pixelsCaidos += VELOCIDAD_CAIDA; // Acumular distancia de caída
-            if(tocaLava()){
-                setEstado(EstadoLemming.MURIENDO);
+            pixelsCaidos += (int) (VELOCIDAD_CAIDA * delta); // Acumular distancia de caída
+            if (puedePlanear){
+                estadoActual = EstadoLemming.PLANEANDO;
             }
         }
 
@@ -118,6 +124,9 @@ public class Lemming extends ObjetoMovible {
                 }else {
                     cambiarDireccion();
                 }
+            }
+            if(!haySueloDebajo() && puedePlanear){
+                    estadoActual = EstadoLemming.PLANEANDO;
             }
             if(tocaSalida()){
                 setEstado(EstadoLemming.SALVADO);
@@ -258,17 +267,21 @@ public class Lemming extends ObjetoMovible {
     public void aplicarHabilidadLemming(PanelHabilidades.TipoHabilidad habilidad) {
             switch (habilidad) {
                 case PARAGUAS:
-                    setEstado(EstadoLemming.PLANEANDO);
+                    puedePlanear = true;
+                    Sonido.reproducir("agregarHabilidad.wav");
                     break;
                 case BOMBA:
                     setEstado(EstadoLemming.EXPLOTANDO);
+                    Sonido.reproducir("Bomba.wav");
                     break;
                 case ESCALADOR:
                     setEstado(EstadoLemming.CAMINANDO);
+                    Sonido.reproducir("agregarHabilidad.wav");
                     puedeEscalar = true;
                     break;
                 case BLOQUEADOR:
                     setEstado(EstadoLemming.BLOQUEANDO);
+                    Sonido.reproducir("agregarHabilidad.wav");
                     break;
             }
     }
