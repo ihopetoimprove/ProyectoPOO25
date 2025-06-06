@@ -17,7 +17,7 @@ public class Pelota extends ObjetoMovible {
     }
 
     @Override
-    public void mover() {
+    public void mover(double delta) {
         if (enMovimiento) {
             setX(x+velocidadX);
             setY(y+velocidadY);

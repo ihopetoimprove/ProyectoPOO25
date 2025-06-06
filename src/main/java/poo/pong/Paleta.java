@@ -22,7 +22,7 @@ public class Paleta extends ObjetoMovible {
     }
 
     @Override
-    public void mover() {
+    public void mover(double delta) {
     }
 
     public int getAncho(){

@@ -42,7 +42,8 @@ public class Pong extends JGame {
         if (estadoJuego == JUGANDO) {
             procesarTeclado();
             detectarColision();
-            pelota.mover();
+            double delta = 1;
+            pelota.mover(delta);
             anotarGol();
         }
         if (estadoJuego == PAUSA) {

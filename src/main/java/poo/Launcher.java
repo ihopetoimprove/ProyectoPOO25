@@ -17,6 +17,7 @@ public class Launcher extends JFrame implements ActionListener {
     private JLabel imagen;
     JGame juego;
     Thread t;
+    private static float delta = (float) 1 /30;
 
     public Launcher() {
         setTitle("Launcher");
@@ -187,7 +188,7 @@ public class Launcher extends JFrame implements ActionListener {
                     juego = new JuegoLemmings("Lemmings", 800, 600);
                     t = new Thread() {
                         public void run() {
-                            juego.run(1.0 / 30.0);
+                            juego.run(delta);
                         }
                     };
                     t.start();
@@ -210,8 +211,9 @@ public class Launcher extends JFrame implements ActionListener {
         }
     }
 
-
-
+    public void acelerarJuego(){
+        delta = (float) 1 /60;
+    }
 
     public static void main(String[] args) {
         Launcher ejemplo = new Launcher();
