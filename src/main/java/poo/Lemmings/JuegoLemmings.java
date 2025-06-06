@@ -3,6 +3,7 @@ package poo.Lemmings;
 import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
 import poo.Juego;
+import poo.Sonido;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -25,7 +26,6 @@ public class JuegoLemmings extends Juego {
     private boolean juegoPausado = false;
     private double velocidadJuego = 1.0;
 
-
     public JuegoLemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -40,7 +40,6 @@ public class JuegoLemmings extends Juego {
     public void gameUpdate(double v) {
         PanelHabilidades.TipoHabilidad habilidadActivadaEsteFrame = panel.getHabilidadActivadaUnaVez();
 
-        // 2. Manejar habilidades globales de forma independiente
         aplicarPausa(habilidadActivadaEsteFrame);
         aplicarNuke(habilidadActivadaEsteFrame);
         manejarAcelerarJuego(habilidadActivadaEsteFrame);
@@ -118,6 +117,7 @@ public class JuegoLemmings extends Juego {
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
             temporizador = new Temporizador(panel.getTiempoLimite());
+            Sonido.reproducir("letsgo.wav");
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
         }
     }
@@ -157,7 +157,7 @@ public class JuegoLemmings extends Juego {
                 Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
                 if (lemmingClickeado != null) {
                     if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO && lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.ESCALANDO) {
+                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.ESCALANDO) {
                             lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
                             panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
                         }
@@ -171,6 +171,7 @@ public class JuegoLemmings extends Juego {
         if (panel.getLemmingsVivos() == 0) {
             dibujadorEstados.completarNivel();
             estadoJuego = EstadoJuego.GANA;
+            Sonido.reproducir("success.wav");
         }
     }
 
