@@ -9,7 +9,7 @@ public abstract class ObjetoMovible extends ObjetoGrafico {
         super(x,y);
     }
 
-    public abstract void mover();
+    public abstract void mover(double delta);
 
     // Métodos getter y setter para la velocidad
     public int getVelocidadX() {

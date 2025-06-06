@@ -7,13 +7,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 public class Lemming extends ObjetoMovible {
 
-    public enum EstadoLemming {CAMINANDO, CAYENDO, EXCAVANDO, BLOQUEANDO, PLANEANDO, EXPLOTANDO, MURIENDO, SALVADO}
+    public enum EstadoLemming {CAMINANDO, CAYENDO, ESCALANDO, BLOQUEANDO, PLANEANDO, EXPLOTANDO, MURIENDO, SALVADO}
     private static final int VELOCIDAD_BASE = 1;
     private static final int VELOCIDAD_CAIDA = 4;
     private static final int ANCHO_LEMMING = 20;
@@ -28,6 +27,7 @@ public class Lemming extends ObjetoMovible {
     private int columnaActual = 2;
     private int filaActual = 0;
     private int tiempoInicioExplosion = 0;
+    private boolean puedeEscalar = false;
 
     public Lemming(int x, int y, Nivel nivelActual) {
         super(x, y);
@@ -51,15 +51,19 @@ public class Lemming extends ObjetoMovible {
     public static List<Lemming> getTodosLosLemmings() { return todosLosLemmings;}
 
     @Override
-    public void mover() {
+    public void mover(double delta) {
         boolean haySuelo = haySueloDebajo();
         columnaActual ++;
-        if (estadoActual == EstadoLemming.EXCAVANDO){
-            velocidadX = 0;
+        if (estadoActual == EstadoLemming.ESCALANDO) {
+            this.y -= (int)(1*delta);
+            if (!hayParedDelante(x, y) || y <= 0) {
+                setEstado(EstadoLemming.CAMINANDO);
+                puedeEscalar = false;
+            }
         }
 
         if (estadoActual == EstadoLemming.PLANEANDO){
-            this.y = y + 1;
+            this.y = (int)(y + 1 * delta);
             pixelsCaidos = 0;
         }
 
@@ -99,7 +103,7 @@ public class Lemming extends ObjetoMovible {
         }
         // Si sigue cayendo (no ha aterrizado aún)
         else if (estadoActual == EstadoLemming.CAYENDO) {
-            this.y += VELOCIDAD_CAIDA; // Mover verticalmente
+            this.y += (int)(VELOCIDAD_CAIDA * delta); // Mover verticalmente
             pixelsCaidos += VELOCIDAD_CAIDA; // Acumular distancia de caída
             if(tocaLava()){
                 setEstado(EstadoLemming.MURIENDO);
@@ -107,9 +111,13 @@ public class Lemming extends ObjetoMovible {
         }
 
         if(estadoActual == EstadoLemming.CAMINANDO){
-            this.x = x + velocidadX;
-            if(hayParedDelante(x,y)){
-                cambiarDireccion();
+            this.x = (int) (x + velocidadX * delta);
+            if(hayParedDelante(x,y) ){
+                if(puedeEscalar){
+                    estadoActual = EstadoLemming.ESCALANDO;
+                }else {
+                    cambiarDireccion();
+                }
             }
             if(tocaSalida()){
                 setEstado(EstadoLemming.SALVADO);
@@ -146,11 +154,11 @@ public class Lemming extends ObjetoMovible {
                 columnaActual = 6;
                 filaActual = 97; // Fila de paraguas
                 break;
-            case EXCAVANDO:
-                if (columnaActual >= 12) {
+            case ESCALANDO:
+                if (columnaActual >= 8) {
                     columnaActual = 2;
                 }
-                filaActual = 249;
+                filaActual = 40;
                 break;
             case EXPLOTANDO:
                 if (columnaActual >= 16) {
@@ -255,8 +263,9 @@ public class Lemming extends ObjetoMovible {
                 case BOMBA:
                     setEstado(EstadoLemming.EXPLOTANDO);
                     break;
-                case EXCAVADOR:
-                    setEstado(EstadoLemming.EXCAVANDO);
+                case ESCALADOR:
+                    setEstado(EstadoLemming.CAMINANDO);
+                    puedeEscalar = true;
                     break;
                 case BLOQUEADOR:
                     setEstado(EstadoLemming.BLOQUEANDO);

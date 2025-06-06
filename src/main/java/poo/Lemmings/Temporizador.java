@@ -1,7 +1,5 @@
 package poo.Lemmings;
 
-import javax.swing.Timer;
-
 public class Temporizador {
     private static int tiempoRestante;
     private boolean pausa = false;
@@ -19,8 +17,11 @@ public class Temporizador {
         tiempoRestante--;
     }
 
-    public void controlarTemporizador(){
+    public void controlarTemporizador(double velocidadJuego){
+        for (int i = 0; i < velocidadJuego; i++) {
         f--;
+        }
+
         if(f<=0) {
             tiempoRestante--;
             f=FPS_JUEGO;

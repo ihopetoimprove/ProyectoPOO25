@@ -1,17 +1,15 @@
 package poo.Lemmings;
 
-import com.entropyinteractive.JGame;
 import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
 import poo.Juego;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
 public class JuegoLemmings extends Juego {
 
-    public enum EstadoJuego {INICIO, JUGANDO, PAUSA, PERDIO, GANA, FIN}
+    public enum EstadoJuego {INICIO, JUGANDO, PAUSA, PERDIO, GANA, ACELERADO, FIN}
 
     private static EstadoJuego estadoJuego = EstadoJuego.INICIO;
     private DibujarEstado dibujadorEstados;
@@ -24,6 +22,8 @@ public class JuegoLemmings extends Juego {
     Mouse mouse = this.getMouse();
     static boolean sePresionoElMouse = false;
     Temporizador temporizador;
+    private boolean juegoPausado = false;
+    private double velocidadJuego = 1.0;
 
 
     public JuegoLemmings(String title, int width, int height) {
@@ -33,20 +33,25 @@ public class JuegoLemmings extends Juego {
     @Override
     public void gameStartup() {
         dibujadorEstados = new DibujarEstado(this, panel);
+        panel = new PanelHabilidades(mouse);
     }
 
     @Override
     public void gameUpdate(double v) {
-        if (estadoJuego == EstadoJuego.JUGANDO) {
-            temporizador.controlarTemporizador();
+        PanelHabilidades.TipoHabilidad habilidadActivadaEsteFrame = panel.getHabilidadActivadaUnaVez();
+
+        // 2. Manejar habilidades globales de forma independiente
+        aplicarPausa(habilidadActivadaEsteFrame);
+        aplicarNuke(habilidadActivadaEsteFrame);
+        manejarAcelerarJuego(habilidadActivadaEsteFrame);
+
+        if (estadoJuego == EstadoJuego.JUGANDO || estadoJuego == EstadoJuego.ACELERADO) {
             crearLemmings();
-            actualizarLemmings();
+            temporizador.controlarTemporizador(velocidadJuego);
+            actualizarLemmings(velocidadJuego);
             controlarHabilidades();
             controlarVictoria();
             controlarDerrota();
-        }
-        if (estadoJuego == EstadoJuego.PAUSA){
-            controlarHabilidades();
         }
         sePresionoElMouse = mouse.isLeftButtonPressed();
     }
@@ -55,7 +60,7 @@ public class JuegoLemmings extends Juego {
     public void gameDraw(Graphics2D g) {
         if (estadoJuego == EstadoJuego.INICIO) {
             dibujadorEstados.estadoInicio(g);
-        } else if (estadoJuego == EstadoJuego.JUGANDO || estadoJuego == EstadoJuego.PAUSA) {
+        } else if (estadoJuego == EstadoJuego.JUGANDO || estadoJuego == EstadoJuego.PAUSA || estadoJuego == EstadoJuego.ACELERADO) {
             nivelActual.dibujar(g);
             for (Lemming lemming : Lemming.getTodosLosLemmings()) {
                 lemming.dibujar(g);
@@ -75,6 +80,34 @@ public class JuegoLemmings extends Juego {
         Log.info(getClass().getSimpleName(), "Shutting down game");
     }
 
+    private void aplicarPausa(PanelHabilidades.TipoHabilidad habilidadActivada) {
+        if (habilidadActivada == PanelHabilidades.TipoHabilidad.PAUSA) {
+            if (estadoJuego == EstadoJuego.PAUSA) {
+                estadoJuego = EstadoJuego.JUGANDO;
+            } else if (estadoJuego == EstadoJuego.JUGANDO || estadoJuego == EstadoJuego.ACELERADO) {
+                estadoJuego = EstadoJuego.PAUSA;
+            }
+        }
+    }
+
+    private void aplicarNuke(PanelHabilidades.TipoHabilidad habilidadActivada) {
+        if (habilidadActivada == PanelHabilidades.TipoHabilidad.NUKE) {
+            dibujadorEstados.reiniciarNivel();
+        }
+    }
+
+    private void manejarAcelerarJuego(PanelHabilidades.TipoHabilidad habilidadActivada) {
+        if (habilidadActivada == PanelHabilidades.TipoHabilidad.ACELERAR_JUEGO) {
+            if (estadoJuego == EstadoJuego.ACELERADO) {
+                estadoJuego = EstadoJuego.JUGANDO;
+                velocidadJuego = velocidadJuego / 3;
+            } else if (estadoJuego == EstadoJuego.JUGANDO) {
+                estadoJuego = EstadoJuego.ACELERADO;
+                velocidadJuego = velocidadJuego * 3;
+            }
+        }
+    }
+
     public void seleccionarNivel() {
         Lemming.limpiarLemmings();
         PanelHabilidades.limpiarPanel();
@@ -89,11 +122,11 @@ public class JuegoLemmings extends Juego {
         }
     }
 
-    private void actualizarLemmings() {
+    private void actualizarLemmings(double velocidadJuego) {
         Iterator<Lemming> iterador = Lemming.getTodosLosLemmings().iterator();
         while (iterador.hasNext()) {
             Lemming lemmingActual = iterador.next();
-            lemmingActual.mover();
+            lemmingActual.mover(velocidadJuego);
             if (lemmingActual.getEstadoActual() == Lemming.EstadoLemming.MURIENDO ||
                     lemmingActual.getEstadoActual() == Lemming.EstadoLemming.SALVADO) {
                 iterador.remove();
@@ -116,24 +149,22 @@ public class JuegoLemmings extends Juego {
     }
 
     public void controlarHabilidades() {
-        if (panel.getHabilidadSeleccionada() == PanelHabilidades.TipoHabilidad.NUKE){
-            dibujadorEstados.reiniciarNivel();
-        }
-        int mouseX = mouse.getX();
-        int mouseY = mouse.getY();
         boolean mouseApretado = mouse.isLeftButtonPressed();
         if (mouseApretado && !sePresionoElMouse) {
-            Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
-            if (lemmingClickeado != null) {
-                if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                    if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO || lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.EXCAVANDO) {
-                        lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
-                        panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
+            if (panel.getHabilidadSeleccionada() != PanelHabilidades.TipoHabilidad.PAUSA) {
+                int mouseX = mouse.getX();
+                int mouseY = mouse.getY();
+                Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
+                if (lemmingClickeado != null) {
+                    if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
+                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO && lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.ESCALANDO) {
+                            lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
+                            panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
+                        }
                     }
                 }
             }
         }
-
     }
 
     public void controlarVictoria() {
