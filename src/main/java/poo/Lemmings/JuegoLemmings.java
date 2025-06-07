@@ -25,6 +25,8 @@ public class JuegoLemmings extends Juego {
     Temporizador temporizador;
     private boolean juegoPausado = false;
     private double velocidadJuego = 1.0;
+    public static String Texto = "";
+
 
     public JuegoLemmings(String title, int width, int height) {
         super(title, width, height);

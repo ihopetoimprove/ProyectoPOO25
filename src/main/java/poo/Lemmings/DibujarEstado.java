@@ -9,19 +9,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+import static poo.Lemmings.JuegoLemmings.Texto;
+
 
 public class DibujarEstado{
 
     private JuegoLemmings juegoLemmings;
     private short nivelesCompletados = 0;
     JTextField campoNombre;
-    private Jugador jugador;
     PanelHabilidades panel;
     private static int puntos = 0;
     private boolean escribiendo = false;
     private int LargoTextoMax = 25;
-    private String Texto = "";
-    
+    private Jugador jugador = new Jugador();
+
     public DibujarEstado(JuegoLemmings juegoLemmings, PanelHabilidades panelHabilidades) {
         this.juegoLemmings = juegoLemmings;
         this.panel = panelHabilidades;
@@ -29,7 +30,6 @@ public class DibujarEstado{
 
     public void estadoInicio(Graphics2D g) {
         Mouse mouse = juegoLemmings.getMouse();
-
 
         //Establecer fondo
         g.setColor(new Color(50, 50, 150));
@@ -43,8 +43,6 @@ public class DibujarEstado{
         campoNombre = new JTextField("Ingresa tu nombre aquí");
         campoNombre.setBounds(100, 50, 200, 30); // Posición y tamaño
         campoNombre.setBackground(Color.black);
-
-
 
         // Dibujar el recuadro para el nombre
         g.setColor(Color.WHITE);
@@ -67,7 +65,8 @@ public class DibujarEstado{
             mousePresionado(mouse);
 //            System.out.println("Primero "+ (char) 32 + "Segundo " + (char) 65 );
         }
-        escucharTeclado();// Tiene que estar aca para llamarlo constantemente
+        if(escribiendo)
+            escucharTeclado();// Tiene que estar aca para llamarlo constantemente
 
     }
     public void mousePresionado(Mouse mouse){
@@ -142,6 +141,11 @@ public class DibujarEstado{
             juegoLemmings.finDelJuego();
         }
         sumarPuntos();
+        jugador.setNombre(Texto);
+        jugador.setRecord(puntos);
+        BDJugador GuardaJugador=new BDJugador();
+        GuardaJugador.agregarJugador(jugador);
+
         g.setColor(new Color(50, 50, 150));
         g.fillRect(0, 0, 800, 600);
         g.setColor(Color.YELLOW);
@@ -181,8 +185,7 @@ public class DibujarEstado{
         //cargar a la BD
         jugador.setNombre(Texto);
         jugador.setRecord(puntos);
-        BDJugador GuardaJugador=new BDJugador();
-        GuardaJugador.agregarJugador(jugador);
+
 
         if (mouse.isLeftButtonPressed()) {
             int mouseX = mouse.getX();
