@@ -36,7 +36,8 @@ public class BDJugador {
     }
 
     public void agregarJugador(Jugador jugador) {
-        String sql = "INSERT INTO Jugadores(nombreUsuario, puntuacion) VALUES(?,?)";
+        String sql = "INSERT INTO Jugadores(nombreUsuario, puntuacion) VALUES(?,?)" +
+                " ON CONFLICT(nombreUsuario) DO UPDATE SET puntuacion = EXCLUDED.puntuacion";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, jugador.getNombre());
@@ -71,7 +72,7 @@ public class BDJugador {
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, jugador.getNombre());
-            pstmt.setInt(6, jugador.getRecord());
+            pstmt.setInt(2, jugador.getRecord());
             pstmt.executeUpdate();
             System.out.println("Jugador " + jugador.getNombre() + " actualizado.");
         } catch (SQLException e) {
