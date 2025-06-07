@@ -73,7 +73,7 @@ public class ConfigPong {
         }
         if (Tema_Musical != null) {
             prop.setProperty("Musica_seleccionada", Tema_Musical);
-        } else {Tema_Musical = DEFAULT_MUSIC;}
+        } else {prop.setProperty("Musica_seleccionada", DEFAULT_MUSIC);}
         prop.setProperty("Efectos de Sonido", HabilitarSonido ? "true" : "false");
         prop.setProperty("Musica: ", HabilitarMusica ? "true" : "false");
         try (OutputStream output= new FileOutputStream(CONFIG_FILE)){
@@ -88,8 +88,6 @@ public class ConfigPong {
     protected static int getDefaultKey(String accion) {
         switch (accion.toLowerCase()) {
             case "pausa": return KeyEvent.VK_SPACE;
-            case "autodestruccion": return KeyEvent.VK_D;
-            case "acelerar": return KeyEvent.VK_A;
             case "subir(j1)": return KeyEvent.VK_W;
             case "bajar(j1)": return KeyEvent.VK_S;
             case "subir(j2)": return KeyEvent.VK_UP;
