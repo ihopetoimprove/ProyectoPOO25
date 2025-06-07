@@ -12,7 +12,7 @@ public class Jugador {
 
     public void setNombre(String nombre){this.nombre = nombre;}
 
-    public void setRecord(String nombre){this.record = record;}
+    public void setRecord(int record){this.record = record;}
 
     public String getNombre(){return nombre;}
 
