@@ -1,6 +1,5 @@
 package poo.pong;
 import poo.ConfigFramePadre;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

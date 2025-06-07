@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigFramePadre extends Frame implements ActionListener, KeyListener {
+    protected Button bGuardar, bReset;
     protected String accionConfigurando = null;
-
     protected final Map<String, Button> botonesAccion = new HashMap<>();
     protected String[] acciones ={};
 
