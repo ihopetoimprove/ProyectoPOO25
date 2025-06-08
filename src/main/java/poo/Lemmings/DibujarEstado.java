@@ -2,12 +2,13 @@ package poo.Lemmings;
 
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
-import poo.BDJugador;
-import poo.Jugador;
+import poo.ClasesCompartidas.BDJugador;
+import poo.ClasesCompartidas.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Objects;
 
 import static poo.Lemmings.JuegoLemmings.Texto;
 
@@ -21,7 +22,7 @@ public class DibujarEstado{
     private static int puntos = 0;
     private boolean escribiendo = false;
     private final int LargoTextoMax = 25;
-    private Jugador jugador = new Jugador();
+    private final Jugador jugador = new Jugador();
 
     public DibujarEstado(JuegoLemmings juegoLemmings, PanelHabilidades panelHabilidades) {
         this.juegoLemmings = juegoLemmings;
@@ -183,9 +184,13 @@ public class DibujarEstado{
         g.drawString("Jugar de nuevo", 50, 500);
 
         //cargar a la BD
-        jugador.setNombre(Texto);
-        jugador.setRecord(puntos);
-
+        if(!Objects.equals(Texto, "")) {
+            jugador.setNombre(Texto);
+            jugador.setRecord(puntos);
+            BDJugador GuardaJugador = new BDJugador();
+            GuardaJugador.agregarJugador(jugador);
+            Texto="";
+        }
 
         if (mouse.isLeftButtonPressed()) {
             int mouseX = mouse.getX();
