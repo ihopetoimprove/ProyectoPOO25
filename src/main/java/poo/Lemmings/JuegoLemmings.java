@@ -20,7 +20,8 @@ public class JuegoLemmings extends Juego {
     private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3.txt"};
     private int nivelSeleccionado = -1;
     private int lemmingsGenerados = 0;
-    private long ultimoTiempoAccion;
+    private static final long BASE_INTERVALO_LEMMINGS_MS = 1000;
+    private long ultimoTiempoAccion = 0;
     Mouse mouse = this.getMouse();
     static boolean sePresionoElMouse = false;
     Temporizador temporizador;
@@ -121,7 +122,7 @@ public class JuegoLemmings extends Juego {
             estadoJuego = EstadoJuego.JUGANDO;
             temporizador = new Temporizador(panel.getTiempoLimite());
             Sonido.reproducir("letsgo.wav");
-//            Musica.iniciarMusica("smstitle.wav");
+            Musica.iniciarMusica("smstitle.wav");
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
         }
     }
@@ -147,11 +148,11 @@ public class JuegoLemmings extends Juego {
     private void crearLemmings() {
         if (lemmingsGenerados < panel.getTotalLemmings()) {
             long tiempoActual = System.currentTimeMillis(); // Obtiene el tiempo actual en milisegundos
-            long INTERVALO_LEMMINGS = 1000;
-            if (tiempoActual - ultimoTiempoAccion >= INTERVALO_LEMMINGS) {
+            long intervaloEfectivo = (long) (BASE_INTERVALO_LEMMINGS_MS / velocidadJuego);
+            if (tiempoActual - ultimoTiempoAccion >= intervaloEfectivo) {
                 ultimoTiempoAccion = tiempoActual;
                 Lemming nuevoLemming = new Lemming(nivelActual.getEntradaX(), nivelActual.getEntradaY(), nivelActual);
-                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estática
+                Lemming.agregarLemming(nuevoLemming); // Añadirlo a la lista estática en la clase Lemming
                 lemmingsGenerados++;
             }
         }
