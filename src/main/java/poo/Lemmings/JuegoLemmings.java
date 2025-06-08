@@ -181,7 +181,8 @@ public class JuegoLemmings extends Juego {
         if (panel.getLemmingsVivos() == 0) {
             dibujadorEstados.completarNivel();
             estadoJuego = EstadoJuego.GANA;
-            Sonido.reproducir("success.ogg");
+            Musica.detenerMusicaFondo();
+            Sonido.reproducir("success.wav");
         }
     }
 
