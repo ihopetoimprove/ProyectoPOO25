@@ -57,9 +57,9 @@ public class Lemming extends ObjetoMovible {
         columnaActual ++;
         if (estadoActual == EstadoLemming.ESCALANDO) {
             this.y -= (int)(1 * delta);
-            if (!hayParedDelante(x, y) || y <= 0 || hayTechoArriba()) {
+            if (!hayParedDelante(x, y) || hayTechoArriba()) {
                 if (!direccionDerecha){
-                    this.x = x - 10;
+                    this.x = x - 11;
                 }
                 setEstado(EstadoLemming.CAMINANDO);
                 puedeEscalar = false;
@@ -215,7 +215,7 @@ public class Lemming extends ObjetoMovible {
     }
 
     private boolean hayTechoArriba(){
-        int checkX = this.x - ANCHO_LEMMING / 2; // Centro inferior del Lemming
+        int checkX = this.x; // Centro inferior del Lemming
         int checkY = this.y - ALTO_LEMMING;
 
         return esTerrenoSolidoODestructible(checkX, checkY);
