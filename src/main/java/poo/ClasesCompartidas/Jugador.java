@@ -1,4 +1,4 @@
-package poo;
+package poo.ClasesCompartidas;
 
 public class Jugador {
     private String nombre;

@@ -1,6 +1,6 @@
 package poo.pong;
 
-import poo.ObjetoMovible;
+import poo.ClasesCompartidas.ObjetoMovible;
 
 import java.awt.*;
 

@@ -1,5 +1,5 @@
 package poo.pong;
-import poo.ObjetoMovible;
+import poo.ClasesCompartidas.ObjetoMovible;
 import java.util.Random;
 import java.awt.*;
 

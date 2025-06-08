@@ -1,6 +1,6 @@
 package poo.Lemmings;
 
-import poo.ObjetoGrafico;
+import poo.ClasesCompartidas.ObjetoGrafico;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
