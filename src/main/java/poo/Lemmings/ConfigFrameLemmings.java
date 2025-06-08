@@ -114,7 +114,7 @@ public class ConfigFrameLemmings extends SuperFrame {
 
 
     protected void mResetTeclas() {
-        for (String accion : acciones) {
+        for (String accion : config.getAcciones()) {
             config.getTeclasLemmings().put(accion.toLowerCase(), getDefaultKey(accion));
             botonesAccion.get(accion).setLabel(getKeyText(getDefaultKey(accion)));
         }

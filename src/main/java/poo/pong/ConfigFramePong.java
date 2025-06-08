@@ -14,25 +14,23 @@ public class ConfigFramePong extends SuperFrame {
     Panel panelOpcionesMusica;
     Panel panelOpcionesSonido;
     static JComboBox<String> musicComboBox;
-    JComboBox<String> skinComboBox;
+    String tema_musical;
 
+    ConfigPong config= new ConfigPong();
 
     public ConfigFramePong() {
         super("Configuración de Pong");
-        cargarConfiguracion();
         checkSound();
         checkMusic();
         //ComboBox musica
         BoxMusica();
-        agregarBotones(teclasPong);
+        agregarBotones(config.getTeclasPong());
         botonGuardaryResetear();
         pack();
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screenSize.width - getWidth()) / 2;
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
-
     }
 
     public void botonGuardaryResetear(){
@@ -40,10 +38,7 @@ public class ConfigFramePong extends SuperFrame {
         bGuardar = new Button("Aceptar");
         acepReset.add(bGuardar);
         bGuardar.addActionListener(e -> {
-                    Tema_Musical= (String)musicComboBox.getSelectedItem();
-                    HabilitarSonido = checkSound.isSelected();
-                    HabilitarMusica = checkMusic.isSelected();
-                    ConfigPong.guardarConfiguracion();
+                    config.guardarConfiguracion(this);
                     dispose();
                 }
         );
@@ -54,7 +49,7 @@ public class ConfigFramePong extends SuperFrame {
     }
 
     public void setTecla(String accion, int codigoTecla) {
-        teclasPong.put(accion, codigoTecla);
+        config.getTeclasPong().put(accion, codigoTecla);
     }
     protected void iniciarConfiguracion(String accion, Button botonAsociado) {
         this.accionConfigurando = accion;
@@ -77,10 +72,10 @@ public class ConfigFramePong extends SuperFrame {
         });
     }
     protected void agregarBotones(Map<String, Integer> teclasPong) {
-        for (String accion : ConfigPong.acciones) {
+        for (String accion : config.acciones) {
             Panel panel = new Panel(new FlowLayout(FlowLayout.CENTER));
             panel.add(new JLabel(accion + ":    "));
-            Button boton = new Button(getKeyText(teclasPong.getOrDefault(accion, getDefaultKey(accion))));
+            Button boton = new Button(getKeyText(teclasPong.getOrDefault(accion,  config.getDefaultKey(accion))));
             botonesAccion.put(accion, boton);
             panel.add(boton);
             boton.addActionListener(e -> iniciarConfiguracion(accion, boton)); // addActionListener(e -> iniciarCambioTecla(accion, boton)) es otra forma
@@ -95,7 +90,7 @@ public class ConfigFramePong extends SuperFrame {
         JLabel labelMusica = new JLabel("Pista musical: ");
         String[] musicTracks = {DEFAULT_MUSIC, "Pista 1", "Pista 2"};
         musicComboBox =new JComboBox<>(musicTracks);
-        musicComboBox.setSelectedItem(Tema_Musical);
+        musicComboBox.setSelectedItem(config.getMusicaElegida());
         panelMusica.add(labelMusica);
         panelMusica.add(musicComboBox);
         SelMusica.add(panelMusica);
@@ -108,7 +103,7 @@ public class ConfigFramePong extends SuperFrame {
         panelOpcionesSonido.add(checkSound);
         add(panelOpcionesSonido);
         if(checkSound!=null)
-            checkSound.setSelected(HabilitarSonido);
+            checkSound.setSelected(config.getEstadoSonido());
     }
     private void checkMusic(){
         panelOpcionesMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
@@ -116,23 +111,27 @@ public class ConfigFramePong extends SuperFrame {
         panelOpcionesMusica.add(checkMusic);
         add(panelOpcionesMusica);
         if(checkMusic!=null)
-            checkMusic.setSelected(HabilitarMusica);
+            checkMusic.setSelected(config.getEstadoMusica());
     }
 
 
     protected void mResetTeclas() {
-        for (String accion : acciones) {
-            teclasPong.put(accion.toLowerCase(), getDefaultKey(accion));
-            botonesAccion.get(accion).setLabel(getKeyText(getDefaultKey(accion)));
+        for (String accion : config.getAcciones()) {
+            config.getTeclasPong().put(accion.toLowerCase(), config.getDefaultKey(accion));
+            botonesAccion.get(accion).setLabel(getKeyText(config.getDefaultKey(accion)));
         }
         musicComboBox.setSelectedItem(DEFAULT_MUSIC);
-        skinComboBox.setSelectedItem(Color.WHITE.toString());
         checkMusic.setSelected(true);
         checkSound.setSelected(true);
     }
 
 
-
+    public boolean getEstadoSonido(){return this.checkSound.isSelected();}
+    public boolean getEstadoMusica(){return this.checkMusic.isSelected();}
+    public String getMusicaElegida(){
+        if(musicComboBox.getSelectedItem().toString()!=null)
+            tema_musical=musicComboBox.getSelectedItem().toString();
+        return this.tema_musical;}
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -142,8 +141,5 @@ public class ConfigFramePong extends SuperFrame {
     public void keyTyped(KeyEvent e) {
         // Innecesario por ahora
     }
-
-
-
 
 }

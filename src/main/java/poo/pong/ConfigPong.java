@@ -9,20 +9,20 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ConfigPong {
-    private static final String CONFIG_FILE = "config.pong";
+    private final String CONFIG_FILE = "config.pong";
     protected static final String DEFAULT_MUSIC = "Tema original";
-    protected static Map<String, Integer> teclasPong =new HashMap<>();
-    protected static final String[] acciones = {"pausa","subir(j1)", "bajar(j1)", "subir(j2)", "bajar(j2)"};
-    public static boolean HabilitarSonido;
-    public static boolean HabilitarMusica;
-    public static String Tema_Musical;
+    protected Map<String, Integer> teclasPong =new HashMap<>();
+    protected final String[] acciones = {"pausa","subir(j1)", "bajar(j1)", "subir(j2)", "bajar(j2)"};
+    public boolean HabilitarSonido;
+    public boolean HabilitarMusica;
+    public String Tema_Musical;
     static Color color= Color.WHITE;
 
     public ConfigPong(){
         super();
         cargarConfiguracion();
     }
-    public static void cargarConfiguracion() {
+    public void cargarConfiguracion() {
         Properties prop = new Properties();
         try (InputStream input = new FileInputStream(CONFIG_FILE)) {
             prop.load(input);
@@ -37,15 +37,20 @@ public class ConfigPong {
 
             if (prop.getProperty("Musica: ") != null) {
                 HabilitarMusica = Boolean.parseBoolean(prop.getProperty("Musica: "));
+                System.out.println("Música cargada: " + HabilitarMusica);
             } else {
                 HabilitarMusica = true; // Valor por defecto si la clave no se encuentra
                 System.out.println("Clave 'Musica: ' no encontrada. Usando valor por defecto: " + HabilitarMusica);
             }
-            String sonidoStr = prop.getProperty("Efectos de Sonido");
-            if (sonidoStr != null) {
-                HabilitarSonido = Boolean.parseBoolean(sonidoStr);
+            if (prop.getProperty("Efectos de Sonido") != null) {
+                HabilitarSonido = Boolean.parseBoolean(prop.getProperty("Efectos de Sonido"));
+            }else {
+                HabilitarSonido = true; // Valor por defecto si la clave no se encuentra
+                System.out.println("Clave 'Sonido: ' no encontrada. Usando valor por defecto: " + HabilitarSonido);
             }
-            Tema_Musical = prop.getProperty("Musica_seleccionada");
+            if(prop.getProperty("Musica_seleccionada")!= null){
+                Tema_Musical = prop.getProperty("Musica_seleccionada");
+            }else {Tema_Musical = DEFAULT_MUSIC;}
 
 
         } catch (IOException ex) {
@@ -58,9 +63,13 @@ public class ConfigPong {
     public static Color getColor() {
         return color;
     }
+    public boolean getEstadoSonido(){return this.HabilitarSonido;}
+    public boolean getEstadoMusica(){return this.HabilitarMusica;}
+    public String getMusicaElegida(){return this.Tema_Musical;}
+    public Map<String, Integer> getTeclasPong(){return teclasPong;};
+    public String[] getAcciones(){return acciones;}
 
-
-    public static void guardarConfiguracion() {
+    public void guardarConfiguracion(ConfigFramePong frame) {
         Properties prop = new Properties();
         for (String accion : acciones) {
             if (teclasPong.containsKey(accion)) {
@@ -69,11 +78,11 @@ public class ConfigPong {
                 prop.setProperty(accion, String.valueOf(getDefaultKey(accion)));
             }
         }
-        if (Tema_Musical != null) {
-            prop.setProperty("Musica_seleccionada", Tema_Musical);
+        if (frame.getMusicaElegida() != null) {
+            prop.setProperty("Musica_seleccionada", frame.getMusicaElegida());
         } else {prop.setProperty("Musica_seleccionada", DEFAULT_MUSIC);}
-        prop.setProperty("Efectos de Sonido", HabilitarSonido ? "true" : "false");
-        prop.setProperty("Musica: ", HabilitarMusica ? "true" : "false");
+        prop.setProperty("Efectos de Sonido", frame.getEstadoSonido() ? "true" : "false");
+        prop.setProperty("Musica: ", frame.getEstadoMusica() ? "true" : "false");
         try (OutputStream output= new FileOutputStream(CONFIG_FILE)){
             prop.store(output, "Configuracion");
             JOptionPane.showMessageDialog(null, "Configuracion guardada en " + CONFIG_FILE, "Guardado", JOptionPane.INFORMATION_MESSAGE);
@@ -83,7 +92,7 @@ public class ConfigPong {
             ex.printStackTrace();
         }
     }
-    protected static int getDefaultKey(String accion) {
+    protected int getDefaultKey(String accion) {
         switch (accion.toLowerCase()) {
             case "pausa": return KeyEvent.VK_SPACE;
             case "subir(j1)": return KeyEvent.VK_W;
