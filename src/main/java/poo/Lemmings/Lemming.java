@@ -81,7 +81,7 @@ public class Lemming extends ObjetoMovible {
             tiempoInicioExplosion ++;
             if (tiempoInicioExplosion >= 16) {
                 realizarExplosion();
-                setEstado(EstadoLemming.MURIENDO); // O un estado para ser eliminado completamente
+                setEstado(EstadoLemming.MURIENDO);
                 tiempoInicioExplosion = 0;
             }
             return; // No hacer ninguna otra lógica de movimiento si está explotando
@@ -110,7 +110,10 @@ public class Lemming extends ObjetoMovible {
         // Si sigue cayendo (no ha aterrizado aún)
         else if (estadoActual == EstadoLemming.CAYENDO) {
             this.y += (int)(VELOCIDAD_CAIDA * delta); // Mover verticalmente
-            pixelsCaidos += (int) (VELOCIDAD_CAIDA * delta); // Acumular distancia de caída
+            pixelsCaidos += (int) (VELOCIDAD_CAIDA * delta);
+            if (tocaLava()){
+                estadoActual = EstadoLemming.MURIENDO;
+            }
             if (puedePlanear){
                 estadoActual = EstadoLemming.PLANEANDO;
             }
@@ -171,8 +174,6 @@ public class Lemming extends ObjetoMovible {
                 break;
             case EXPLOTANDO:
                 if (columnaActual >= 16) {
-                    // - Eliminar el Lemming del juego
-                    // - Ponerlo en un estado "muerto" o "inactivo"
                     columnaActual = 15; // Se queda en el último frame de la explosión
                 }
                 filaActual = 169; // Fila de explosión
@@ -210,7 +211,8 @@ public class Lemming extends ObjetoMovible {
         // Verifica si hay terreno en el punto exacto de su base o un píxel más abajo.
         // Esto ayuda a detectar el suelo incluso si el lemming está "justo al borde".
         return esTerrenoSolidoODestructible(checkX, checkY) ||
-                esTerrenoSolidoODestructible(checkX, checkY + 1);
+                esTerrenoSolidoODestructible(checkX, checkY + 1) ||
+                esTerrenoSolidoODestructible(checkX, checkY + 2);
     }
 
     private boolean hayParedDelante(int x, int y) {

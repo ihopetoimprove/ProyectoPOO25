@@ -23,7 +23,6 @@ public class JuegoLemmings extends Juego {
     Mouse mouse = this.getMouse();
     static boolean sePresionoElMouse = false;
     Temporizador temporizador;
-    private boolean juegoPausado = false;
     private double velocidadJuego = 1.0;
     public static String Texto = "";
 
@@ -115,6 +114,7 @@ public class JuegoLemmings extends Juego {
         lemmingsGenerados = 0;
         if (nivelSeleccionado != -1) {
             panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado], getMouse());
+            velocidadJuego = 1;
             dibujadorEstados = new DibujarEstado(this, panel);
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
@@ -129,10 +129,15 @@ public class JuegoLemmings extends Juego {
         while (iterador.hasNext()) {
             Lemming lemmingActual = iterador.next();
             lemmingActual.mover(velocidadJuego);
-            if (lemmingActual.getEstadoActual() == Lemming.EstadoLemming.MURIENDO ||
-                    lemmingActual.getEstadoActual() == Lemming.EstadoLemming.SALVADO) {
+            if (lemmingActual.getEstadoActual() == Lemming.EstadoLemming.SALVADO) {
                 iterador.remove();
                 panel.eliminarLemming();
+                Sonido.reproducir("yippee.wav");
+            }
+            if (lemmingActual.getEstadoActual() == Lemming.EstadoLemming.MURIENDO) {
+                iterador.remove();
+                panel.eliminarLemming();
+                Sonido.reproducir("die.wav");
             }
         }
     }
@@ -195,11 +200,7 @@ public class JuegoLemmings extends Juego {
     }
 
     public Mouse getMouse() {return super.getMouse();}
-    public static EstadoJuego getEstadoJuego(){return estadoJuego;}
-    public static boolean getSePresionoElMouse(){return sePresionoElMouse;}
     public void setNivelSeleccionado(int nivel){nivelSeleccionado = nivel;}
-    public static void setPausa(){estadoJuego = EstadoJuego.PAUSA;}
-    public static void reaunudarJuego(){estadoJuego = EstadoJuego.JUGANDO;}
     public static void reiniciarJuego(){estadoJuego = EstadoJuego.INICIO;}
     public void subirNivel(){nivelSeleccionado = (nivelSeleccionado + 1) % 3;}
     public void finDelJuego(){estadoJuego = EstadoJuego.FIN;}

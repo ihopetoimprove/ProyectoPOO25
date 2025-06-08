@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 
 public class PanelHabilidades {
 
+    public int getLemmingsMuertos() {return lemmingsVivos - lemmingsSalvados;}
+
     public enum TipoHabilidad {NINGUNA, ESCALADOR, NUKE, BLOQUEADOR, BOMBA, PARAGUAS, PAUSA, ACELERAR_JUEGO}
     private TipoHabilidad habilidadSeleccionada = TipoHabilidad.NINGUNA;
     private static BufferedImage imagenHabilidades;
@@ -221,7 +223,6 @@ public class PanelHabilidades {
 
     public void eliminarLemming() {
         lemmingsVivos--;
-        Sonido.reproducir("die.wav");
     }
 
     public int getLemmingsVivos(){return lemmingsVivos;}

@@ -9,11 +9,7 @@ public class Temporizador {
         tiempoRestante=n;
     }
 
-
     public static int getTiempoRestante(){return tiempoRestante;}
-    public void restarTiempo(){
-        tiempoRestante--;
-    }
 
     public void controlarTemporizador(double velocidadJuego){
         for (int i = 0; i < velocidadJuego; i++) {
