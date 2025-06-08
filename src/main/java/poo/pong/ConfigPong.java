@@ -34,11 +34,9 @@ public class ConfigPong {
                     teclasPong.put(accion, getDefaultKey(accion)); // valor predeterminado si no se encuentra
                 }
             }
-            String musicaStr = prop.getProperty("Musica: ");
 
-            if (musicaStr != null) {
-                HabilitarMusica = Boolean.parseBoolean(musicaStr);
-                System.out.println("Música cargada: " + HabilitarMusica);
+            if (prop.getProperty("Musica: ") != null) {
+                HabilitarMusica = Boolean.parseBoolean(prop.getProperty("Musica: "));
             } else {
                 HabilitarMusica = true; // Valor por defecto si la clave no se encuentra
                 System.out.println("Clave 'Musica: ' no encontrada. Usando valor por defecto: " + HabilitarMusica);
