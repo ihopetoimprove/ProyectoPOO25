@@ -58,7 +58,10 @@ public class Lemming extends ObjetoMovible {
         columnaActual ++;
         if (estadoActual == EstadoLemming.ESCALANDO) {
             this.y -= (int)(1 * delta);
-            if (!hayParedDelante(x, y) || y <= 0) {
+            if (!hayParedDelante(x, y) || y <= 0 || hayTechoArriba()) {
+                if (!direccionDerecha){
+                    this.x = x - 10;
+                }
                 setEstado(EstadoLemming.CAMINANDO);
                 puedeEscalar = false;
             }
@@ -201,7 +204,7 @@ public class Lemming extends ObjetoMovible {
 
     private boolean esTerrenoSolidoODestructible(int px, int py) {
         int tipo = nivelActual.getTipoTile(px, py);
-        return tipo == 1 || tipo == 2;
+        return tipo == 1 || tipo == 2 || tipo == 3;
     }
 
     private boolean haySueloDebajo() {
@@ -209,10 +212,14 @@ public class Lemming extends ObjetoMovible {
         int checkY = this.y + ALTO_LEMMING; // Justo en la base del Lemming
 
         // Verifica si hay terreno en el punto exacto de su base o un píxel más abajo.
-        // Esto ayuda a detectar el suelo incluso si el lemming está "justo al borde".
-        return esTerrenoSolidoODestructible(checkX, checkY) ||
-                esTerrenoSolidoODestructible(checkX, checkY + 1) ||
-                esTerrenoSolidoODestructible(checkX, checkY + 2);
+        return esTerrenoSolidoODestructible(checkX, checkY);
+    }
+
+    private boolean hayTechoArriba(){
+        int checkX = this.x - ANCHO_LEMMING / 2; // Centro inferior del Lemming
+        int checkY = this.y - ALTO_LEMMING;
+
+        return esTerrenoSolidoODestructible(checkX, checkY);
     }
 
     private boolean hayParedDelante(int x, int y) {
