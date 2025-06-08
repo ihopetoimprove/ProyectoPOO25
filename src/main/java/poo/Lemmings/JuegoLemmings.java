@@ -140,12 +140,14 @@ public class JuegoLemmings extends Juego {
             if (lemmingActual.getEstadoActual() == Lemming.EstadoLemming.SALVADO) {
                 iterador.remove();
                 panel.eliminarLemming();
-                Sonido.reproducir("yippee.wav");
+                if(config.getEstadoSonido())
+                    Sonido.reproducir("yippee.wav");
             }
             if (lemmingActual.getEstadoActual() == Lemming.EstadoLemming.MURIENDO) {
                 iterador.remove();
                 panel.eliminarLemming();
-                Sonido.reproducir("die.wav");
+                if(config.getEstadoSonido())
+                    Sonido.reproducir("die.wav");
             }
         }
     }
@@ -187,7 +189,8 @@ public class JuegoLemmings extends Juego {
             dibujadorEstados.completarNivel();
             estadoJuego = EstadoJuego.GANA;
             Musica.detenerMusicaFondo();
-            Sonido.reproducir("success.wav");
+            if(config.getEstadoMusica())
+                Sonido.reproducir("success.wav");
         }
     }
 

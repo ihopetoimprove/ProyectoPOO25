@@ -1,5 +1,7 @@
 package poo.ClasesCompartidas;
 
+import poo.Lemmings.ConfigLemmings;
+
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;

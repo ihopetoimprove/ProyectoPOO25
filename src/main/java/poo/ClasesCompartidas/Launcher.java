@@ -1,8 +1,6 @@
 package poo.ClasesCompartidas;
 
 import com.entropyinteractive.JGame;
-import poo.ClasesCompartidas.FramePuntuacion;
-import poo.ClasesCompartidas.SuperFrame;
 import poo.Lemmings.*;
 import poo.pong.*;
 import java.net.URL;
