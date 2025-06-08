@@ -67,7 +67,7 @@ public class ConfigPong {
     public boolean getEstadoMusica(){return this.HabilitarMusica;}
     public String getDefaultMusic(){return this.DEFAULT_MUSIC;}
     public String getMusicaElegida(){return this.Tema_Musical;}
-    public Map<String, Integer> getTeclasPong(){return teclasPong;};
+    public Map<String, Integer> getTeclasPong(){return teclasPong;}
     public String[] getAcciones(){return acciones;}
 
     public void guardarConfiguracion(ConfigFramePong frame) {
@@ -94,14 +94,14 @@ public class ConfigPong {
         }
     }
     protected int getDefaultKey(String accion) {
-        switch (accion.toLowerCase()) {
-            case "pausa": return KeyEvent.VK_SPACE;
-            case "subir(j1)": return KeyEvent.VK_W;
-            case "bajar(j1)": return KeyEvent.VK_S;
-            case "subir(j2)": return KeyEvent.VK_UP;
-            case "bajar(j2)": return KeyEvent.VK_DOWN;
-            default: return KeyEvent.VK_UNDEFINED;
-        }
+        return switch (accion.toLowerCase()) {
+            case "pausa" -> KeyEvent.VK_SPACE;
+            case "subir(j1)" -> KeyEvent.VK_W;
+            case "bajar(j1)" -> KeyEvent.VK_S;
+            case "subir(j2)" -> KeyEvent.VK_UP;
+            case "bajar(j2)" -> KeyEvent.VK_DOWN;
+            default -> KeyEvent.VK_UNDEFINED;
+        };
     }
 
 

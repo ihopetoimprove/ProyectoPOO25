@@ -60,6 +60,7 @@ public class PanelHabilidades {
         lemmingsSalvados = 0;
         lemmingsASalvar = 0;
         totalLemmings = 0;
+        Lemming.limpiarBloqueadores();
     }
 
     public static void salvarLemming(){lemmingsSalvados +=1;}

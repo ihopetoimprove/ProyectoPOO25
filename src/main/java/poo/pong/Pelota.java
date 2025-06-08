@@ -3,7 +3,7 @@ import poo.ClasesCompartidas.ObjetoMovible;
 import java.util.Random;
 import java.awt.*;
 
-public class Pelota extends ObjetoMovible {
+public class    Pelota extends ObjetoMovible {
 
     private final int radio = 10;
     int velocidadX = 5;

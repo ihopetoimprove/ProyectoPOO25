@@ -28,6 +28,7 @@ public class Lemming extends ObjetoMovible {
     private int columnaActual = 2;
     private int filaActual = 0;
     private int tiempoInicioExplosion = 0;
+    private static int bloqueadores = 0;
     private boolean puedeEscalar = false;
     private boolean puedePlanear = false;
 
@@ -53,95 +54,92 @@ public class Lemming extends ObjetoMovible {
 
     @Override
     public void mover(double delta) {
-        boolean haySuelo = haySueloDebajo();
-        columnaActual ++;
-        if (estadoActual == EstadoLemming.ESCALANDO) {
-            this.y -= (int)(1 * delta);
-            if (!hayParedDelante(x, y) || hayTechoArriba()) {
-                if (!direccionDerecha){
-                    this.x = x - 11;
+        this.columnaActual++; // para las animaciones
+        switch (estadoActual) {
+            case CAMINANDO:
+                this.x = (int) (x + velocidadX * delta); // Movimiento horizontal
+                if (hayParedDelante(x, y)) {
+                    if (puedeEscalar) {
+                        setEstado(EstadoLemming.ESCALANDO); // Si hay pared y puede escalar
+                    } else {
+                        cambiarDireccion(); // Si hay pared y no puede escalar, cambia de dirección
+                    }
                 }
-                setEstado(EstadoLemming.CAMINANDO);
-                puedeEscalar = false;
-            }
+                // Si ya no hay suelo debajo, empieza a caer
+                if (!haySueloDebajo()) {
+                    setEstado(EstadoLemming.CAYENDO);
+                    pixelsCaidos = 0; // Reinicia el contador de distancia de caída
+                }
+                break;
+
+            case ESCALANDO:
+                this.y -= (int)(1 * delta);
+                // Si el lemming ya no tiene pared delante (llegó a la cima) O si golpea un techo
+                if (!hayParedDelante(x, y) || hayTechoArriba()) {
+                    if (direccionDerecha){
+                        this.x = x + 5;
+                    } else {
+                        this.x = x - 11;
+                    }
+                    setEstado(EstadoLemming.CAMINANDO); // Vuelve a caminar
+                    puedeEscalar = false; // Pierde la habilidad de escalar hasta la próxima vez
+                }
+                break;
+
+            case CAYENDO:
+                this.y += (int)(VELOCIDAD_CAIDA * delta);
+                pixelsCaidos += (int) (VELOCIDAD_CAIDA * delta);
+                if (puedePlanear) {
+                    setEstado(EstadoLemming.PLANEANDO);
+                    puedePlanear = false;
+                }
+                break;
+
+            case PLANEANDO:
+                this.y += (int)(1 * delta);
+                pixelsCaidos = 0;
+                break;
+
+            case BLOQUEANDO:
+                this.velocidadX = 0;
+                break;
+
+            case EXPLOTANDO:
+                this.velocidadX = 0;
+                this.tiempoInicioExplosion++;
+                if (this.tiempoInicioExplosion >= 16) {
+                    realizarExplosion();
+                    setEstado(EstadoLemming.MURIENDO);
+                    this.tiempoInicioExplosion = 0;
+                }
+                return;
         }
 
-        if (estadoActual == EstadoLemming.PLANEANDO){
-            this.y = (int)(y + 1 * delta);
+        // Esta lógica se aplica si el Lemming estaba cayendo/planeando y ahora hay suelo.
+        if (haySueloDebajo() && (estadoActual == EstadoLemming.CAYENDO || estadoActual == EstadoLemming.PLANEANDO)) {
+            setEstado(EstadoLemming.CAMINANDO);
+            if (pixelsCaidos > UMBRAL_CAIDA_FATAL_PIXELES) {
+                setEstado(EstadoLemming.MURIENDO);
+            }
             pixelsCaidos = 0;
-            if(haySueloDebajo()){
+            // Ajustar la posición Y para que el Lemming esté exactamente sobre el suelo.
+            int ySuelo = (this.y + ALTO_LEMMING) / Nivel.BLOQUE_ALTO * Nivel.BLOQUE_ALTO;
+            this.y = ySuelo - ALTO_LEMMING;
+            if (estadoActual == EstadoLemming.PLANEANDO) {
                 puedePlanear = false;
             }
         }
 
-        if (estadoActual == EstadoLemming.BLOQUEANDO){
-            velocidadX = 0;
+        if (tocaLava()) {
+            setEstado(EstadoLemming.MURIENDO);
         }
-
-        if (estadoActual == EstadoLemming.EXPLOTANDO){
-            velocidadX = 0;
-            tiempoInicioExplosion ++;
-            if (tiempoInicioExplosion >= 16) {
-                realizarExplosion();
-                setEstado(EstadoLemming.MURIENDO);
-                tiempoInicioExplosion = 0;
-            }
-            return; // No hacer ninguna otra lógica de movimiento si está explotando
-        }
-
-        if (!haySuelo && estadoActual == EstadoLemming.CAMINANDO) {
-            if (direccionDerecha){
-                this.x = x +11;
-            }else {
-                this.x = x - 6;
-            }
-            setEstado(EstadoLemming.CAYENDO);
-            pixelsCaidos = 0; // Reinicia el contador de caída
-        }
-
-        // Si estamos cayendo Y encontramos suelo
-        else if (haySuelo && (estadoActual == EstadoLemming.CAYENDO || estadoActual == EstadoLemming.PLANEANDO)) {
-            setEstado(EstadoLemming.CAMINANDO); // Aterriza y camina
-            if (pixelsCaidos > UMBRAL_CAIDA_FATAL_PIXELES || tocaLava()) {
-                setEstado(EstadoLemming.MURIENDO);
-            }
-            int ySuelo = (this.y + ALTO_LEMMING) / Nivel.BLOQUE_ALTO * Nivel.BLOQUE_ALTO;
-            this.y = ySuelo - ALTO_LEMMING;
-
-        }
-        // Si sigue cayendo (no ha aterrizado aún)
-        else if (estadoActual == EstadoLemming.CAYENDO) {
-            this.y += (int)(VELOCIDAD_CAIDA * delta); // Mover verticalmente
-            pixelsCaidos += (int) (VELOCIDAD_CAIDA * delta);
-            if (tocaLava()){
-                estadoActual = EstadoLemming.MURIENDO;
-            }
-            if (puedePlanear){
-                estadoActual = EstadoLemming.PLANEANDO;
-            }
-        }
-
-        if(estadoActual == EstadoLemming.CAMINANDO){
-            this.x = (int) (x + velocidadX * delta);
-            if(hayParedDelante(x,y) ){
-                if(puedeEscalar){
-                    estadoActual = EstadoLemming.ESCALANDO;
-                }else {
-                    cambiarDireccion();
-                }
-            }
-            if(!haySueloDebajo() && puedePlanear){
-                    estadoActual = EstadoLemming.PLANEANDO;
-            }
-            if(tocaSalida()){
-                setEstado(EstadoLemming.SALVADO);
-                PanelHabilidades.salvarLemming();
-            }
-            if(tocaLava()){
-                setEstado(EstadoLemming.MURIENDO);
-            }
+        if (tocaSalida()) {
+            setEstado(EstadoLemming.SALVADO);
+            PanelHabilidades.salvarLemming();
         }
     }
+
+
 
     private void realizarExplosion() {
         int pixelXCentroInferior = this.x + ANCHO_LEMMING / 2;
@@ -289,6 +287,7 @@ public class Lemming extends ObjetoMovible {
                     break;
                 case BLOQUEADOR:
                     setEstado(EstadoLemming.BLOQUEANDO);
+                    bloqueadores ++;
                     Sonido.reproducir("agregarHabilidad.wav");
                     break;
             }
@@ -304,4 +303,6 @@ public class Lemming extends ObjetoMovible {
     public static void agregarLemming(Lemming nuevoLemming) {
         todosLosLemmings.add(nuevoLemming);
     }
+    public static int getBloqueadores(){return bloqueadores;}
+    public static void limpiarBloqueadores(){bloqueadores = 0;}
 }

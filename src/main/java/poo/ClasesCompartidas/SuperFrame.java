@@ -10,7 +10,6 @@ public class SuperFrame extends Frame implements ActionListener, KeyListener {
     protected Button bGuardar, bReset;
     protected String accionConfigurando = null;
     protected final Map<String, Button> botonesAccion = new HashMap<>();
-    protected String[] acciones ={};
 
     public SuperFrame() {
         WindowListener l = new WindowAdapter() {

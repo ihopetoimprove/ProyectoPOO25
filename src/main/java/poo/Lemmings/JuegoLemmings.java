@@ -186,7 +186,7 @@ public class JuegoLemmings extends Juego {
     }
 
     public void controlarVictoria() {
-        if (panel.getLemmingsVivos() == 0) {
+        if (panel.getLemmingsVivos() - Lemming.getBloqueadores() == 0) {
             dibujadorEstados.completarNivel();
             estadoJuego = EstadoJuego.GANA;
             Musica.detenerMusicaFondo();
