@@ -3,6 +3,7 @@ package poo.Lemmings;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 import poo.ClasesCompartidas.BDJugador;
+import poo.ClasesCompartidas.FramePuntuacion;
 import poo.ClasesCompartidas.Jugador;
 
 import javax.swing.*;
@@ -176,13 +177,14 @@ public class DibujarEstado{
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("Has completado el juego!", 240, 200);
         g.drawString("-Puntos totales: " + puntos, 20, 350);
+        g.drawString("-Ver Tabla de Puntuaciones", 20, 420);
         g.drawString("Jugar de nuevo", 50, 500);
 
         //cargar a la BD
         if(!Objects.equals(Texto, "")) {
             jugador.setNombre(Texto);
             jugador.setRecord(puntos);
-            BDJugador GuardaJugador = new BDJugador();
+            BDJugador GuardaJugador = new BDJugador("Lemmings");
             GuardaJugador.agregarJugador(jugador);
             Texto="";
         }
@@ -193,6 +195,8 @@ public class DibujarEstado{
             if (mouseX >= 0 && mouseX <= 350  && mouseY >= 400 && mouseY <= 600){
                 JuegoLemmings.reiniciarJuego();
             }
+            if (mouseX >= 10 && mouseX <= 530  && mouseY >= 356 && mouseY <= 392)
+                new FramePuntuacion("Lemmings",new BDJugador("Lemmings"));
         }
     }
 

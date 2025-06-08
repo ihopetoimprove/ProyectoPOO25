@@ -169,7 +169,7 @@ public class Pong extends JGame {
         g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawString("JUEGO PAUSADO", 300, 300);
 
-        if (!keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
+        if (!keyboard.isKeyPressed(configPong.getPausa())) {
             pelota.reanudarPelota();
             estadoJuego = 1;
         }

@@ -1,12 +1,13 @@
 package poo.ClasesCompartidas;
 
+import poo.Lemmings.ConfigLemmings;
+import poo.pong.ConfigPong;
+
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
-
 public class Musica {
     protected static Clip musicaFondo;
-
     public static void iniciarMusica(String archivo) {
         try {
             URL sonidoURL = Musica.class.getClassLoader().getResource("Musica/" + archivo);
