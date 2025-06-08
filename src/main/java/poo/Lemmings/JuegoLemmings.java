@@ -3,8 +3,8 @@ package poo.Lemmings;
 import com.entropyinteractive.Log;
 import com.entropyinteractive.Mouse;
 import poo.ClasesCompartidas.Musica;
-import poo.Juego;
-import poo.Sonido;
+import poo.ClasesCompartidas.Juego;
+import poo.ClasesCompartidas.Sonido;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -121,7 +121,7 @@ public class JuegoLemmings extends Juego {
             estadoJuego = EstadoJuego.JUGANDO;
             temporizador = new Temporizador(panel.getTiempoLimite());
             Sonido.reproducir("letsgo.wav");
-            Musica.iniciarMusica("smstitle.wav");
+//            Musica.iniciarMusica("smstitle.wav");
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
         }
     }

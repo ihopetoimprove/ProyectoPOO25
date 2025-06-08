@@ -1,4 +1,4 @@
-package poo;
+package poo.ClasesCompartidas;
 
 import com.entropyinteractive.JGame;
 

@@ -1,4 +1,4 @@
-package poo;
+package poo.ClasesCompartidas;
 
 public abstract class ObjetoMovible extends ObjetoGrafico {
 

@@ -1,7 +1,7 @@
 package poo.Lemmings;
 
-import poo.ObjetoMovible;
-import poo.Sonido;
+import poo.ClasesCompartidas.ObjetoMovible;
+import poo.ClasesCompartidas.Sonido;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

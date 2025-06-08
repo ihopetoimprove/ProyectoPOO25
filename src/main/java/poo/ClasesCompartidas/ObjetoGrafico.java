@@ -1,4 +1,4 @@
-package poo;
+package poo.ClasesCompartidas;
 
 import java.awt.*;
 import java.awt.image.*;

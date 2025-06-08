@@ -1,4 +1,4 @@
-package poo;
+package poo.ClasesCompartidas;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
