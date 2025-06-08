@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class Launcher extends JFrame implements ActionListener {
 
@@ -17,10 +18,9 @@ public class Launcher extends JFrame implements ActionListener {
     private final Button botonAgregarJuego;
     private final Button botonPuntacion;
     private JButton botonSelect;
-    private JLabel imagen;
+    private final JLabel imagen;
     JGame juego;
     Thread t;
-    private static float delta = (float) 1 /30;
 
     public Launcher() {
         setTitle("Launcher");
@@ -89,30 +89,18 @@ public class Launcher extends JFrame implements ActionListener {
     public void cargaImgPrinc(){
         String ruta="/imagenes/Launcher/GTA.jpeg";
         if(botonSelect!=null){
-            switch (botonSelect.getText()){
-                case "Pong":
-                    ruta="/imagenes/Launcher/pong.jpeg";
-                    break;
-                case "Lemmings":
-                    ruta="/imagenes/Launcher/LemmingsImg.jpg";
-                    break;
-                default:
-                    ruta="/imagenes/Launcher/GTA.jpeg";
-                    break;
-            }
+            ruta = switch (botonSelect.getText()) {
+                case "Pong" -> "/imagenes/Launcher/pong.jpeg";
+                case "Lemmings" -> "/imagenes/Launcher/LemmingsImg.jpg";
+                default -> "/imagenes/Launcher/GTA.jpeg";
+            };
         }
         try {
             URL imageUrl = Launcher.class.getResource(ruta);// obtiene la carpeta de recursos
             if (imageUrl != null) {
                 ImageIcon originalIcon = new ImageIcon(imageUrl);
 
-                if (originalIcon != null) {
-                    imagen.setIcon(originalIcon);
-                } else {
-                    imagen.setIcon(null); // Quitar icono si no se carga
-                    imagen.setText("IMAGEN NO DISPONIBLE"); // Mostrar texto de error
-                    imagen.setForeground(Color.RED);
-                }
+                imagen.setIcon(originalIcon);
             } else {
                 System.err.println("Imagen no encontrado img");
             }
@@ -162,8 +150,6 @@ public class Launcher extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 botonSelect=botonJuego;
                 cargaImgPrinc();
-//                botonJuego.setBackground(new Color(60, 140, 200));
-//                botonJuego.setFocusPainted(false);
             }
         });
 
@@ -179,24 +165,16 @@ public class Launcher extends JFrame implements ActionListener {
         if(botonSelect!=null) {
         juegoSeleccionado = botonSelect.getText();
             if (e.getSource() == botonIniciar) {
-                if (juegoSeleccionado == "Pong") {
+                if (Objects.equals(juegoSeleccionado, "Pong")) {
 
                     juego = new Pong("Pong", 800, 600);
-                    t = new Thread() {
-                        public void run() {
-                            juego.run(1.0 / 60.0);
-                        }
-                    };
+                    t = new Thread(() -> juego.run(1.0 / 60.0));
                     t.start();
 
-                } else if (juegoSeleccionado == "Lemmings") {
+                } else if (Objects.equals(juegoSeleccionado, "Lemmings")) {
 
                     juego = new JuegoLemmings("Lemmings", 800, 600);
-                    t = new Thread() {
-                        public void run() {
-                            juego.run(delta);
-                        }
-                    };
+                    t = new Thread(() -> juego.run((double) 1 /30));
                     t.start();
                 }
             }
@@ -204,15 +182,15 @@ public class Launcher extends JFrame implements ActionListener {
             if (e.getSource() == botonAgregarJuego)
                 JOptionPane.showMessageDialog(null, "Estamos trabajando en eso...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
             if (e.getSource() == botonConfig)
-                if (juegoSeleccionado == "Pong") {
+                if (Objects.equals(juegoSeleccionado, "Pong")) {
                     new ConfigFramePong();
-                } else if (juegoSeleccionado == "Lemmings") {
+                } else if (Objects.equals(juegoSeleccionado, "Lemmings")) {
                     new ConfigFrameLemmings();
                 }
             if (e.getSource() == botonPuntacion)
-                if (juegoSeleccionado == "Pong") {
+                if (Objects.equals(juegoSeleccionado, "Pong")) {
                     new FramePuntuacion("Pong",new BDJugador("Pong"));
-                } else if (juegoSeleccionado == "Lemmings") {
+                } else if (Objects.equals(juegoSeleccionado, "Lemmings")) {
                     new FramePuntuacion("Lemmings",new BDJugador("Lemmings"));
                 }
         }else if (e.getSource() == botonIniciar&&botonSelect==null||e.getSource() == botonPuntacion&&botonSelect==null)

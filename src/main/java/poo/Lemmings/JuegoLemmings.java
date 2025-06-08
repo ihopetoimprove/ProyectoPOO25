@@ -17,14 +17,14 @@ public class JuegoLemmings extends Juego {
     private DibujarEstado dibujadorEstados;
     private Nivel nivelActual;
     private PanelHabilidades panel;
+    private Temporizador temporizador;
     private final String[] nombresNiveles = {"nivel1.txt", "nivel2.txt", "nivel3.txt"};
     private int nivelSeleccionado = -1;
     private int lemmingsGenerados = 0;
     private static final long BASE_INTERVALO_LEMMINGS_MS = 1000;
     private long ultimoTiempoAccion = 0;
-    Mouse mouse = this.getMouse();
+    private Mouse mouse = this.getMouse();
     static boolean sePresionoElMouse = false;
-    Temporizador temporizador;
     private double velocidadJuego = 1.0;
     public static String Texto = "";
 
@@ -79,6 +79,7 @@ public class JuegoLemmings extends Juego {
 
     @Override
     public void gameShutdown() {
+        System.exit(0);
         Log.info(getClass().getSimpleName(), "Shutting down game");
     }
 
@@ -167,7 +168,7 @@ public class JuegoLemmings extends Juego {
                 Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
                 if (lemmingClickeado != null) {
                     if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.ESCALANDO) {
+                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO) {
                             lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
                             panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
                         }
