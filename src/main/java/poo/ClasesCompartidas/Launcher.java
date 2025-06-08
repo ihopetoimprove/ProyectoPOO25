@@ -224,10 +224,6 @@ public class Launcher extends JFrame implements ActionListener {
 
     }
 
-    public void acelerarJuego(){
-        delta = (float) 1 /60;
-    }
-
     public static void main(String[] args) {
         Launcher ejemplo = new Launcher();
         ejemplo.setVisible(true);
