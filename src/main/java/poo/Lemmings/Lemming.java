@@ -48,7 +48,6 @@ public class Lemming extends ObjetoMovible {
 
     public static void limpiarLemmings(){todosLosLemmings.clear();}
     public void setEstado(EstadoLemming nuevoEstado) {this.estadoActual = nuevoEstado;}
-    public EstadoLemming getEstado() {return estadoActual;}
     public EstadoLemming getEstadoActual() { return estadoActual;}
     public static List<Lemming> getTodosLosLemmings() { return todosLosLemmings;}
 

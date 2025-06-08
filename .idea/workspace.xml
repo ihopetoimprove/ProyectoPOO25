@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b11728dd-c16f-4e31-9dbe-39c62c01688f" name="Changes" comment="arreglado el escalador!">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/poo/ClasesCompartidas/Musica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/poo/Lemmings/DibujarEstado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/poo/Lemmings/DibujarEstado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/poo/Lemmings/JuegoLemmings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/poo/Lemmings/JuegoLemmings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/poo/Lemmings/Lemming.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/poo/Lemmings/Lemming.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/poo/Lemmings/Nivel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/poo/Lemmings/Nivel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/poo/Lemmings/PanelHabilidades.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/poo/Lemmings/PanelHabilidades.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="poo_2023" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ihopetoimprove&quot;
+  }
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOhQ7pc6YrzRM&quot;,
+        &quot;number&quot;: 50
+      },
+      &quot;lastSeen&quot;: 1748891708835
+    }
+  ]
+}</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ihopetoimprove/ProyectoPOO25.git&quot;,
+    &quot;accountId&quot;: &quot;47b2b684-9e8f-4914-bc7a-76e51a499734&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;ihopetoimprove&quot;,
+    &quot;repository&quot;: &quot;ProyectoPOO25&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2wN1hyQV9kq1gMvNaH0uRQuj8MF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Launcher.executor": "Run",
+    "Gradle.Build ProyectoPOO25.executor": "Run",
+    "Gradle.ProyectoPOO25 [:poo.Launcher.main()].executor": "Run",
+    "Gradle.ProyectoPOO25 [:poo.Main.main()].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "refinando-detalles",
+    "last_opened_file_path": "C:/Users/Tom/Desktop/ProyectoPOO/ProyectoPOO25"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="poo.Launcher" />
+      <module name="poo_2023.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="poo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Launcher" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b11728dd-c16f-4e31-9dbe-39c62c01688f" name="Changes" comment="" />
+      <created>1745867340675</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745867340675</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Acá va el ignore chinardo">
+      <option name="closed" value="true" />
+      <created>1745871103830</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745871103830</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Despues de laburar una banda con denis, por fin se pudo leer el archivo">
+      <option name="closed" value="true" />
+      <created>1748293023597</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748293023597</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Bueno ya se dibuja el mapa y se spawnean los lemmings, entre otras cosas falta modificar el metodo mover de lemmings para que ande mejor">
+      <option name="closed" value="true" />
+      <created>1748319689053</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748319689053</updated>
+    </task>
+    <task id="LOCAL-00004" summary="varios cambios a la jugabilidad">
+      <option name="closed" value="true" />
+      <created>1748329560720</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748329560720</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Mas o menos está el panel, faltan laas habildiades">
+      <option name="closed" value="true" />
+      <created>1748469933635</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748469933636</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Chino ponete las pilas">
+      <option name="closed" value="true" />
+      <created>1748554047077</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748554047077</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Disculpas por trabajar en el main sin querer">
+      <option name="closed" value="true" />
+      <created>1748626317104</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748626317104</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Ya se puede alternar entre niveles">
+      <option name="closed" value="true" />
+      <created>1748647429420</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748647429420</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Se seleccionan habilidades pero aún no se aplican">
+      <option name="closed" value="true" />
+      <created>1748671113194</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748671113194</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Ya se pueden aplicar las habilidades pero aún no funcionan, se empieza a commplejizar el código">
+      <option name="closed" value="true" />
+      <created>1748715877250</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748715877254</updated>
+    </task>
+    <task id="LOCAL-00011" summary="mas o menos se mueven">
+      <option name="closed" value="true" />
+      <created>1748888224972</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1748888224972</updated>
+    </task>
+    <task id="LOCAL-00012" summary="para ver si anada">
+      <option name="closed" value="true" />
+      <created>1748890263670</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1748890263670</updated>
+    </task>
+    <task id="LOCAL-00013" summary="para ver si anada">
+      <option name="closed" value="true" />
+      <created>1748890283623</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1748890283623</updated>
+    </task>
+    <task id="LOCAL-00014" summary="para ver si anada">
+      <option name="closed" value="true" />
+      <created>1748890519814</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1748890519814</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Agrego niveles en sources">
+      <option name="closed" value="true" />
+      <created>1748891146139</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1748891146139</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Agrego niveles en sources">
+      <option name="closed" value="true" />
+      <created>1748891341036</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1748891341036</updated>
+    </task>
+    <task id="LOCAL-00017" summary="va queriendo pero falta">
+      <option name="closed" value="true" />
+      <created>1748897574028</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1748897574028</updated>
+    </task>
+    <task id="LOCAL-00018" summary="varios cambios.. Y aún falta bastante, que estresante">
+      <option name="closed" value="true" />
+      <created>1748926438998</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1748926438998</updated>
+    </task>
+    <task id="LOCAL-00019" summary="varios cambios.. Y aún falta bastante, que estresante">
+      <option name="closed" value="true" />
+      <created>1748952073557</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1748952073557</updated>
+    </task>
+    <task id="LOCAL-00020" summary="pasé todo lo que tiene que ver con dibujar estados a una nueva clase">
+      <option name="closed" value="true" />
+      <created>1748975739416</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1748975739416</updated>
+    </task>
+    <task id="LOCAL-00021" summary="cambios varios">
+      <option name="closed" value="true" />
+      <created>1749061672424</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1749061672424</updated>
+    </task>
+    <task id="LOCAL-00022" summary="cambios varios">
+      <option name="closed" value="true" />
+      <created>1749067519755</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1749067519755</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Agregué un re par de cosas, soy un cra">
+      <option name="closed" value="true" />
+      <created>1749092045829</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1749092045829</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Aún mas cosas, ya va quedando bastante bien">
+      <option name="closed" value="true" />
+      <created>1749102697230</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1749102697230</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Que manera de laburar loco, a ver si el chino me da una mano">
+      <option name="closed" value="true" />
+      <created>1749244556966</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1749244556966</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Agregado sonido y un par de csoas mas">
+      <option name="closed" value="true" />
+      <created>1749252032484</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1749252032484</updated>
+    </task>
+    <task id="LOCAL-00027" summary="cambiecitos">
+      <option name="closed" value="true" />
+      <created>1749345819329</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1749345819329</updated>
+    </task>
+    <task id="LOCAL-00028" summary="arreglado el escalador!">
+      <option name="closed" value="true" />
+      <created>1749346322266</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1749346322266</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Acá va el ignore chinardo" />
+    <MESSAGE value="Despues de laburar una banda con denis, por fin se pudo leer el archivo" />
+    <MESSAGE value="Bueno ya se dibuja el mapa y se spawnean los lemmings, entre otras cosas falta modificar el metodo mover de lemmings para que ande mejor" />
+    <MESSAGE value="varios cambios a la jugabilidad" />
+    <MESSAGE value="Mas o menos está el panel, faltan laas habildiades" />
+    <MESSAGE value="Chino ponete las pilas" />
+    <MESSAGE value="Disculpas por trabajar en el main sin querer" />
+    <MESSAGE value="Ya se puede alternar entre niveles" />
+    <MESSAGE value="Se seleccionan habilidades pero aún no se aplican" />
+    <MESSAGE value="Ya se pueden aplicar las habilidades pero aún no funcionan, se empieza a commplejizar el código" />
+    <MESSAGE value="mas o menos se mueven" />
+    <MESSAGE value="para ver si anada" />
+    <MESSAGE value="Agrego niveles en sources" />
+    <MESSAGE value="va queriendo pero falta" />
+    <MESSAGE value="varios cambios.. Y aún falta bastante, que estresante" />
+    <MESSAGE value="pasé todo lo que tiene que ver con dibujar estados a una nueva clase" />
+    <MESSAGE value="cambios varios" />
+    <MESSAGE value="Agregué un re par de cosas, soy un cra" />
+    <MESSAGE value="Aún mas cosas, ya va quedando bastante bien" />
+    <MESSAGE value="Que manera de laburar loco, a ver si el chino me da una mano" />
+    <MESSAGE value="Agregado sonido y un par de csoas mas" />
+    <MESSAGE value="cambiecitos" />
+    <MESSAGE value="arreglado el escalador!" />
+    <option name="LAST_COMMIT_MESSAGE" value="arreglado el escalador!" />
+  </component>
+</project>
