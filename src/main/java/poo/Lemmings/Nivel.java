@@ -5,9 +5,6 @@ import poo.ObjetoGrafico;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
@@ -142,7 +139,7 @@ public class Nivel extends ObjetoGrafico {
     }
 
 
-    public boolean setTipoTile(int pixelX, int pixelY, int nuevoTipo) {
+    public void setTipoTile(int pixelX, int pixelY, int nuevoTipo) {
         int tileX = pixelX / BLOQUE_ANCHO;
         int tileY = pixelY / BLOQUE_ALTO;
 
@@ -153,11 +150,9 @@ public class Nivel extends ObjetoGrafico {
                 int tipoActual = fila.get(tileX);
                 if (tipoActual == 1) { // Puedes romper destructible y lava
                     fila.set(tileX, nuevoTipo); // Cambia el tipo de tile en el mapa
-                    return true;
                 }
             }
         }
-        return false;
     }
 
     public int getTipoTile(int pixelX, int pixelY) {

@@ -20,7 +20,7 @@ public class DibujarEstado{
     PanelHabilidades panel;
     private static int puntos = 0;
     private boolean escribiendo = false;
-    private int LargoTextoMax = 25;
+    private final int LargoTextoMax = 25;
     private Jugador jugador = new Jugador();
 
     public DibujarEstado(JuegoLemmings juegoLemmings, PanelHabilidades panelHabilidades) {
@@ -106,7 +106,7 @@ public class DibujarEstado{
                 } else if (event.getID() == KeyEvent.KEY_PRESSED) {
                     // teclas especiales como BACKSPACE y ENTER
                     if (event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                        if (Texto.length() > 0) {
+                        if (!Texto.isEmpty()) {
                             Texto = Texto.substring(0, Texto.length() - 1);
                         }
                     } else if (event.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -205,8 +205,5 @@ public class DibujarEstado{
     }
     public void completarNivel(){
         nivelesCompletados ++;
-    }
-    public void setPanelHabilidades(PanelHabilidades nuevoPanelHabilidades) {
-        this.panel = nuevoPanelHabilidades;
     }
 }

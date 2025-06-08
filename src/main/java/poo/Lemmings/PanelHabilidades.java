@@ -1,12 +1,10 @@
 package poo.Lemmings;
 
 import com.entropyinteractive.Mouse;
-import poo.Sonido;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
@@ -14,7 +12,6 @@ import javax.imageio.ImageIO;
 
 public class PanelHabilidades {
 
-    public int getLemmingsMuertos() {return lemmingsVivos - lemmingsSalvados;}
 
     public enum TipoHabilidad {NINGUNA, ESCALADOR, NUKE, BLOQUEADOR, BOMBA, PARAGUAS, PAUSA, ACELERAR_JUEGO}
     private TipoHabilidad habilidadSeleccionada = TipoHabilidad.NINGUNA;
@@ -55,7 +52,7 @@ public class PanelHabilidades {
         g.drawString("Pausa", 370,520);
         g.drawString("Nuke", 460,520);
         g.drawString("Acelerar", 540,520);
-        seleccionarHabilidad(g);
+        seleccionarHabilidad();
         dibujarHabilidadSeleccionada(g);
     }
 
@@ -65,14 +62,14 @@ public class PanelHabilidades {
         totalLemmings = 0;
     }
 
-    public static void salvarLemming(){lemmingsSalvados +=1;} ;
+    public static void salvarLemming(){lemmingsSalvados +=1;}
 
     public int getTotalLemmings() {return totalLemmings;}
     public int getLemmingsSalvados() {return lemmingsSalvados;}
     public int getLemmingsASalvar() {return lemmingsASalvar;}
     public int getTiempoLimite() {return tiempoLimite;}
 
-    public void seleccionarHabilidad(Graphics2D g){
+    public void seleccionarHabilidad(){
         if (mouse.isLeftButtonPressed()) {
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
@@ -148,10 +145,6 @@ public class PanelHabilidades {
                     } else if (mouseX >= 520 && mouseX <= 590) { // Un ejemplo si tienes ACELERAR_JUEGO
                         habilidadActivada = TipoHabilidad.ACELERAR_JUEGO;
                     }
-                    // Si una habilidad fue activada, la "recordamos" para poder dibujarla como seleccionada
-                    // (pero solo si no es PAUSA o NUKE, que son transitorias)
-                    if (habilidadActivada != null && habilidadActivada != TipoHabilidad.PAUSA && habilidadActivada != TipoHabilidad.NUKE && habilidadActivada != TipoHabilidad.ACELERAR_JUEGO) {
-                    }
                 }
             }
 
@@ -198,8 +191,6 @@ public class PanelHabilidades {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -207,24 +198,16 @@ public class PanelHabilidades {
 
 
     public int getCantidadHabilidad(TipoHabilidad habilidad) {
-        switch (habilidad) {
-            case PARAGUAS:
-                return cantidadParaguas;
-            case BOMBA:
-                return cantidadBombas;
-            case ESCALADOR:
-                return cantidadEscaladores;
-            case BLOQUEADOR:
-                return cantidadBloqueadores;
-            default:
-                return 0; // O manejar un error si NINGUNA u otra habilidad se consulta
-        }
+        return switch (habilidad) {
+            case PARAGUAS -> cantidadParaguas;
+            case BOMBA -> cantidadBombas;
+            case ESCALADOR -> cantidadEscaladores;
+            case BLOQUEADOR -> cantidadBloqueadores;
+            default -> 0; // O manejar un error si NINGUNA u otra habilidad se consulta
+        };
     }
 
-    public void eliminarLemming() {
-        lemmingsVivos--;
-    }
-
+    public void eliminarLemming() {lemmingsVivos--;}
     public int getLemmingsVivos(){return lemmingsVivos;}
     public TipoHabilidad getHabilidadSeleccionada() {return this.habilidadSeleccionada; }
 }
