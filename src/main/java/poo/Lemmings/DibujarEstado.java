@@ -153,7 +153,8 @@ public class DibujarEstado{
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
-            if (mouseX >= 350 && mouseX <= 600 && mouseY >= 400 && mouseY <= 600) {
+            System.out.println(mouseX +"/"+ mouseY);
+            if (mouseX >= 443 && mouseX <= 719 && mouseY >= 438 && mouseY <= 470) {
                 if (nivelesCompletados != 3) {
                     juegoLemmings.subirNivel();
                     juegoLemmings.seleccionarNivel();
