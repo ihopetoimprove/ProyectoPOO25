@@ -79,7 +79,7 @@ public class Pong extends JGame {
     public void procesarTeclado() {
         Keyboard keyboard = this.getKeyboard();
         //Pausa
-        if (keyboard.isKeyPressed(KeyEvent.VK_SPACE)) {
+        if (keyboard.isKeyPressed(configPong.getPausa())) {
             estadoJuego = PAUSA;
         }
 

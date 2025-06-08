@@ -9,12 +9,12 @@ import java.util.Properties;
 
 public class ConfigLemmings {
     private final String CONFIG_FILE = "config.Lemmings";
-    protected static final String DEFAULT_MUSIC = "Tema original";
-    protected Map<String, Integer> teclasLemmings =new HashMap<>();
-    protected final String[] acciones = {"pausa","autodestruccion","acelerar"};
-    public String Tema_Musical;
-    public boolean HabilitarSonido;
-    public boolean HabilitarMusica;
+    private final String DEFAULT_MUSIC = "Tema original";
+    private final Map<String, Integer> teclasLemmings =new HashMap<>();
+    private final String[] acciones = {"pausa","autodestruccion","acelerar"};
+    private String Tema_Musical;
+    private boolean HabilitarSonido;
+    private boolean HabilitarMusica;
 
 
     public ConfigLemmings(){
@@ -60,6 +60,7 @@ public class ConfigLemmings {
     }
     public boolean getEstadoSonido(){return this.HabilitarSonido;}
     public boolean getEstadoMusica(){return this.HabilitarMusica;}
+    public String getDefaultMusic(){return this.DEFAULT_MUSIC;}
     public String getMusicaElegida(){return this.Tema_Musical;}
     public Map<String, Integer> getTeclasLemmings(){return teclasLemmings;};
     public String[] getAcciones(){return acciones;}
