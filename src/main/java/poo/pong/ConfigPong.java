@@ -10,12 +10,12 @@ import java.util.Properties;
 
 public class ConfigPong {
     private final String CONFIG_FILE = "config.pong";
-    protected static final String DEFAULT_MUSIC = "Tema original";
-    protected Map<String, Integer> teclasPong =new HashMap<>();
-    protected final String[] acciones = {"pausa","subir(j1)", "bajar(j1)", "subir(j2)", "bajar(j2)"};
-    public boolean HabilitarSonido;
-    public boolean HabilitarMusica;
-    public String Tema_Musical;
+    private static final String DEFAULT_MUSIC = "Tema original";
+    private final Map<String, Integer> teclasPong =new HashMap<>();
+    private final String[] acciones = {"pausa","subir(j1)", "bajar(j1)", "subir(j2)", "bajar(j2)"};
+    private boolean HabilitarSonido;
+    private boolean HabilitarMusica;
+    private String Tema_Musical;
     static Color color= Color.WHITE;
 
     public ConfigPong(){
@@ -65,6 +65,7 @@ public class ConfigPong {
     }
     public boolean getEstadoSonido(){return this.HabilitarSonido;}
     public boolean getEstadoMusica(){return this.HabilitarMusica;}
+    public String getDefaultMusic(){return this.DEFAULT_MUSIC;}
     public String getMusicaElegida(){return this.Tema_Musical;}
     public Map<String, Integer> getTeclasPong(){return teclasPong;};
     public String[] getAcciones(){return acciones;}

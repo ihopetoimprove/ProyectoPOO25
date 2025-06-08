@@ -15,7 +15,6 @@ public class ConfigFramePong extends SuperFrame {
     Panel panelOpcionesSonido;
     static JComboBox<String> musicComboBox;
     String tema_musical;
-
     ConfigPong config= new ConfigPong();
 
     public ConfigFramePong() {
@@ -72,7 +71,7 @@ public class ConfigFramePong extends SuperFrame {
         });
     }
     protected void agregarBotones(Map<String, Integer> teclasPong) {
-        for (String accion : config.acciones) {
+        for (String accion : config.getAcciones()) {
             Panel panel = new Panel(new FlowLayout(FlowLayout.CENTER));
             panel.add(new JLabel(accion + ":    "));
             Button boton = new Button(getKeyText(teclasPong.getOrDefault(accion,  config.getDefaultKey(accion))));
@@ -88,7 +87,7 @@ public class ConfigFramePong extends SuperFrame {
         JPanel panelMusica = new JPanel();
         panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel labelMusica = new JLabel("Pista musical: ");
-        String[] musicTracks = {DEFAULT_MUSIC, "Pista 1", "Pista 2"};
+        String[] musicTracks = {config.getDefaultMusic(), "smstitle.wav", "Macarena"};
         musicComboBox =new JComboBox<>(musicTracks);
         musicComboBox.setSelectedItem(config.getMusicaElegida());
         panelMusica.add(labelMusica);
@@ -120,7 +119,7 @@ public class ConfigFramePong extends SuperFrame {
             config.getTeclasPong().put(accion.toLowerCase(), config.getDefaultKey(accion));
             botonesAccion.get(accion).setLabel(getKeyText(config.getDefaultKey(accion)));
         }
-        musicComboBox.setSelectedItem(DEFAULT_MUSIC);
+        musicComboBox.setSelectedItem(config.getDefaultMusic());
         checkMusic.setSelected(true);
         checkSound.setSelected(true);
     }

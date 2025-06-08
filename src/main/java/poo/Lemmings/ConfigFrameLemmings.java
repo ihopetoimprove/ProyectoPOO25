@@ -86,7 +86,7 @@ public class ConfigFrameLemmings extends SuperFrame {
         JPanel panelMusica = new JPanel();
         panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel labelMusica = new JLabel("Pista musical: ");
-        String[] musicTracks = {DEFAULT_MUSIC, "Pista 1", "Pista 2"};
+        String[] musicTracks = {config.getDefaultMusic(),"smstitle.wav", "Macarena"};
         musicComboBox =new JComboBox<>(musicTracks);
         musicComboBox.setSelectedItem(config.getMusicaElegida());
         panelMusica.add(labelMusica);
@@ -118,7 +118,7 @@ public class ConfigFrameLemmings extends SuperFrame {
             config.getTeclasLemmings().put(accion.toLowerCase(), getDefaultKey(accion));
             botonesAccion.get(accion).setLabel(getKeyText(getDefaultKey(accion)));
         }
-        musicComboBox.setSelectedItem(DEFAULT_MUSIC);
+        musicComboBox.setSelectedItem(config.getDefaultMusic());
         checkMusic.setSelected(true);
         checkSound.setSelected(true);
     }

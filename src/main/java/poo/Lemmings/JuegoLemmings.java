@@ -27,6 +27,7 @@ public class JuegoLemmings extends Juego {
     Temporizador temporizador;
     private double velocidadJuego = 1.0;
     public static String Texto = "";
+    ConfigLemmings config= new ConfigLemmings();
 
 
     public JuegoLemmings(String title, int width, int height) {
@@ -121,8 +122,12 @@ public class JuegoLemmings extends Juego {
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
             estadoJuego = EstadoJuego.JUGANDO;
             temporizador = new Temporizador(panel.getTiempoLimite());
-            Sonido.reproducir("letsgo.wav");
-            Musica.iniciarMusica("smstitle.wav");
+            if(config.getEstadoSonido())
+                Sonido.reproducir("letsgo.wav");
+            if(config.getEstadoMusica()){
+                if(config.getMusicaElegida()=="smstitle.wav")
+                    Musica.iniciarMusica("smstitle.wav");
+            }
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
         }
     }
