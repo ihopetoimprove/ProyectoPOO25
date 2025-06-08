@@ -1,5 +1,5 @@
 package poo.Lemmings;
-import poo.ConfigFramePadre;
+import poo.SuperFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -8,7 +8,7 @@ import java.util.Map;
 import static java.awt.event.KeyEvent.getKeyText;
 import static poo.Lemmings.ConfigLemmings.*;
 
-public class ConfigFrameLemmings extends ConfigFramePadre {
+public class ConfigFrameLemmings extends SuperFrame {
     private JCheckBox checkSound;
     private JCheckBox checkMusic;
     Panel panelOpcionesMusica;
@@ -18,8 +18,7 @@ public class ConfigFrameLemmings extends ConfigFramePadre {
     ConfigLemmings config=new ConfigLemmings();
 
     public ConfigFrameLemmings() {
-        setTitle("Configuración de Lemming");
-        //config.cargarConfiguracion();
+        super("Configuración de Lemming");
         checkSound();
         checkMusic();
         //ComboBox musica

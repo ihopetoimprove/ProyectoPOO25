@@ -1,5 +1,5 @@
 package poo.pong;
-import poo.ConfigFramePadre;
+import poo.SuperFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,7 +7,7 @@ import java.util.Map;
 import static java.awt.event.KeyEvent.getKeyText;
 import static poo.pong.ConfigPong.*;
 
-public class ConfigFramePong extends ConfigFramePadre {
+public class ConfigFramePong extends SuperFrame {
     Button bGuardar, bReset;
     JCheckBox checkSound;
     JCheckBox checkMusic;
@@ -18,7 +18,7 @@ public class ConfigFramePong extends ConfigFramePadre {
 
 
     public ConfigFramePong() {
-        setTitle("Configuración de Pong");
+        super("Configuración de Pong");
         cargarConfiguracion();
         checkSound();
         checkMusic();

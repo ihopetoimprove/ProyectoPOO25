@@ -13,6 +13,7 @@ public class Launcher extends JFrame implements ActionListener {
     private final Button botonIniciar;
     private final Button botonConfig;
     private final Button botonAgregarJuego;
+    private final Button botonPuntacion;
     private JButton botonSelect;
     private JLabel imagen;
     JGame juego;
@@ -57,12 +58,15 @@ public class Launcher extends JFrame implements ActionListener {
         botonIniciar = new Button("Iniciar Juego");
         botonConfig = new Button("Configuracion");
         botonAgregarJuego = new Button("Agregar juego");
+        botonPuntacion = new Button("Puntuacion");
         panelBotones.add(botonIniciar);
         panelBotones.add(botonConfig);
         panelBotones.add(botonAgregarJuego);
+        panelBotones.add(botonPuntacion);
         botonIniciar.addActionListener(this);
         botonConfig.addActionListener(this);
         botonAgregarJuego.addActionListener(this);
+        botonPuntacion.addActionListener(this);
         add(panelBotones, BorderLayout.SOUTH);
 
 
@@ -91,7 +95,7 @@ public class Launcher extends JFrame implements ActionListener {
                     ruta="/imagenes/Launcher/LemmingsImg.jpg";
                     break;
                 default:
-                    ruta="/imagenes/Launcher/GTA.jpeg2";
+                    ruta="/imagenes/Launcher/GTA.jpeg";
                     break;
             }
         }
@@ -203,12 +207,19 @@ public class Launcher extends JFrame implements ActionListener {
                 } else if (juegoSeleccionado == "Lemmings") {
                     new ConfigFrameLemmings();
                 }
-        }else if (e.getSource() == botonIniciar&&botonSelect==null)
+            if (e.getSource() == botonPuntacion)
+                if (juegoSeleccionado == "Pong") {
+                    new FramePuntuacion("Pong",new BDJugador("Pong"));
+                } else if (juegoSeleccionado == "Lemmings") {
+                    new FramePuntuacion("Lemmings",new BDJugador("Lemmings"));
+                }
+        }else if (e.getSource() == botonIniciar&&botonSelect==null||e.getSource() == botonPuntacion&&botonSelect==null)
             JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 
         if(botonSelect==null && e.getSource()==botonConfig){
-            new ConfigFramePadre();
+            new SuperFrame();
         }
+
     }
 
     public void acelerarJuego(){

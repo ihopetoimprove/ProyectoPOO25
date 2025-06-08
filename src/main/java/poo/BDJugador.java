@@ -2,11 +2,26 @@ package poo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Vector;
 
 public class BDJugador {
-    private static final String URL = "jdbc:sqlite:db/juego.db";
+    private static String URL;
+    private static final String rutaPong = "jdbc:sqlite:db/BDPong.db";
+    private static final String rutaLemmings = "jdbc:sqlite:db/BDLemmings.db";
+
 
     public BDJugador() {
+        new java.io.File("db").mkdirs();
+        crearTablaJugadores();
+    }
+    public BDJugador(String juego) {
+
+        if(juego=="Lemmings")
+            URL=rutaLemmings;
+        else if(juego=="Pong")
+            URL=rutaPong;
+
         new java.io.File("db").mkdirs();
         crearTablaJugadores();
     }
@@ -92,21 +107,31 @@ public class BDJugador {
         }
     }
 
-    public List<Jugador> obtenerTodosLosJugadores() {
-        List<Jugador> jugadores = new ArrayList<>();
-        String sql = "SELECT nombreUsuario, puntuacion FROM Jugadores";
+    public List<List<Object>> obtenerTodosLosJugadores() {
+        List<List<Object>> data = new ArrayList<>();
+        String sql = "SELECT nombreUsuario, puntuacion FROM Jugadores ORDER BY puntuacion DESC";
+
         try (Connection conn = connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                jugadores.add(new Jugador(
-                        rs.getString("nombreUsuario"),
-                        rs.getInt("puntuacion")
-                ));
+                List<Object> row = new ArrayList<>(); // para la fila
+                row.add(rs.getString("nombreUsuario"));
+                row.add(rs.getInt("puntuacion"));
+                data.add(row);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error al obtener jugadores de la BD: " + e.getMessage());
         }
-        return jugadores;
+        return data;
+    }
+
+
+    // podría usar vector para evitar problemas de concurrencia, pero el juego se ejecuta en un hilo asi q no hay je, DATAZO
+    public List<String> obtenerColumnasJugadores(){
+        List<String> columnas = new Vector<>();
+        columnas.add("Nombre de Usuario");
+        columnas.add("Puntuación");
+        return columnas;
     }
 }

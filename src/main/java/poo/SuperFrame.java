@@ -6,13 +6,13 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConfigFramePadre extends Frame implements ActionListener, KeyListener {
+public class SuperFrame extends Frame implements ActionListener, KeyListener {
     protected Button bGuardar, bReset;
     protected String accionConfigurando = null;
     protected final Map<String, Button> botonesAccion = new HashMap<>();
     protected String[] acciones ={};
 
-    public ConfigFramePadre() {
+    public SuperFrame() {
         WindowListener l = new WindowAdapter() {
             public void windowClosing(WindowEvent event) {
                 dispose();
@@ -23,6 +23,20 @@ public class ConfigFramePadre extends Frame implements ActionListener, KeyListen
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setVisible(true);
     }
+    public SuperFrame(String titulo) {
+        setTitle(titulo);
+        WindowListener l = new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
+                dispose();
+            }
+        };
+        addKeyListener(this);
+        addWindowListener(l);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setVisible(true);
+    }
+
+
     protected void mResetTeclas() {}
 
 
