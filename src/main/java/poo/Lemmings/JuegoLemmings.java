@@ -6,6 +6,7 @@ import poo.ClasesCompartidas.Musica;
 import poo.ClasesCompartidas.Juego;
 import poo.ClasesCompartidas.Sonido;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
