@@ -68,6 +68,7 @@ public class Lemming extends ObjetoMovible {
                 // Si ya no hay suelo debajo, empieza a caer
                 if (!haySueloDebajo()) {
                     setEstado(EstadoLemming.CAYENDO);
+                    this.x = x + 10;
                     pixelsCaidos = 0; // Reinicia el contador de distancia de caída
                 }
                 break;
@@ -77,7 +78,7 @@ public class Lemming extends ObjetoMovible {
                 // Si el lemming ya no tiene pared delante (llegó a la cima) O si golpea un techo
                 if (!hayParedDelante(x, y) || hayTechoArriba()) {
                     if (direccionDerecha){
-                        this.x = x + 5;
+                        this.x = x + 11;
                     } else {
                         this.x = x - 11;
                     }
