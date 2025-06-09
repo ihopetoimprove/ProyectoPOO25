@@ -4,9 +4,7 @@ import com.entropyinteractive.Mouse;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 
@@ -33,7 +31,7 @@ public class PanelHabilidades {
     }
 
     public PanelHabilidades(String rutaNivel, Mouse mouse) {
-        cargarPanelNivel("/src/main/resources/niveles/" + rutaNivel);
+        cargarPanelNivel("/niveles/"+rutaNivel);
         this.mouse = mouse;
     }
 
@@ -153,15 +151,14 @@ public class PanelHabilidades {
             return habilidadActivada; // Retorna la habilidad que fue clickeada ÚNICAMENTE en este frame, o null
         }
 
-    public void cargarPanelNivel(String rutaNivel) {
-        String currentDir = System.getProperty("user.dir");
-        rutaNivel = currentDir + rutaNivel;
+    public void cargarPanelNivel(String nombreArchivoNivel) {
 
-        try {
+        try (InputStream is = getClass().getResourceAsStream(nombreArchivoNivel)) {
+            if (is == null){
+                throw new IOException("Recurso de nivel no encontrado dentro del JAR: " + nombreArchivoNivel);
+            }
             String linea;
-            BufferedReader reader = null;
-            reader = new BufferedReader(new FileReader(rutaNivel));
-
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             while ((linea = reader.readLine()) != null) {
                 linea = linea.trim(); // Eliminaar espacios al inicio y fin de la línea
                 if (linea.isEmpty()) {
@@ -188,12 +185,14 @@ public class PanelHabilidades {
                     try {
                         imagenHabilidades = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("imagenes/Lemmings/Habilidades.png")));
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new RuntimeException("Error al cargar la imagen de habilidades: " + e.getMessage(), e);
                     }
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al cargar la configuración del nivel desde el archivo: " + e.getMessage(), e);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Error de formato numérico en la configuración del nivel: " + e.getMessage(), e);
         }
     }
 
