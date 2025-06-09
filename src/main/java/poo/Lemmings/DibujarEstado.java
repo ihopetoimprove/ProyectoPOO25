@@ -5,6 +5,8 @@ import com.entropyinteractive.Mouse;
 import poo.ClasesCompartidas.BDJugador;
 import poo.ClasesCompartidas.FramePuntuacion;
 import poo.ClasesCompartidas.Jugador;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Objects;

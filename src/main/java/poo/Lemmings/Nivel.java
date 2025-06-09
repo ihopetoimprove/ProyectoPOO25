@@ -3,13 +3,13 @@ package poo.Lemmings;
 import poo.ClasesCompartidas.ObjetoGrafico;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Objects;
 
 public class Nivel extends ObjetoGrafico {
@@ -28,8 +28,22 @@ public class Nivel extends ObjetoGrafico {
 
     public Nivel(String archivoNivel) {
         super(0, 0);
+        JOptionPane.showMessageDialog(null, "Entro a nivel", "nivel", JOptionPane.INFORMATION_MESSAGE);
+
         cargarImagenesTerreno();
-        cargarNivelDesdeArchivo("/src/main/resources/niveles/" + archivoNivel);
+        JOptionPane.showMessageDialog(null, "cargoterreno", "nivel", JOptionPane.INFORMATION_MESSAGE);
+
+        try (InputStream ruta=getClass().getResourceAsStream("/niveles/" + archivoNivel)){
+        if (ruta != null) {
+            cargarNivelDesdeArchivo(ruta);
+        } else {
+            System.err.println("Recurso de nivel no encontrado: /niveles/" + archivoNivel);
+            // Manejar el caso de que el nivel no se encuentre
+        }
+    } catch (IOException e) {
+        System.err.println("Error al obtener el InputStream para el nivel: " + e.getMessage());
+    }
+
     }
 
     private void cargarImagenesTerreno() {
@@ -46,16 +60,11 @@ public class Nivel extends ObjetoGrafico {
         }
     }
 
-    private void cargarNivelDesdeArchivo(String rutaArchivo) {
+    private void cargarNivelDesdeArchivo(InputStream inputStream) {
         mapa = new ArrayList<>(); // Inicializa el mapa para este nivel
-
-        String currentDir = System.getProperty("user.dir");
-        rutaArchivo = currentDir + rutaArchivo;
-        
         try {
             String linea;
-            BufferedReader reader = null;
-            reader = new BufferedReader(new FileReader(rutaArchivo));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             boolean leyendoMapa = false;
 
             while ((linea = reader.readLine()) != null) {
@@ -86,11 +95,11 @@ public class Nivel extends ObjetoGrafico {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo de nivel '" + rutaArchivo + "': " + e.getMessage());
+            System.err.println("Error al leer el archivo de nivel " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.err.println("Error de formato numérico en el archivo de nivel '" + rutaArchivo + "': " + e.getMessage());
+            System.err.println("Error de formato numérico en el archivo de nivel "+e.getMessage());
         } catch (NullPointerException e) {
-            System.err.println("El recurso del archivo de nivel '" + rutaArchivo + "' no fue encontrado.");
+            System.err.println("El recurso del archivo de nivel no fue encontrado.");
         }
     }
 
