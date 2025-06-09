@@ -125,8 +125,8 @@ public class JuegoLemmings extends Juego {
             if(config.getEstadoSonido())
                 Sonido.reproducir("letsgo.wav");
             if(config.getEstadoMusica()){
-                if(config.getMusicaElegida().equals("Gameplay.wav"))
-                    Musica.iniciarMusica("Gameplay.wav");
+                System.out.println(config.getMusicaElegida());
+                Musica.iniciarMusica(config.getMusicaElegida());
             }
             Log.info(getClass().getSimpleName(), "Iniciando Nivel: " + nombresNiveles[nivelSeleccionado]);
         }

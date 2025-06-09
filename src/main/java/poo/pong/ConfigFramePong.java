@@ -87,7 +87,7 @@ public class ConfigFramePong extends SuperFrame {
         JPanel panelMusica = new JPanel();
         panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel labelMusica = new JLabel("Pista musical: ");
-        String[] musicTracks = {config.getDefaultMusic(), "Gameplay.wav", "Macarena"};
+        String[] musicTracks = config.getListaMusica();
         musicComboBox =new JComboBox<>(musicTracks);
         musicComboBox.setSelectedItem(config.getMusicaElegida());
         panelMusica.add(labelMusica);
