@@ -3,6 +3,8 @@ package poo.pong;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Log;
+import poo.ClasesCompartidas.Musica;
+import poo.Lemmings.ConfigLemmings;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,6 +24,7 @@ public class Pong extends JGame {
     public final static int JUGANDO = 1;
     public final static int FIN = 2;
     public final static int PAUSA = 3;
+    ConfigLemmings config= new ConfigLemmings();
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -29,7 +32,10 @@ public class Pong extends JGame {
 
     @Override
     public void gameStartup() {
-
+        if(config.getEstadoMusica()){
+            System.out.println(config.getMusicaElegida());
+            Musica.iniciarMusica(config.getMusicaElegida());
+        }
         try {
             fondo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("imagenes/Pong/fondo.png"));
         } catch (Exception e) {
