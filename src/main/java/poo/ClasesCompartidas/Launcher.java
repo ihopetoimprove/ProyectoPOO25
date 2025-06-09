@@ -195,7 +195,7 @@ public class Launcher extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 
         if(botonSelect==null && e.getSource()==botonConfig){
-            new SuperFrame();
+            JOptionPane.showMessageDialog(null, "No seleccionaste un juego!!", "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }

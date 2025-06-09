@@ -85,23 +85,24 @@ public class Pong extends JGame {
 
         if (keyboard.isKeyPressed(KeyEvent.VK_ESCAPE))//temporal, creo
             this.shutdown();
+        if (estadoJuego != PAUSA) {
 
-        // Mover la paleta derecha hacia arriba si la tecla está presionada y no está en el borde superior
-        if (keyboard.isKeyPressed(configPong.getTSubirJ2()) && paletaDer.getY() > 0)
-            paletaDer.setY((paletaDer.getY() - paletaDer.getVelocidadY()));
+            // Mover la paleta derecha hacia arriba si la tecla está presionada y no está en el borde superior
+            if (keyboard.isKeyPressed(configPong.getTSubirJ2()) && paletaDer.getY() > 0)
+                paletaDer.setY((paletaDer.getY() - paletaDer.getVelocidadY()));
 
-        // Mover la paleta derecha hacia abajo si la tecla está presionada y no está en el borde inferior
-        if (keyboard.isKeyPressed(configPong.getTBajarJ2()) && paletaDer.getY() < getHeight() - 100)
-            paletaDer.setY((paletaDer.getY() + paletaDer.getVelocidadY()));
+            // Mover la paleta derecha hacia abajo si la tecla está presionada y no está en el borde inferior
+            if (keyboard.isKeyPressed(configPong.getTBajarJ2()) && paletaDer.getY() < getHeight() - 100)
+                paletaDer.setY((paletaDer.getY() + paletaDer.getVelocidadY()));
 
-        // Mover la paleta izquierda hacia arriba si la tecla está presionada y no está en el borde superior
-        if (keyboard.isKeyPressed(configPong.getTSubirJ1()) && paletaIzq.getY() > 0)
-            paletaIzq.setY((paletaIzq.getY() - paletaIzq.getVelocidadY()));
+            // Mover la paleta izquierda hacia arriba si la tecla está presionada y no está en el borde superior
+            if (keyboard.isKeyPressed(configPong.getTSubirJ1()) && paletaIzq.getY() > 0)
+                paletaIzq.setY((paletaIzq.getY() - paletaIzq.getVelocidadY()));
 
-        // Mover la paleta izquierda hacia abajo si la tecla está presionada y no está en el borde inferior
-        if (keyboard.isKeyPressed(configPong.getTBajarJ1()) && paletaIzq.getY() < getHeight() - 100)
-            paletaIzq.setY((paletaIzq.getY() + paletaIzq.getVelocidadY()));
-
+            // Mover la paleta izquierda hacia abajo si la tecla está presionada y no está en el borde inferior
+            if (keyboard.isKeyPressed(configPong.getTBajarJ1()) && paletaIzq.getY() < getHeight() - 100)
+                paletaIzq.setY((paletaIzq.getY() + paletaIzq.getVelocidadY()));
+        }
     }
 
     public void detectarColision() {
