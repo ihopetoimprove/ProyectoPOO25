@@ -177,7 +177,7 @@ public class JuegoLemmings extends Juego {
                 Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
                 if (lemmingClickeado != null) {
                     if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.ESCALANDO) {
+                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO) {
                             lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
                             panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
                         }

@@ -15,9 +15,10 @@ dependencies {
 	implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
 }
 
+
 jar {
 	manifest {
-		attributes 'Main-Class': 'poo.ClasesCompartidas.Launcher' // <-- ¡Esta es la línea clave!
+		attributes 'Main-Class': 'poo.ClasesCompartidas.Launcher' 
 	}
 	// Si quieres que todas las dependencias se incluyan DENTRO de este JAR (uber JAR/fat JAR)
 	from {
