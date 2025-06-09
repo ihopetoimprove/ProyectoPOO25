@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
-
+//La main
 public class Launcher extends JFrame implements ActionListener {
 
     private final Button botonIniciar;
