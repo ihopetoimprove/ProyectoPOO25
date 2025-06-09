@@ -35,7 +35,6 @@ public class ConfigLemmings {
             }
             if (prop.getProperty("Musica: ") != null) {
                 HabilitarMusica = Boolean.parseBoolean(prop.getProperty("Musica: "));
-                System.out.println("Música cargada: " + HabilitarMusica);
             } else {
                 HabilitarMusica = true; // Valor por defecto si la clave no se encuentra
                 System.out.println("Clave 'Musica: ' no encontrada. Usando valor por defecto: " + HabilitarMusica);
@@ -88,7 +87,7 @@ public class ConfigLemmings {
             ex.printStackTrace();
         }
     }
-    protected static int getDefaultKey(String accion) {
+    protected int getDefaultKey(String accion) {
         switch (accion.toLowerCase()) {
             case "pausa": return KeyEvent.VK_SPACE;
             case "autodestruccion": return KeyEvent.VK_D;

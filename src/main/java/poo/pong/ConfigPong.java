@@ -16,7 +16,6 @@ public class ConfigPong {
     private boolean HabilitarSonido;
     private boolean HabilitarMusica;
     private String Tema_Musical;
-    static Color color= Color.WHITE;
 
     public ConfigPong(){
         super();
@@ -37,7 +36,6 @@ public class ConfigPong {
 
             if (prop.getProperty("Musica: ") != null) {
                 HabilitarMusica = Boolean.parseBoolean(prop.getProperty("Musica: "));
-                System.out.println("Música cargada: " + HabilitarMusica);
             } else {
                 HabilitarMusica = true; // Valor por defecto si la clave no se encuentra
                 System.out.println("Clave 'Musica: ' no encontrada. Usando valor por defecto: " + HabilitarMusica);
@@ -59,9 +57,6 @@ public class ConfigPong {
                 teclasPong.put(accion, getDefaultKey(accion));
             }
         }
-    }
-    public static Color getColor() {
-        return color;
     }
     public boolean getEstadoSonido(){return this.HabilitarSonido;}
     public boolean getEstadoMusica(){return this.HabilitarMusica;}

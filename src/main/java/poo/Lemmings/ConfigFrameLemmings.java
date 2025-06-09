@@ -11,11 +11,9 @@ import static poo.Lemmings.ConfigLemmings.*;
 public class ConfigFrameLemmings extends SuperFrame {
     private JCheckBox checkSound;
     private JCheckBox checkMusic;
-    Panel panelOpcionesMusica;
-    Panel panelOpcionesSonido;
-    JComboBox<String> musicComboBox;
-    String tema_musical;
-    ConfigLemmings config=new ConfigLemmings();
+    private JComboBox<String> musicComboBox;
+    private String tema_musical;
+    private final ConfigLemmings config=new ConfigLemmings();
 
     public ConfigFrameLemmings() {
         super("Configuración de Lemming");
@@ -73,7 +71,7 @@ public class ConfigFrameLemmings extends SuperFrame {
         for (String accion : config.getAcciones()) {
             Panel panel = new Panel(new FlowLayout(FlowLayout.CENTER));
             panel.add(new JLabel(accion + ":    "));
-            Button boton = new Button(getKeyText(teclasLemmings.getOrDefault(accion, getDefaultKey(accion))));
+            Button boton = new Button(getKeyText(teclasLemmings.getOrDefault(accion, config.getDefaultKey(accion))));
             botonesAccion.put(accion, boton);
             panel.add(boton);
             boton.addActionListener(e -> iniciarConfiguracion(accion, boton)); // addActionListener(e -> iniciarCambioTecla(accion, boton)) es otra forma
@@ -86,7 +84,7 @@ public class ConfigFrameLemmings extends SuperFrame {
         JPanel panelMusica = new JPanel();
         panelMusica.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel labelMusica = new JLabel("Pista musical: ");
-        String[] musicTracks = {config.getDefaultMusic(),"smstitle.wav", "Macarena"};
+        String[] musicTracks = {config.getDefaultMusic(),"Gameplay.wav", "Macarena"};
         musicComboBox =new JComboBox<>(musicTracks);
         musicComboBox.setSelectedItem(config.getMusicaElegida());
         panelMusica.add(labelMusica);
@@ -96,7 +94,7 @@ public class ConfigFrameLemmings extends SuperFrame {
     }
 
     private void checkSound(){
-        panelOpcionesSonido = new Panel(new FlowLayout(FlowLayout.CENTER));
+        Panel panelOpcionesSonido = new Panel(new FlowLayout(FlowLayout.CENTER));
         checkSound = new JCheckBox("Efectos de Sonido", true);
         panelOpcionesSonido.add(checkSound);
         add(panelOpcionesSonido);
@@ -104,7 +102,7 @@ public class ConfigFrameLemmings extends SuperFrame {
             checkSound.setSelected(config.getEstadoSonido());
     }
     private void checkMusic(){
-        panelOpcionesMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
+        Panel panelOpcionesMusica = new Panel(new FlowLayout(FlowLayout.CENTER));
         checkMusic = new JCheckBox("Musica", true);
         panelOpcionesMusica.add(checkMusic);
         add(panelOpcionesMusica);
@@ -115,8 +113,8 @@ public class ConfigFrameLemmings extends SuperFrame {
 
     protected void mResetTeclas() {
         for (String accion : config.getAcciones()) {
-            config.getTeclasLemmings().put(accion.toLowerCase(), getDefaultKey(accion));
-            botonesAccion.get(accion).setLabel(getKeyText(getDefaultKey(accion)));
+            config.getTeclasLemmings().put(accion.toLowerCase(), config.getDefaultKey(accion));
+            botonesAccion.get(accion).setLabel(getKeyText(config.getDefaultKey(accion)));
         }
         musicComboBox.setSelectedItem(config.getDefaultMusic());
         checkMusic.setSelected(true);

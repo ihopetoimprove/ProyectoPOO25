@@ -5,8 +5,6 @@ import com.entropyinteractive.Mouse;
 import poo.ClasesCompartidas.BDJugador;
 import poo.ClasesCompartidas.FramePuntuacion;
 import poo.ClasesCompartidas.Jugador;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
@@ -18,7 +16,6 @@ public class DibujarEstado{
 
     private JuegoLemmings juegoLemmings;
     private static short nivelesCompletados = 0;
-    JTextField campoNombre;
     PanelHabilidades panel;
     private static int puntos;
     private boolean escribiendo = false;
@@ -62,7 +59,6 @@ public class DibujarEstado{
         g.drawString("Introduce tu nombre:", 280, 250);
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             mousePresionado(mouse);
-//            System.out.println("Primero "+ (char) 32 + "Segundo " + (char) 65 );
         }
         if(escribiendo)
             escucharTeclado();// Tiene que estar aca para llamarlo constantemente
