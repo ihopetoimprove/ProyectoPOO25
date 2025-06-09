@@ -15,3 +15,16 @@ dependencies {
 	implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
 }
 
+
+jar {
+	manifest {
+		attributes 'Main-Class': application.mainClass // Configura el atributo Main-Class en el MANIFEST.MF
+	}
+	// Incluye todas las dependencias en el JAR resultante
+	// Esto crea un "fat JAR"
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	// Opcional: Define el nombre del JAR si no quieres el nombre por defecto
+	archiveFileName = "tu-juego-lemmings.jar" // Cambia el nombre de tu JAR
+}
