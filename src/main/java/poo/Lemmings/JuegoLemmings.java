@@ -81,6 +81,7 @@ public class JuegoLemmings extends Juego {
     @Override
     public void gameShutdown() {
         Log.info(getClass().getSimpleName(), "Shutting down game");
+        Musica.detenerMusicaFondo();
     }
 
     private void aplicarPausa(PanelHabilidades.TipoHabilidad habilidadActivada) {
@@ -115,6 +116,7 @@ public class JuegoLemmings extends Juego {
         Lemming.limpiarLemmings();
         PanelHabilidades.limpiarPanel();
         lemmingsGenerados = 0;
+        Musica.detenerMusicaFondo();
         if (nivelSeleccionado != -1) {
             panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado], getMouse());
             velocidadJuego = 1;
@@ -174,7 +176,9 @@ public class JuegoLemmings extends Juego {
                 Lemming lemmingClickeado = encontrarLemmingEn(mouseX, mouseY);
                 if (lemmingClickeado != null) {
                     if (panel.getCantidadHabilidad(panel.getHabilidadSeleccionada()) > 0) {
-                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO) {
+                        if (lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.BLOQUEANDO &&
+                            lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.PLANEANDO &&
+                            lemmingClickeado.getEstadoActual() != Lemming.EstadoLemming.ESCALANDO) {
                             lemmingClickeado.aplicarHabilidadLemming(panel.getHabilidadSeleccionada());
                             panel.decrementarHabilidad(panel.getHabilidadSeleccionada());
                         }

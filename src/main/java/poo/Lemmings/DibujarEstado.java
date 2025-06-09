@@ -146,6 +146,8 @@ public class DibujarEstado{
         g.drawString("-Puntos totales: " + puntos, 20, 350);
         g.drawString("Jugar de nuevo", 50, 500);
         g.drawString("Siguiente nivel", 450, 500);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
+        g.drawString("Los puntos se obtienen sumando los segundos restantes y cada lemming salvado cuenta 10 puntos", 20,370);
         if (mouse.isLeftButtonPressed()) { // BUTTON1 es el botón izquierdo del ratón
             int mouseX = mouse.getX();
             int mouseY = mouse.getY();
