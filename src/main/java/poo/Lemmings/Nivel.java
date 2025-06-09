@@ -28,11 +28,7 @@ public class Nivel extends ObjetoGrafico {
 
     public Nivel(String archivoNivel) {
         super(0, 0);
-        JOptionPane.showMessageDialog(null, "Entro a nivel", "nivel", JOptionPane.INFORMATION_MESSAGE);
-
         cargarImagenesTerreno();
-        JOptionPane.showMessageDialog(null, "cargoterreno", "nivel", JOptionPane.INFORMATION_MESSAGE);
-
         try (InputStream ruta=getClass().getResourceAsStream("/niveles/" + archivoNivel)){
         if (ruta != null) {
             cargarNivelDesdeArchivo(ruta);

@@ -117,9 +117,7 @@ public class JuegoLemmings extends Juego {
         PanelHabilidades.limpiarPanel();
         lemmingsGenerados = 0;
         if (nivelSeleccionado != -1) {
-            JOptionPane.showMessageDialog(null, "123", "nivel", JOptionPane.INFORMATION_MESSAGE);
             panel = new PanelHabilidades(nombresNiveles[nivelSeleccionado], getMouse());
-            JOptionPane.showMessageDialog(null, "asdasdads", "panel?", JOptionPane.INFORMATION_MESSAGE);
             velocidadJuego = 1;
             dibujadorEstados = new DibujarEstado(this, panel);
             nivelActual = new Nivel(nombresNiveles[nivelSeleccionado]);
